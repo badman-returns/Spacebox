@@ -1,7 +1,7 @@
 {
-  "name": "serm-apis",
+  "name": "easy-apis",
   "version": "1.0.0",
-  "description": "Social Media for Developers and Recruiters",
+  "description": "Platform for Developers and Recruiters",
   "engines": {
     "node": "12.16.3"
   },
