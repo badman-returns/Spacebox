@@ -1,6 +1,6 @@
 import './App.css';
 
-function SERM() {
+function EASY() {
   return (
     <div className="App">
       <h1>Welcome to Easy</h1>
@@ -8,4 +8,4 @@ function SERM() {
   );
 }
 
-export default SERM;
+export default EASY;

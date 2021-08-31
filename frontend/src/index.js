@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import SERM from './App';
+import EASY from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <SERM />
+    <EASY />
   </React.StrictMode>,
   document.getElementById('root')
 );
