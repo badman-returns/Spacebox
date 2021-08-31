@@ -1,0 +1,52 @@
+{
+  "name": "serm-apis",
+  "version": "1.0.0",
+  "description": "Social Media for Developers and Recruiters",
+  "engines": {
+    "node": "12.16.3"
+  },
+  "main": "src/server.ts",
+  "scripts": {
+    "build": "tsc",
+    "buildWatch": "tsc -w",
+    "dev": "ts-node ./src/server.ts",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "start": "node ./dist/server.js",
+    "local": "nodemon"
+  },
+  "author": "Trishnangshu Goswami",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "express-validator": "^6.3.1",
+    "googleapis": "^84.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.6",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.6.3"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-parser": "^1.4.1",
+    "@types/cors": "^2.8.6",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.16.0",
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/mongoose": "^5.10.5",
+    "@types/morgan": "^1.9.1",
+    "@types/multer": "^1.4.5",
+    "@types/node": "^10.12.11",
+    "@types/nodemailer": "^6.4.4",
+    "nodemon": "^2.0.4",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.9.9"
+  }
+}
