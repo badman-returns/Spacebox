@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from "express";
 import { header } from "express-validator";
 import { ValidationResponder } from "./validation.response";
-import { AuthenticatedRequest } from "../interfaces";
+import { ExtendedRequest } from "../interfaces";
 import { Encryption } from "../utility";
 
 class CommonValidator {
@@ -33,7 +33,7 @@ class CommonValidator {
 
     public static loadAuthorization() {
         return [
-            (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+            (req: ExtendedRequest, res: Response, next: NextFunction) => {
                 let authorization = req.headers['authorization'];
                 let authParts = authorization.split(' ');
                 req.token = authParts[1];
@@ -44,7 +44,7 @@ class CommonValidator {
 
     public static validateAndLoadAuthorization() {
         return [
-            (req: AuthenticatedRequest, res: Response, next: NextFunction) => {  
+            (req: ExtendedRequest, res: Response, next: NextFunction) => {  
                 const user: any = Encryption.validateToken(req.token);
                 if (!user) {
                     return res.status(401).send();
