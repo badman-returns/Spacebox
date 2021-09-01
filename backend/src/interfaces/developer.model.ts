@@ -1,8 +1,8 @@
 import { User } from "./user.model";
 
 interface Developer extends User{
-    github: String,
-    techStack: Array<String>,
+    github: string,
+    techStack: Array<string>,
 }
 
 export {

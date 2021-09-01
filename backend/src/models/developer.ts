@@ -35,8 +35,8 @@ const DeveloperSchema = new Schema({
     },
 });
 
-const Developer: Model<Developer | any> = mongoose.model('developer', DeveloperSchema);
+const Developers: Model<Developer | any> = mongoose.model('developer', DeveloperSchema);
 
 export {
-    Developer
+    Developers
 };
