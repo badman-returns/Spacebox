@@ -12,16 +12,16 @@ class DeveloperRouting {
     public configRoutes() {
 
         // Registration Routes
-        this.router.post('/developer/register', RegisterDeveloper);
-        this.router.post('/developer/verify-email/:id/:token', VerifyEmailAndActivateAccount);
+        this.router.post('/register', RegisterDeveloper);
+        this.router.post('/verify-email/:id/:token', VerifyEmailAndActivateAccount);
 
         // Login Routes
-        this.router.get('/developer/authentication', [...ValidateBasicAuth, ...LoadAuthorization], )
+        this.router.get('/authentication', [...ValidateBasicAuth, ...LoadAuthorization], )
 
         // Forget Password
-        this.router.post('/developer/forget-password', ForgetPassword);
-        this.router.post('/developer/verify-reset-token/:id/:token', VerifyEmailAndActivateAccount);
-        this.router.post('/developer/reset-password', ResetPassword);
+        this.router.post('/forget-password', ForgetPassword);
+        this.router.post('/verify-reset-token/:id/:token', VerifyEmailAndActivateAccount);
+        this.router.post('/reset-password', ResetPassword);
     }
 }
 

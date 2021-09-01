@@ -31,8 +31,8 @@ const RecruiterSchema = new Schema({
     },
 });
 
-const Recruiter: Model<Recruiter | any> = mongoose.model('recruiter', RecruiterSchema);
+const Recruiters: Model<Recruiter | any> = mongoose.model('recruiter', RecruiterSchema);
 
 export {
-    Recruiter
+    Recruiters
 };

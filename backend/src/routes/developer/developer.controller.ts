@@ -46,7 +46,7 @@ class DeveloperController {
                     `Activate your account by clicking on the link above\n\n` +
                     `${verificationLink}\n\n` +
                     `Regards\n` +
-                    `Team Support` +
+                    `Support Team` +
                     `Easy`
             }
             await Mailer.sendEmail(mailData);
@@ -199,7 +199,8 @@ class DeveloperController {
                     `${verificationLink}\n\n` +
                     `If you did not request this, please ignore this email and your password will remail unchanged.\n` +
                     `Regards\n` +
-                    `Wincorna Team`
+                    `Support Team`+
+                    `Easy`
             }
             await Mailer.sendEmail(mailData);
             response = {
