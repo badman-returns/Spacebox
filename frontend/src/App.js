@@ -1,10 +1,15 @@
-import './App.css';
-
+import { HashRouter, Route, Switch, } from 'react-router-dom';
+import Public from './routes/public';
+import './App.css'
 function EASY() {
   return (
-    <div className="App">
-      <h1>Welcome to Easy</h1>
-    </div>
+    <HashRouter>
+      <Switch>
+        <Route path='/'>
+          <Public />
+        </Route>
+      </Switch>
+    </HashRouter>
   );
 }
 
