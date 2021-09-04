@@ -6,6 +6,9 @@ interface User extends Document{
     email: string,
     password: string,
     active: boolean,
+    githubId?: string,
+    company?: string,
+    techStack?: string,  
     createdOn: Date,
 }
 

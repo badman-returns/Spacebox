@@ -1,8 +1,8 @@
 import mongoose, { Model } from 'mongoose';
-import { Recruiter } from '../interfaces/recruiter.model';
+import { User } from '../interfaces';
 const { Schema } = mongoose;
 
-const RecruiterSchema = new Schema({
+const Userschema = new Schema({
     name: {
         type: String,
         required: true,
@@ -12,9 +12,21 @@ const RecruiterSchema = new Schema({
         required: true,
         unique: true,
     },
-    company: {
+    role: {
         type: String,
         required: true,
+    },
+    githubId: {
+        type: String,
+        default: null,
+    },
+    techStack: {
+        type: Array,
+        default: null,
+    },
+    company: {
+        type: String,
+        default: null,
     },
     password: {
         type: String,
@@ -31,8 +43,8 @@ const RecruiterSchema = new Schema({
     },
 });
 
-const Recruiters: Model<Recruiter | any> = mongoose.model('recruiter', RecruiterSchema);
+const Users: Model<User | any> = mongoose.model('users', Userschema);
 
 export {
-    Recruiters
+    Users
 };

@@ -3,15 +3,10 @@ import { TokenObject } from '../interfaces';
 const { Schema } = mongoose;
 
 const TokenSchema = new Schema({
-    developerId: {
+    userId: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'developer',
-    },
-    recruiterId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'recruiter',
+        ref: 'users',
     },
     token: {
         type: String,

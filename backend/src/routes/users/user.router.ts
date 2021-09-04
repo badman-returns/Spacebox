@@ -1,8 +1,8 @@
 import * as express from "express";
 import { LoadAuthorization, ValidateBearerToken, ValidateBasicAuth, LoadAuthorizedUser } from "../../middleware/common.middleware";
-import { ForgetPassword, RegisterDeveloper, ResetPassword, VerifyEmailAndActivateAccount } from "./developer.controller";
+import { ForgetPassword, LoginByEmailAndPassword, Register, ResetPassword, VerifyEmailAndActivateAccount } from "./user.controller";
 
-class DeveloperRouting {
+class UserRouting {
     public router: express.Router;
     constructor() {
         this.router = express.Router();
@@ -12,11 +12,11 @@ class DeveloperRouting {
     public configRoutes() {
 
         // Registration Routes
-        this.router.post('/register', RegisterDeveloper);
+        this.router.post('/register', Register);
         this.router.post('/verify-email/:id/:token', VerifyEmailAndActivateAccount);
 
         // Login Routes
-        this.router.get('/authentication', [...ValidateBasicAuth, ...LoadAuthorization], )
+        this.router.get('/authentication', [...ValidateBasicAuth, ...LoadAuthorization], LoginByEmailAndPassword)
 
         // Forget Password
         this.router.post('/forget-password', ForgetPassword);
@@ -25,7 +25,7 @@ class DeveloperRouting {
     }
 }
 
-const DeveloperRouter = new DeveloperRouting().router;
+const UserRouter = new UserRouting().router;
 export {
-    DeveloperRouter,
+    UserRouter,
 }

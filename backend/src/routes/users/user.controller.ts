@@ -1,52 +1,62 @@
 import { Encryption, Mailer } from '../../utility';
 import { Response } from "express";
-import { ExtendedRequest, ResponseObject, TokenObject, MailRequestModel, Developer } from "../../interfaces";
-import { Developers} from "../../models/developer";
-import { Token } from "../../models";
+import { ExtendedRequest, ResponseObject, TokenObject, MailRequestModel, User } from "../../interfaces";
+import { Users, Token } from "../../models";
 
 class DeveloperController {
     constructor() {
 
     }
 
-    public static registerDeveloper = async (req: ExtendedRequest, res: Response) => {
+    public static register = async (req: ExtendedRequest, res: Response) => {
         const name = req.body.name;
         const email = req.body.email;
-        const github = req.body.github;
-        const techStack = req.body.techStack;
+        const githubId = req.body.githubId || null;
+        const techStack = req.body.techStack || null;
+        const company = req.body.company || null;
         const password = Encryption.encryptPassword(req.body.password);
+    
+        let role;
+        if (githubId == null && techStack == null) {
+            role = 'recruiter';
+        } else {
+            role = 'developer';
+        }
 
         let response: ResponseObject<any>;
+
         try {
-            const developer = await Developers.create({
+            const user = await Users.create({
                 name,
                 email,
-                github,
+                role,
+                githubId,
                 techStack,
+                company,
                 password,
             });
 
-            let token = await Token.findOne({ developerId: developer._id });
+            let token = await Token.findOne({ userId: user._id });
             if (!token) {
-                token = new Token({
-                    developerId: developer._id,
-                    token: await Encryption.createToken({ developerId: developer._id })
+                token = await new Token({
+                    userId: user._id,
+                    token: await Encryption.createToken({ userId: user._id }),
                 }).save();
             }
-            token = await Token.find({ developerId: developer._id }, { token: 1 });
-            const verificationLink = `${process.env.BASE_URL}/verify-email/${developer._id}/${token[0]._doc.token}`;
+            token = await Token.find({ userId: user._id }, { token: 1 })
+            const verificationLink = `${process.env.BASE_URL}/verify-email/${user._id}/${token[0]._doc.token}`;
             const mailData: MailRequestModel = {
                 reciever: {
                     to: email,
                     cc: [],
                     bcc: []
                 },
-                subject: `Easy Developer Account Email Verification`,
+                subject: `Easy Account Email Verification`,
                 content: `Please click on the link to verify your email address within one hour of recieving it:\n` +
                     `Activate your account by clicking on the link above\n\n` +
                     `${verificationLink}\n\n` +
                     `Regards\n` +
-                    `Support Team` +
+                    `Support Team\n` +
                     `Easy`
             }
             await Mailer.sendEmail(mailData);
@@ -63,27 +73,27 @@ class DeveloperController {
     }
 
     public static verifyEmailAndActivateAccount = async (req: ExtendedRequest, res: Response) => {
-        const developerId = req.params.developerId;
+        const userId = req.params.id;
         const activationToken = req.params.token;
         let response: ResponseObject<any>;
         try {
-            const user: Developer = await Developers.findOne({ _id: developerId });
-            if (!user) {
+            const confirmUser: User = await Users.findOne({ _id: userId });
+            if (!confirmUser) {
                 res.status(403).send({
                     Message: `You don't have account with us`,
                 });
             }
-            else if (user && user.active === true) {
+            else if (confirmUser && confirmUser.active === true) {
                 res.status(403).send({
                     Message: `Your account is already activated`,
                     Data: null,
                 });
             }
             else {
-                let developer = user.toJSON();
+                let user = confirmUser.toJSON();
 
                 let validToken: TokenObject = await Token.findOne({
-                    developerId: developerId,
+                    userId: userId,
                     token: activationToken
                 });
     
@@ -91,16 +101,16 @@ class DeveloperController {
                     return res.status(400).send('Invalid Token or Expired');
                 }
                 else {
-                    await Developers.updateOne({ _id: developer._id }, {
+                    await Users.updateOne({ _id: user._id }, {
                         $set: {
                             active: true
                         }
                     });
-                    await Token.deleteOne({ developerId: developer._id });
+                    await Token.deleteOne({ userId: user._id });
                 }
                 response = {
                     ResponseData: null,
-                    ResponseMessage: `User with  id ${developerId} is activated`
+                    ResponseMessage: `User with  id ${userId} is activated`
                 }
             }
             return res.send(response);
@@ -123,41 +133,40 @@ class DeveloperController {
             if (!email || !password) {
                 return res.status(400).send();
             }
-
-            const user: Developer = await Developers.findOne({ email: email });
-            let developer: any = user;
-            if (developer) {
-                developer = user.toJSON();
+            const confirmUser: User = await Users.findOne({ email: email });
+            let user;
+            if (confirmUser) {
+                user = confirmUser.toJSON();
             }
-            if (!developer) {
+            if (!user) {
                 res.status(403).send({
                     Message: `You don't have account with us`,
                     Data: null,
                 });
-            } else if (developer && !Encryption.decryptPassword(password, developer.password)) {
+            } else if (user && !Encryption.decryptPassword(password, user.password)) {
                 res.status(401).send({
                     Message: `Incorrect password!`,
                     Data: null,
                 });
-            } else if (developer && !developer.active) {
+            } else if (user && !user.active) {
                 res.status(401).send({
                     Message: `User account not activated yet`,
                     Data: null,
                 });
             }
             else {
-                delete developer.password;
-                delete developer.createdOn;
+                delete user.password;
+                delete user.createdOn;
                 let token: any;
                 try {
-                    token = await Encryption.createToken(developer);
+                    token = await Encryption.createToken(user);
                 } catch (err) {
                     console.log(err);
                     return res.status(500).end();
                 }
                 res.setHeader('Access-Control-Expose-Headers', 'Authorization');
                 res.setHeader('Authorization', token);
-                res.send(developer);
+                res.send(user);
             }
         } catch (error) {
             console.log(error)
@@ -169,24 +178,24 @@ class DeveloperController {
         const email = req.body.email;
         let response: ResponseObject<any>;
         try {
-            const user: Developer = await Developers.findOne({ email: email });
-            let developer = user.toJSON();
-            if (!developer) {
+            const confirmUser: User = await Users.findOne({ email: email });
+            let users = confirmUser.toJSON();
+            if (!users) {
                 res.status(403).send({
                     Message: `You don't have account with us`,
                     Data: null,
                 });
             }
 
-            let token = await Token.findOne({ developerId: developer._id });
+            let token = await Token.findOne({ userId: users._id });
             if (!token) {
                 token = await new Token({
-                    userId: user._id,
-                    token: await Encryption.createToken({ developerId: developer._id }),
+                    userId: users._id,
+                    token: await Encryption.createToken({ userId: users._id }),
                 }).save();
             }
-            token = await Token.find({ developerId: developer._id }, { token: 1 })
-            const verificationLink = `${process.env.BASE_URL}/password-reset/${developer._id}/${token[0]._doc.token}`;
+            token = await Token.find({ userId: users._id }, { token: 1 })
+            const verificationLink = `${process.env.BASE_URL}/password-reset/${users._id}/${token[0]._doc.token}`;
             const mailData: MailRequestModel = {
                 reciever: {
                     to: email,
@@ -199,7 +208,7 @@ class DeveloperController {
                     `${verificationLink}\n\n` +
                     `If you did not request this, please ignore this email and your password will remail unchanged.\n` +
                     `Regards\n` +
-                    `Support Team`+
+                    `Support Team` +
                     `Easy`
             }
             await Mailer.sendEmail(mailData);
@@ -217,10 +226,10 @@ class DeveloperController {
 
     public static verifyResetToken = async (req: ExtendedRequest, res: Response) => {
         const resetToken = req.params.token;
-        const developerId = req.params.developerId;
+        const userId = req.params.userId;
         try {
             let token = await Token.findOne({
-                developerId: developerId,
+                userId: userId,
                 token: resetToken,
             })
             if (!token) {
@@ -234,26 +243,26 @@ class DeveloperController {
     }
 
     public static resetPassword = async (req: ExtendedRequest, res: Response) => {
-        const developerId = req.body.developerId;
+        const userId = req.body.userId;
         const password = await Encryption.encryptPassword(req.body.password);
         try {
-            const developer: Developer = await Developers.findById(developerId);
-            if (!developer) {
+            const user: User = await Users.findById(userId);
+            if (!user) {
                 return res.status(400).send("Not a valid user");
             }
 
-            let validToken = await Token.findOne({ developerId: developerId });
+            let validToken = await Token.findOne({ userId: userId });
             if (!validToken) {
                 return res.status(400).send('Token expired');
             }
             else {
-                await Developers.updateOne({ _id: developerId }, {
+                await Users.updateOne({ _id: userId }, {
                     $set: {
                         password: password
                     }
                 });
                 await Token.deleteOne({
-                    developerId: developer._id,
+                    userId: user._id,
                 });
 
                 return res.send('password reset successfully');
@@ -265,7 +274,7 @@ class DeveloperController {
     }
 }
 
-const RegisterDeveloper = DeveloperController.registerDeveloper;
+const Register = DeveloperController.register;
 const VerifyEmailAndActivateAccount = DeveloperController.verifyEmailAndActivateAccount;
 const LoginByEmailAndPassword = DeveloperController.loginByEmailAndPassword;
 const ForgetPassword = DeveloperController.forgetPassword;
@@ -273,7 +282,7 @@ const VerifyResetToken = DeveloperController.verifyResetToken;
 const ResetPassword = DeveloperController.resetPassword;
 
 export {
-    RegisterDeveloper,
+    Register,
     VerifyEmailAndActivateAccount,
     LoginByEmailAndPassword,
     ForgetPassword,

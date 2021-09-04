@@ -1,15 +1,15 @@
 
 import { Grid } from '@material-ui/core';
-import Register from '../../../components/register/Register';
+import RegisterLogin from '../../components/registerLogin/RegisterLogin';
 import { makeStyles } from '@material-ui/core/styles';
 
-export default function SignUp() {
+export default function RegisterLoginPage() {
   const classes = useStyles();
   return (
     <div>
       <Grid container>
         <Grid item xs={12} sm={6} justify='center' alignItems='center'>
-          <Register />
+          <RegisterLogin />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <Grid container justify='center' alignItems='center'>

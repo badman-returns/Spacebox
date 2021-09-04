@@ -1,6 +1,5 @@
 interface TokenObject {
-    developerId: Object,
-    recruiterId: Object,
+    userId: string,
     token: string,
     createdOn: Date,
 }

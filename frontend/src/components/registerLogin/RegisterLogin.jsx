@@ -12,20 +12,36 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Copyright from '../copyright/Copyright';
 import InputLabel from '@material-ui/core/InputLabel';
+import { RegistrationService, LoginService } from '../../services/authentication.service';
 
-export default function Register() {
+export default function RegisterLogin() {
     const classes = useStyles();
+
 
     const [signIn, setSignIn] = useState(true);
     const [signUp, setSignUp] = useState(false);
-    const [role, setRole] = useState('');
 
-    function handleRoleChange(event) {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [role, setRole] = useState('');
+    const [githubId, setGithubId] = useState('');
+    const [company, setCompany] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [validationState, setValidationState] = useState(false);
+    const [isMatchPassword, setIsMatchPassword] = useState(true);
+
+    const isValidEmail = () => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return email !== '' && re.test(String(email).toLowerCase());
+    };
+
+    const handleRoleChange = (event) => {
         event.preventDefault();
         setRole(event.target.value);
     }
 
-    function setState() {
+    const setState = () => {
         if (signIn) {
             setSignIn(false);
             setSignUp(true);
@@ -36,11 +52,69 @@ export default function Register() {
         }
     }
 
+
+    const handleRegisterAndLogin = (event) => {
+        event.preventDefault();
+        if (signUp && !signIn) {
+            setIsMatchPassword(password === confirmPassword)
+            setValidationState(true);
+            if (name !== '' && isValidEmail() && password !== '' && confirmPassword !== '' && (githubId !== '' || company !== '')) {
+                if (password === confirmPassword) {
+                    sendRegistrationData();
+                }
+            }
+        }
+        else if (signIn && !signUp) {
+            setValidationState(true);
+            if (email !== '' && password !== '') {
+                sendLoginData();
+            }
+        }
+
+    }
+
+    const sendRegistrationData = async () => {
+        const registrationData = {
+            name: name,
+            email: email,
+            password: password,
+        }
+
+        if (role === 'developer') {
+            Object.assign(registrationData, {githubId: githubId});
+            try {
+                const response = await RegistrationService(registrationData);
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        else if (role === 'recruiter') {
+            Object.assign(registrationData, {company: company});
+            try {
+                const response = await RegistrationService(registrationData);
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+    const sendLoginData = async () => {
+        if (email !== '' && password !== '') {
+            try {
+                await LoginService(email, password);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} onSubmit={handleRegisterAndLogin}>
                     <Grid container spacing={2}>
                         {signUp && (
                             <>
@@ -54,6 +128,8 @@ export default function Register() {
                                         id="Name"
                                         label="Full Name"
                                         autoFocus
+                                        error={validationState && name === ''}
+                                        onInput={(event) => setName(event.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -66,6 +142,7 @@ export default function Register() {
                                             value={role}
                                             required='true'
                                             onChange={handleRoleChange}
+                                            error={validationState && role === ''}
                                         >
                                             <MenuItem value={'developer'}>Developer</MenuItem>
                                             <MenuItem value={'recruiter'}>Recruiter</MenuItem>
@@ -85,6 +162,8 @@ export default function Register() {
                                     label="Github Id"
                                     name="github"
                                     autoComplete="lname"
+                                    error={validationState && githubId === ''}
+                                    onInput={(event) => setGithubId(event.target.value)}
                                 />
                             </Grid>
                         )}
@@ -98,6 +177,8 @@ export default function Register() {
                                     label="Company"
                                     name="company"
                                     autoComplete="lname"
+                                    error={validationState && company === ''}
+                                    onInput={(event) => setCompany(event.target.value)}
                                 />
                             </Grid>
                         )}
@@ -111,6 +192,8 @@ export default function Register() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                error={validationState && email === ''}
+                                onInput={(event) => setEmail(event.target.value)}
                             />
                         </Grid>
 
@@ -124,6 +207,9 @@ export default function Register() {
                                 label="Password"
                                 type="password"
                                 id="password"
+                                error={validationState && (password === '' || !isMatchPassword)}
+                                value={password}
+                                onInput={(e) => setPassword(e.target.value)}
                             />
                         </Grid>
                         {signUp && (
@@ -136,6 +222,9 @@ export default function Register() {
                                     label="Confirm Password"
                                     type="password"
                                     id="confirm-password"
+                                    error={validationState && (confirmPassword === '' || !isMatchPassword)}
+                                    value={confirmPassword}
+                                    onInput={(e) => setConfirmPassword(e.target.value)}
                                 />
                             </Grid>
                         )}

@@ -4,8 +4,7 @@ import cors from 'cors';
 import logger from 'morgan';
 import mongoose from 'mongoose';
 import express, { NextFunction, Response, Request } from 'express';
-import { DeveloperRouter } from './routes';
-import { RecruiterRouter } from './routes/recruiter/recruiter.router';
+import { UserRouter } from './routes';
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -73,8 +72,7 @@ class App {
             res.send('Easy Backend');
         });
         this.app.use('/api/v1', this.apiV1Routes);
-        this.apiV1Routes.use('/developer', DeveloperRouter);
-        this.apiV1Routes.use('/recruiter', RecruiterRouter);
+        this.apiV1Routes.use('/user', UserRouter);
     }
 }
 
