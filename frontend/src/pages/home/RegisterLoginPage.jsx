@@ -7,12 +7,12 @@ export default function RegisterLoginPage() {
   const classes = useStyles();
   return (
     <div>
-      <Grid container>
-        <Grid item xs={12} sm={6} justify='center' alignItems='center'>
+      <Grid container justifyContent='center' alignItems='center'>
+        <Grid item xs={12} sm={6} >
           <RegisterLogin />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <Grid container justify='center' alignItems='center'>
+          <Grid container justifyContent='center' alignItems='center'>
             <Grid item xs={12} sm={12}>
               <img className={classes.developerImg} src={process.env.PUBLIC_URL + 'dev.svg'} alt='Developer' />
             </Grid>

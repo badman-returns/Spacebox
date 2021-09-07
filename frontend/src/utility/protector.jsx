@@ -12,7 +12,7 @@ const Protector = (props) => {
           let tokenData = jwt.decode(token)
           let tokenExpiration = tokenData.exp;
           let dateNow = new Date();
-            if(token.role ==='user' && tokenExpiration < dateNow.getTime()/1000){
+            if(token.active === true && tokenExpiration < dateNow.getTime()/1000){
                 setIsAuthenticated(false)
             }else{
                 setIsAuthenticated(true)

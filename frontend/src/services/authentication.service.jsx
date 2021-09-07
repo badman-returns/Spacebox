@@ -26,7 +26,7 @@ const LoginService = async (email, password) => {
         if (token){
             sessionStorage.setItem('user', JSON.stringify(response.data));
         }
-        return (response);
+        return (response.data);
     } catch (error) {
         return (error);
     }

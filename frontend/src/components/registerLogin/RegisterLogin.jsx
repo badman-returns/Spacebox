@@ -13,10 +13,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Copyright from '../copyright/Copyright';
 import InputLabel from '@material-ui/core/InputLabel';
 import { RegistrationService, LoginService } from '../../services/authentication.service';
+import { useDispatch } from "react-redux";
+import { setUserInfo } from '../../store/actions/userActions';
+import { useHistory } from 'react-router';
 
-export default function RegisterLogin() {
+const RegisterLogin = () => {
     const classes = useStyles();
-
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const [signIn, setSignIn] = useState(true);
     const [signUp, setSignUp] = useState(false);
@@ -81,7 +85,7 @@ export default function RegisterLogin() {
         }
 
         if (role === 'developer') {
-            Object.assign(registrationData, {githubId: githubId});
+            Object.assign(registrationData, { githubId: githubId });
             try {
                 const response = await RegistrationService(registrationData);
                 console.log(response);
@@ -90,7 +94,7 @@ export default function RegisterLogin() {
             }
         }
         else if (role === 'recruiter') {
-            Object.assign(registrationData, {company: company});
+            Object.assign(registrationData, { company: company });
             try {
                 const response = await RegistrationService(registrationData);
                 console.log(response);
@@ -103,7 +107,9 @@ export default function RegisterLogin() {
     const sendLoginData = async () => {
         if (email !== '' && password !== '') {
             try {
-                await LoginService(email, password);
+               let response =  await LoginService(email, password);
+               dispatch(setUserInfo(response));
+               history.push('/feed');
             } catch (error) {
                 console.log(error);
             }
@@ -280,3 +286,5 @@ const useStyles = makeStyles((theme) => ({
         height: '60px'
     },
 }));
+
+export default RegisterLogin;

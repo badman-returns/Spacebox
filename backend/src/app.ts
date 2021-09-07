@@ -4,6 +4,7 @@ import cors from 'cors';
 import logger from 'morgan';
 import mongoose from 'mongoose';
 import express, { NextFunction, Response, Request } from 'express';
+import { Cloudinary } from 'cloudinary-core';
 import { UserRouter } from './routes';
 const dotenv = require('dotenv');
 dotenv.config();
@@ -33,8 +34,18 @@ class App {
             });
     }
 
+    public cloudinaryConfig() {
+        new Cloudinary({
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET,
+            secure: true
+        });
+    }
+
     public listen() {
         this.createDBConnection();
+        this.cloudinaryConfig()
         this.app.listen(process.env.PORT, () => {
             console.log(`App listening on the port ${process.env.PORT}`);
         });
@@ -69,7 +80,7 @@ class App {
 
     private routes() {
         this.app.get('/', (req: Request, res: Response, next: NextFunction) => {
-            res.send('Easy Backend');
+            res.send('Spacebox Backend');
         });
         this.app.use('/api/v1', this.apiV1Routes);
         this.apiV1Routes.use('/user', UserRouter);

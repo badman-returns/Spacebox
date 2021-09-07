@@ -1,5 +1,5 @@
 {
-  "name": "easy-apis",
+  "name": "spacebox-backend",
   "version": "1.0.0",
   "description": "Platform for Developers and Recruiters",
   "engines": {
@@ -20,6 +20,7 @@
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "cloudinary": "^1.26.3",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
