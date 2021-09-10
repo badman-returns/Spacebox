@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Grid, CardContent, Typography, Card, Tabs, Tab, Drawer } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
+import { FetchGitHubProjects } from '../../services/github.service';
+import { GetPostByUserId } from '../../services/post.service';
 import { useSelector, useDispatch } from "react-redux";
 import { setProjects } from '../../store/actions/projectActions';
+import { setPostById } from '../../store/actions/postAction';
+import Post from '../posts/Post';
 import Chip from '@material-ui/core/Chip';
 
 
-const Projects = () => {
+const ProjectsAndActivities = () => {
     let { repos_url } = useSelector((state => state.userGitInfo.user));
     let userGitProjects = useSelector((state => state.githubProjects.projects));
-    let { role } = useSelector((state => state.userInfo.user));
+    let { role, _id } = useSelector((state => state.userInfo.user));
+    let posts = []
+    posts = useSelector((state => state.userPosts.posts));
+    console.log(posts);
 
     const projects = [];
     userGitProjects.map((project) => {
@@ -22,19 +28,35 @@ const Projects = () => {
 
     const dispatch = useDispatch();
 
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(1);
 
     const handleChange = (e, value) => {
         setValue(value);
     }
 
-    useEffect(() => {
-        axios.get(repos_url).then((response) => {
-            dispatch(setProjects(response.data));
-        }).catch((error) => {
+    const GetProjectData = useCallback(async () => {
+        try {
+            const response = await FetchGitHubProjects(repos_url);
+            dispatch(setProjects(response));
+        } catch (error) {
             console.log(error);
-        })
-    }, [repos_url, dispatch]);
+        }
+    }, [repos_url, dispatch])
+
+    const GetPostsById = useCallback(async () => {
+        try {
+            const response = await GetPostByUserId(_id);
+            dispatch(setPostById(response));
+        } catch (error) {
+            console.log(error);
+        }
+    }, [_id, dispatch])
+
+    useEffect(() => {
+        GetProjectData();
+        GetPostsById();
+
+    }, [GetProjectData, GetPostsById]);
 
     const useStyles = makeStyles({
         hideLongText: {
@@ -48,6 +70,9 @@ const Projects = () => {
         },
         name: {
             textTransform: 'capitalize'
+        },
+        image: {
+            width: '50%',
         }
     });
 
@@ -88,7 +113,7 @@ const Projects = () => {
                                                                 <Drawer />
                                                             </Grid>
                                                             <Grid item xs={3}>
-                                                                <Chip  color='primary' label={project.language} />
+                                                                <Chip color='primary' label={project.language} />
                                                             </Grid>
                                                         </Grid>
                                                     </CardContent>
@@ -99,6 +124,31 @@ const Projects = () => {
                                 </Grid>)}
                             </Grid>
                         </Grid>
+                        {value === 1 && (<Grid container>
+                            <Grid item xs={3} className={classes.panel}>
+                            </Grid>
+                            <Grid item xs={6} className={classes.feed}>
+                                <Grid container spacing={2} justifyContent="center" alignItems="center">
+                                    {posts && posts.length && posts.map((post) => (
+                                        <Grid item className={classes.post} key={post._id}>
+                                            <Post
+                                            id={post._id}
+                                            userId={post.userId} 
+                                            name={post.name} 
+                                            activity={true} 
+                                            avatarURL={post.avatarURL} 
+                                            content={post.content} 
+                                            imageId={post.imageId}
+                                            imageURL={post.imageURL}
+                                            getPosts={GetPostsById} />
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={3} className={classes.feed}>
+                            </Grid>
+                        </Grid>
+                        )}
                     </CardContent>
                 </Card>
             </div>
@@ -106,4 +156,4 @@ const Projects = () => {
     )
 }
 
-export default Projects
+export default ProjectsAndActivities

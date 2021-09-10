@@ -14,6 +14,16 @@ const postReducer = (state = initialState, { type, payload }) => {
     }
 };
 
+const userPostReducer = (state = initialState, { type, payload }) => {
+    switch (type) {
+        case ActionTypes.SET_POST_BY_ID:
+            return { ...state, posts: payload };
+        default:
+            return state;
+    }
+};
+
 export {
     postReducer,
+    userPostReducer
 }

@@ -1,8 +1,11 @@
 import { Document } from 'mongoose';
 
 interface User extends Document{
-    id: number,
+    id: string,
     name: string,
+    username: string,
+    picId: string,
+    picURL: string,
     email: string,
     password: string,
     active: boolean,

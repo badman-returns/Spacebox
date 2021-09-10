@@ -17,7 +17,7 @@ const TokenSchema = new Schema({
         default: Date.now,
         expires: 3600,
     },
-})
+});
 
 const Token: Model<TokenObject | any> = mongoose.model('token', TokenSchema);
 

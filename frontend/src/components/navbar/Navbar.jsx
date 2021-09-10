@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Avatar, Typography, Toolbar, AppBar, Menu, MenuItem } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 
@@ -52,9 +52,9 @@ export default function Navbar() {
                             <Grid container justifyContent="space-evenly" alignItems="center">
                                 <Grid item >
                                     <Typography>
-                                        <Link to='/feed' className={classes.text}>
+                                        <NavLink to='/in/feed' className={classes.text}>
                                             Home
-                                        </Link>
+                                        </NavLink>
                                     </Typography>
                                 </Grid>
                                 <Grid item >
@@ -71,7 +71,7 @@ export default function Navbar() {
                                         open={Boolean(clickAvatar)}
                                         onClose={handleClose}
                                     >
-                                        <MenuItem onClick={handleClose}><Link className={classes.text} to='/profile'>Profile</Link></MenuItem>
+                                        <MenuItem onClick={handleClose}><NavLink className={classes.text} to='/in/profile'>Profile</NavLink></MenuItem>
                                         <MenuItem onClick={handleClose}>My account</MenuItem>
                                         <MenuItem onClick={handleClose}>Logout</MenuItem>
                                     </Menu>

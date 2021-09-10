@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { setUserGithubInfo } from '../../store/actions/userActions';
 import axios from 'axios';
 import Profile from '../../components/profile/Profile';
-import Projects from '../../components/projects/Projects';
+import ProjectsAndActivities from '../../components/project-activity/ProjectsAndActivities';
 
 const ProfilePage = () => {
     let userInfo = useSelector((state => state.userInfo));
@@ -32,7 +32,7 @@ const ProfilePage = () => {
                 <Grid item xs={10} className={classes.feed}>
                     <Grid container-fluid justifyContent="center" alignItems="center">
                         <Grid item className={classes.item}><Profile /></Grid>
-                        <Grid item className={classes.item}><Projects /></Grid>
+                        <Grid item className={classes.item}><ProjectsAndActivities /></Grid>
                     </Grid>
                 </Grid>
                 <Grid item xs={1} className={classes.feed}>

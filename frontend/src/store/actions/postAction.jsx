@@ -7,6 +7,14 @@ const setPosts = (post) => {
     };
 };
 
+const setPostById = (posts) => {
+    return {
+        type: ActionTypes.SET_POST_BY_ID,
+        payload: posts,
+    }
+}
+
 export {
     setPosts,
+    setPostById
 }

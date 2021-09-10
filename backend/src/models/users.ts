@@ -7,6 +7,19 @@ const Userschema = new Schema({
         type: String,
         required: true,
     },
+    username: {
+        type: String,
+        required: true,
+    },
+    bio: {
+        type: String,
+    },
+    picId: {
+        type: String,
+    },
+    picURL:{
+        type: String,
+    },
     email: {
         type: String,
         required: true,

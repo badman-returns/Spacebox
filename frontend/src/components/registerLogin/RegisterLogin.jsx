@@ -110,7 +110,7 @@ const RegisterLogin = () => {
             try {
                let response =  await BaseService.login(email, password);
                dispatch(setUserInfo(response));
-               history.push('/feed');
+               history.push('/in/feed');
             } catch (error) {
                 console.log(error);
             }
@@ -236,7 +236,19 @@ const RegisterLogin = () => {
                             </Grid>
                         )}
                     </Grid>
-                    <Button
+                    {signIn && (
+                        <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Sign In
+                    </Button>
+                    )}
+                    {signUp && (
+                        <Button
                         type="submit"
                         fullWidth
                         variant="contained"
@@ -245,6 +257,7 @@ const RegisterLogin = () => {
                     >
                         Sign Up
                     </Button>
+                    )}
                     <Grid container justifyContent="center">
                         <Grid item>
                             {signIn && <Link href="#" variant="body2" onClick={setState}>

@@ -1,32 +1,26 @@
-import { Route, Switch, } from 'react-router-dom';
+import React from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import ProtectedRouter from './routes/router';
 import RegisterLoginPage from './pages/home/RegisterLoginPage';
-// import Users from './routes/user';
-import Feed from './pages/feed/Feed';
-import ProfilePage from './pages/profile/Profile';
-import Protector from './utility/protector';
-
-import './App.css'
 import Navbar from './components/navbar/Navbar';
 
 const App = () => {
   return (
-    <Switch>
-      <Protector path='/feed'>
-        <Navbar />
-        <Feed />
-      </Protector>
+    <HashRouter>
+      <Switch>
 
-      <Protector path='/profile'>
-        <Navbar />
-        <ProfilePage/>
-      </Protector>
+        <Route path='/in'>
+          <Navbar />
+          <ProtectedRouter />
+        </Route>
 
-      <Route path='/'>
-        <RegisterLoginPage />
-      </Route>
+        <Route path='/'>
+          <RegisterLoginPage />
+        </Route>
 
-    </Switch>
-  );
+      </Switch>
+    </HashRouter>
+  )
 }
 
 export default App;
