@@ -12,7 +12,8 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Copyright from '../copyright/Copyright';
 import InputLabel from '@material-ui/core/InputLabel';
-import { RegistrationService, LoginService } from '../../services/authentication.service';
+import { RegistrationService } from '../../services/register.service';
+import BaseService from '../../services/base.service';
 import { useDispatch } from "react-redux";
 import { setUserInfo } from '../../store/actions/userActions';
 import { useHistory } from 'react-router';
@@ -107,7 +108,7 @@ const RegisterLogin = () => {
     const sendLoginData = async () => {
         if (email !== '' && password !== '') {
             try {
-               let response =  await LoginService(email, password);
+               let response =  await BaseService.login(email, password);
                dispatch(setUserInfo(response));
                history.push('/feed');
             } catch (error) {

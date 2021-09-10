@@ -1,4 +1,4 @@
-import { UserActionTypes } from "../types/user-action-types";
+import { ActionTypes } from "../types/action-types";
 
 const initialState = {
     user: {},
@@ -7,7 +7,7 @@ const initialState = {
 
 const userInfoReducer = (state = initialState, { type, payload }) => {
     switch (type) {
-        case UserActionTypes.SET_USER_INFO:
+        case ActionTypes.SET_USER_INFO:
             return { ...state, user: payload };
         default:
             return state;
@@ -16,7 +16,7 @@ const userInfoReducer = (state = initialState, { type, payload }) => {
 
 const userGitInfoReducer = (state = initialState, { type, payload }) => {
     switch (type) {
-        case UserActionTypes.SET_USER_GITHUB_INFO:
+        case ActionTypes.SET_USER_GITHUB_INFO:
             return {...state, user: payload};
         default:
             return state;

@@ -1,15 +1,15 @@
-import { UserActionTypes } from '../types/user-action-types';
+import { ActionTypes } from '../types/action-types';
 
 const setUserInfo = (user) => {
     return {
-        type: UserActionTypes.SET_USER_INFO,
+        type: ActionTypes.SET_USER_INFO,
         payload: user,
     };
 };
 
 const setUserGithubInfo = (gitUser) => {
     return {
-        type: UserActionTypes.SET_USER_GITHUB_INFO,
+        type: ActionTypes.SET_USER_GITHUB_INFO,
         payload: gitUser,
     }
 };

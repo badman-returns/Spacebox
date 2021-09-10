@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setUserGithubInfo } from '../../store/actions/userActions';
 import axios from 'axios';
 import Profile from '../../components/profile/Profile';
+import Projects from '../../components/projects/Projects';
 
 const ProfilePage = () => {
     let userInfo = useSelector((state => state.userInfo));
@@ -17,6 +18,8 @@ const ProfilePage = () => {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_GITHUB_API_URL}/users/${githubId}`).then((response) => {
             dispatch(setUserGithubInfo(response.data));
+        }).catch((error) => {
+            console.log(error);
         })
 
     }, [dispatch, githubId])
@@ -24,14 +27,15 @@ const ProfilePage = () => {
     return (
         <div className={classes.root}>
             <Grid container>
-                <Grid item xs={2} sm={2} md={3} lg={3} className={classes.panel}>
+                <Grid item xs={1}  className={classes.panel}>
                 </Grid>
-                <Grid item xs={8} sm={8} md={6} lg={6} className={classes.feed}>
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
-                        <Grid item><Profile /></Grid>
+                <Grid item xs={10} className={classes.feed}>
+                    <Grid container-fluid justifyContent="center" alignItems="center">
+                        <Grid item className={classes.item}><Profile /></Grid>
+                        <Grid item className={classes.item}><Projects /></Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs={2} sm={2} md={3} lg={3} className={classes.feed}>
+                <Grid item xs={1} className={classes.feed}>
                 </Grid>
             </Grid>
 
@@ -44,15 +48,16 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
         marginTop: '80px',
     },
+    item:{
+        marginTop: '20px',
+    },
     panel: {
-        // borderRight: '1px solid black',
         height: '100vh'
     },
     activity: {
         height: '100vh'
     },
     feed: {
-        // borderRight: '1px solid black',
         height: '100vh'
     }
 }));
