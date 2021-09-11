@@ -3,7 +3,7 @@ import multer from "multer";
 import { GetStorage } from "../../utility/uploader";
 import { LoadAuthorization, ValidateBearerToken, ValidateBasicAuth, LoadAuthorizedUser } from "../../middleware/common.middleware";
 import { ForgetPassword, LoginByEmailAndPassword, Register, ResetPassword, VerifyEmailAndActivateAccount } from "./common.controller";
-import { AddProfilePicture } from "./user.controller";
+import { EditProfile, GetProfile } from "./user.controller";
 import { CreatePost, DeletePostById, GetPost, GetPostByUserId } from "./user.post.controller";
 
 class UserRouting {
@@ -29,7 +29,8 @@ class UserRouting {
         this.router.post('/reset-password', ResetPassword);
 
         // User Routes
-        this.router.post('/add/profile-photo/:id', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser, this.upload.single('profile')], AddProfilePicture);
+        this.router.get('/profile/:id', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], GetProfile)
+        this.router.post('/profile/:id', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser, this.upload.single('profile')], EditProfile);
 
         // Post Routes
         this.router.post('/add/post', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser, this.upload.single('post')], CreatePost);

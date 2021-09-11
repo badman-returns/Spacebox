@@ -8,31 +8,63 @@ class UserController {
 
     }
 
-    public static addProfilePicture = async (req: ExtendedRequest, res: Response) => {
+    public static getProfileById = async (req: ExtendedRequest, res: Response) => {
         const userId = req.params.id;
-        const path = req.file;
-        const loggedInUser = req.user;
+        let response: ResponseObject<any>;    
 
+        try {
+            const user = await Users.findById(userId);
+            response = {
+                ResponseData: user,
+                ResponseMessage: 'Profile successfully fetched',
+            }
+            return res.send(response);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).end();
+        }
+    }
 
-        if (loggedInUser._id !== userId) {
+    public static editProfile = async (req: ExtendedRequest, res: Response) => {
+        const userId = req.params.id;
+        const file = req.file;
+        const name = req.body.name;
+        const bio = req.body.bio;
+        const techStack = req.body.techStack!=="" ? (req.body.techStack).split(','): null;
+        let response: ResponseObject<any>;
+
+        if (req.user._id !== userId) {
             res.status(401).send({ msg: 'Unauthorized attempt' });
         }
         else {
             try {
-                let response: ResponseObject<any>;
+                let user;
+                if (!file) {
+                    user = await Users.updateMany({
+                        userId,
+                        name,
+                        bio,
+                        techStack
+                    });
+                } else {
 
-                const { public_id, url } = await cloudinary.v2.uploader.upload(path.path);
-                const picId = public_id;
-                const picURL = url;
-                
-                const user = await Users.updateMany({
-                    userId,
-                    picId,
-                    picURL
-                });
+                    const { public_id, url } = await cloudinary.v2.uploader.upload(file.path, { width: 460, height: 460, gravity: "faces", crop: "fill" });
+                    const picId = public_id;
+                    const picURL = url;
+
+                    const user = await Users.updateMany({
+                        userId,
+                        name,
+                        bio,
+                        picId,
+                        picURL,
+                        techStack
+                    });
+                }
+
                 response = {
-                    ResponseData: null,
-                    ResponseMessage: 'Image successfully uploaded',
+                    ResponseData: user,
+                    ResponseMessage: 'Profile edited successfully',
                 }
                 return res.send(response);
             } catch (error) {
@@ -42,9 +74,11 @@ class UserController {
         }
     }
 }
-    
-const AddProfilePicture = UserController.addProfilePicture;
+
+const EditProfile = UserController.editProfile;
+const GetProfile = UserController.getProfileById;
 
 export {
-    AddProfilePicture,
+    EditProfile,
+    GetProfile,
 }

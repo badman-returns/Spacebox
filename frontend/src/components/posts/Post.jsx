@@ -6,6 +6,9 @@ import AlertDialog from '../alert-dialog/AlertDialog';
 import { DeletePostById } from '../../services/post.service';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
 
 const useStyles = makeStyles((theme) => ({
     contentImage: {
@@ -28,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Post = (props) => {
+
     const [open, setOpen] = React.useState(false);
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
 
@@ -99,7 +103,12 @@ const Post = (props) => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     {
-                                        props.imageURL && (<img className={classes.contentImage} src={props.imageURL} alt='postimage' />)
+                                        props.imageURL &&
+                                        (<LazyLoadImage
+                                            effect='blur'
+                                            useIntersectionObserver
+                                            className={classes.contentImage} src={props.imageURL} alt='postimage' />
+                                        )
                                     }
                                 </Grid>
                             </Grid>

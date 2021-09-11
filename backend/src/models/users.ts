@@ -7,10 +7,6 @@ const Userschema = new Schema({
         type: String,
         required: true,
     },
-    username: {
-        type: String,
-        required: true,
-    },
     bio: {
         type: String,
     },

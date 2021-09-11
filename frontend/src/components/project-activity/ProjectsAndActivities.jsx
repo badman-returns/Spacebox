@@ -16,7 +16,7 @@ const ProjectsAndActivities = () => {
     let { role, _id } = useSelector((state => state.userInfo.user));
     let posts = []
     posts = useSelector((state => state.userPosts.posts));
-    console.log(posts);
+
 
     const projects = [];
     userGitProjects.map((project) => {
@@ -28,7 +28,7 @@ const ProjectsAndActivities = () => {
 
     const dispatch = useDispatch();
 
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState(0);
 
     const handleChange = (e, value) => {
         setValue(value);
@@ -41,7 +41,7 @@ const ProjectsAndActivities = () => {
         } catch (error) {
             console.log(error);
         }
-    }, [repos_url, dispatch])
+    }, [repos_url, dispatch]);
 
     const GetPostsById = useCallback(async () => {
         try {
@@ -50,7 +50,7 @@ const ProjectsAndActivities = () => {
         } catch (error) {
             console.log(error);
         }
-    }, [_id, dispatch])
+    }, [_id, dispatch]);
 
     useEffect(() => {
         GetProjectData();
@@ -73,6 +73,9 @@ const ProjectsAndActivities = () => {
         },
         image: {
             width: '50%',
+        },
+        post:{
+            width: 'inherit'
         }
     });
 
@@ -133,10 +136,10 @@ const ProjectsAndActivities = () => {
                                         <Grid item className={classes.post} key={post._id}>
                                             <Post
                                             id={post._id}
-                                            userId={post.userId} 
-                                            name={post.name} 
+                                            userId={post.userId._id} 
+                                            name={post.userId.name} 
                                             activity={true} 
-                                            avatarURL={post.avatarURL} 
+                                            avatarURL={post.userId.picURL} 
                                             content={post.content} 
                                             imageId={post.imageId}
                                             imageURL={post.imageURL}

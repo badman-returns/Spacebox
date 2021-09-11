@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Avatar, Typography, Toolbar, AppBar, Menu, MenuItem } from '@material-ui/core';
+import { Grid, Avatar, Typography, Toolbar, AppBar  } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     text: {
         margin: '5px 0',
         color: '#707070',
-        textDecoration: 'none'
+        textDecoration: 'none',
     },
     appbar: {
         height: '60px',
@@ -23,21 +23,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Navbar() {
+
+    let user = useSelector((state => state.userInfo.user));
+    let { picURL, name } = user;
+
+    let firstName = name.split(' ')[0];
+
     const classes = useStyles();
-
-    const [clickAvatar, setClickAvatar] = useState(null);
-
-    const handleClick = (event) => {
-        setClickAvatar(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setClickAvatar(null);
-    };
-
-    let userGitInfo = useSelector((state => state.userGitInfo));
-    let { avatar_url } = userGitInfo.user;
-
     return (
         <div className={classes.root}>
             <AppBar position='fixed' className={classes.appbar} color='inherit'>
@@ -62,19 +54,13 @@ export default function Navbar() {
                                         Jobs
                                     </Typography>
                                 </Grid>
+                                <Grid item>
+                                    <NavLink to='/in/profile' className={classes.text}>
+                                    <Typography className={classes.text}>{firstName}</Typography>
+                                    </NavLink>
+                                </Grid>
                                 <Grid item className={classes.text}>
-                                    <Avatar src={avatar_url} onClick={handleClick}></Avatar>
-                                    <Menu
-                                        id="menu"
-                                        anchorEl={clickAvatar}
-                                        keepMounted
-                                        open={Boolean(clickAvatar)}
-                                        onClose={handleClose}
-                                    >
-                                        <MenuItem onClick={handleClose}><NavLink className={classes.text} to='/in/profile'>Profile</NavLink></MenuItem>
-                                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                                        <MenuItem onClick={handleClose}>Logout</MenuItem>
-                                    </Menu>
+                                    <Avatar src={picURL}></Avatar>
                                 </Grid>
                             </Grid>
                         </Grid>

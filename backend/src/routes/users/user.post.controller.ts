@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { ExtendedRequest, ResponseObject } from "../../interfaces";
 import cloudinary from 'cloudinary';
-import { Post } from '../../models';
+import { Post, Users } from '../../models';
 class UserPostController {
     constructor() {
 
@@ -33,9 +33,6 @@ class UserPostController {
 
                 const post = await Post.create({
                     userId,
-                    name,
-                    username,
-                    avatarURL,
                     content,
                     imageId,
                     imageURL
@@ -55,7 +52,7 @@ class UserPostController {
     public static getPosts = async (req: ExtendedRequest, res: Response) => {
         try {
             let response: ResponseObject<any>;
-            const post = await Post.find().sort({ createdOn: -1 });
+            const post = await Post.find().sort({ createdOn: -1 }).populate('userId');
 
             response = {
                 ResponseData: post,
@@ -74,7 +71,7 @@ class UserPostController {
 
         try {
             let response: ResponseObject<any>;
-            const post = await Post.find({ userId: userId }).sort({ createdOn: -1 });
+            const post = await Post.find({ userId: userId }).sort({ createdOn: -1 }).populate('userId');
 
             response = {
                 ResponseData: post,

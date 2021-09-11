@@ -132,7 +132,7 @@ const Feed = () => {
                             </Grid>
                         )}
                         {!loading && posts.length && posts.map((post) => (
-                            <Grid item className={classes.post} key={post._id}><Post name={post.name} avatarURL={post.avatarURL} content={post.content} imageURL={post.imageURL} /></Grid>
+                            <Grid item className={classes.post} key={post._id}><Post name={post.name} avatarURL={post.userId.picURL} content={post.content} imageURL={post.imageURL} /></Grid>
                         ))}
                     </Grid>
                 </Grid>

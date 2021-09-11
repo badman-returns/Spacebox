@@ -1,11 +1,21 @@
-import React from 'react'
-import { Grid, CardContent, Typography, Card, Button } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Grid, CardContent, Typography, Card, Button, Chip } from '@material-ui/core'
 import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
+import EditIcon from '@material-ui/icons/Edit';
+import EditProfile from '../edit-profile/EditProfile';
 
 const Profile = () => {
-    let userGitInfo = useSelector((state => state.userGitInfo));
-    let { avatar_url, name, bio } = userGitInfo.user;
+    let userInfo = useSelector((state => state.userInfo.user));
+
+    const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+    const [currentData, setCurrentData] = useState({})
+   
+
+    const handleEdit = () => {
+        setOpenConfirmationDialog(true);
+        setCurrentData(userInfo);
+    }
 
     const useStyles = makeStyles((theme) => ({
         profilePic: {
@@ -14,6 +24,9 @@ const Profile = () => {
         },
         editPicButton: {
             margin: '10px 0px',
+        },
+        chips: {
+            margin: '15px 5px',
         }
     }));
 
@@ -29,16 +42,21 @@ const Profile = () => {
                                 <Grid container justifyContent='center'>
                                     <Grid item xs={8}>
                                         <Grid container justifyContent='center'>
-                                            <img src={avatar_url} className={classes.profilePic} alt='profile' />
+                                            <img src={userInfo.picURL} className={classes.profilePic} alt='profile' />
                                         </Grid>
                                         <Grid container justifyContent='center'>
-                                            <Button className={classes.editPicButton} variant='contained' color="primary" style={{ margin: 8 }}>Edit</Button>
+                                            <Typography variant='h4'>{userInfo.name}</Typography>
                                         </Grid>
                                         <Grid container justifyContent='center'>
-                                            <Typography variant='h4'>{name}</Typography>
+                                            <Typography variant='body2'>{userInfo.bio}</Typography>
                                         </Grid>
                                         <Grid container justifyContent='center'>
-                                            <Typography variant='body2'>{bio}</Typography>
+                                            {userInfo && userInfo.techStack && userInfo.techStack.map((stack) => (
+                                                <Chip className={classes.chips} label={stack} />
+                                            ))}
+                                        </Grid>
+                                        <Grid container justifyContent='center'>
+                                            <Button className={classes.editPicButton} variant='contained' color="primary" onClick={handleEdit}><EditIcon />Edit</Button>
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -46,6 +64,13 @@ const Profile = () => {
                         </Grid>
                     </CardContent>
                 </Card>
+                <EditProfile
+                    SetOpen={openConfirmationDialog}
+                    handleClose={() => setOpenConfirmationDialog(false)}
+                    data={currentData}
+                    title="Edit Profile"
+                    confirmButtonColorSecondary={false}
+                />
             </div>
         </div>
     )

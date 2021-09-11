@@ -8,17 +8,6 @@ const PostSchema = new Schema({
         required: true,
         ref: 'users'
     },
-    name: {
-        type: String,
-        required: true,
-    },
-    username: {
-        type: String,
-        required: true,
-    },
-    avatarURL: {
-        type: String,
-    },
     content: {
         type: String,
         required: true,
