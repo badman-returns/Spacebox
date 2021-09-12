@@ -21,6 +21,7 @@ const EditProfile = ({
     handleClose,
     title,
     data,
+    toaster
 }) => {
 
     const [name, setName] = useState('');
@@ -60,11 +61,13 @@ const EditProfile = ({
         formData.append('techStack', techStack);
         
         try {
-            await EditProfileService(formData, data._id);
-            const response = await GetProfileService(data._id)
-            dispatch(setUserInfo(response));
+            const response = await EditProfileService(formData, data._id);
+            console.log(response);
+            const responseData = await GetProfileService(data._id)
+            dispatch(setUserInfo(responseData));
             handleStopLoader();
             handleClose();
+            toaster(response);
         } catch (error) {
             console.log(error);
         }

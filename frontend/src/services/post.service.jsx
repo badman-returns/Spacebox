@@ -34,7 +34,7 @@ const DeletePostById = async (data) => {
     try {
         console.log(data);
         const response = await BaseService.getAuthorizationClient().delete(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/post/${data.id}`, {data});
-        return (response.data.ResponseData);
+        return (response.data.ResponseMessage);
     } catch (error) {
         return error;
     }

@@ -1,3 +1,4 @@
+import React from 'react';
 import Grid from '@material-ui/core/Grid'
 import { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,8 +13,11 @@ const ProfilePage = () => {
     let userInfo = useSelector((state => state.userInfo));
     let { githubId } = userInfo.user;
 
+
     const classes = useStyles();
     const dispatch = useDispatch();
+
+   
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_GITHUB_API_URL}/users/${githubId}`).then((response) => {
@@ -27,7 +31,7 @@ const ProfilePage = () => {
     return (
         <div className={classes.root}>
             <Grid container>
-                <Grid item xs={1}  className={classes.panel}>
+                <Grid item xs={1} className={classes.panel}>
                 </Grid>
                 <Grid item xs={10} className={classes.feed}>
                     <Grid container-fluid justifyContent="center" alignItems="center">
@@ -48,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
         marginTop: '80px',
     },
-    item:{
+    item: {
         marginTop: '20px',
     },
     panel: {

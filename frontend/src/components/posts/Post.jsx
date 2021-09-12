@@ -8,6 +8,9 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,8 +58,9 @@ const Post = (props) => {
                 userId: props.userId,
                 imageId: props.imageId
             }
-            await DeletePostById(data);
+            const response = await DeletePostById(data);
             props.getPosts();
+            toast.success(response);
             handleClose();
         } catch (error) {
             console.log(error);
@@ -128,6 +132,17 @@ const Post = (props) => {
             <Backdrop className={classes.backdrop} open={open}>
                 <CircularProgress color="inherit" />
             </Backdrop>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                theme='light'
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                pauseOnHover
+            />
         </div>
     )
 }

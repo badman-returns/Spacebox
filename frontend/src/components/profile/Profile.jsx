@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import EditProfile from '../edit-profile/EditProfile';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
     let userInfo = useSelector((state => state.userInfo.user));
@@ -11,6 +13,9 @@ const Profile = () => {
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
     const [currentData, setCurrentData] = useState({})
    
+    const toaster = (message) => {
+        toast.success(message);
+    }
 
     const handleEdit = () => {
         setOpenConfirmationDialog(true);
@@ -68,9 +73,21 @@ const Profile = () => {
                     SetOpen={openConfirmationDialog}
                     handleClose={() => setOpenConfirmationDialog(false)}
                     data={currentData}
+                    toaster={toaster}
                     title="Edit Profile"
                     confirmButtonColorSecondary={false}
                 />
+                 <ToastContainer
+                        position="bottom-right"
+                        autoClose={2000}
+                        theme='light'
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        pauseOnHover
+                    />
             </div>
         </div>
     )
