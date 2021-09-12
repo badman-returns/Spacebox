@@ -60,7 +60,9 @@ export default function Navbar() {
                                 </Grid>
                                 <Grid item >
                                     <Typography className={classes.text}>
-                                        Jobs
+                                    <NavLink to='/in/jobs' className={classes.text}>
+                                            Jobs
+                                        </NavLink>
                                     </Typography>
                                 </Grid>
                                 <Grid item>

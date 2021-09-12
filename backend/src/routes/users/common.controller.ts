@@ -84,7 +84,7 @@ class CommonController {
                 });
             }
             else if (confirmUser && confirmUser.active === true) {
-                res.status(403).send({
+                res.status(200).send({
                     Message: `Your account is already activated`,
                     Data: null,
                 });

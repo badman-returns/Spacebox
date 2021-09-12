@@ -54,15 +54,14 @@ const EditProfile = ({
         if (selectedFile) {
             formData.append('profile', files);
             formData.append('pictureId', data.picId);
-            
+
         }
         formData.append('name', name);
         formData.append('bio', bio);
         formData.append('techStack', techStack);
-        
+
         try {
-            const response = await EditProfileService(formData, data._id);
-            console.log(response);
+            const response = await EditProfileService(formData);
             const responseData = await GetProfileService(data._id)
             dispatch(setUserInfo(responseData));
             handleStopLoader();
@@ -161,7 +160,7 @@ const EditProfile = ({
                                 onInput={(e) => setBio(e.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        {data.role === 'developer' && (<Grid item xs={12}>
                             <TextField
                                 label="Tech Stack"
                                 variant="outlined"
@@ -169,7 +168,7 @@ const EditProfile = ({
                                 value={techStack}
                                 onInput={(e) => setTechStack(e.target.value)}
                             />
-                        </Grid>
+                        </Grid>)}
                     </Grid>
                 </DialogContentText>
             </DialogContent >
@@ -213,7 +212,7 @@ const useStyles = makeStyles((theme) => ({
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
-      },
+    },
 }));
 
 export default EditProfile;

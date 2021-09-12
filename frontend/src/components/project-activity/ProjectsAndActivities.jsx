@@ -17,7 +17,6 @@ const ProjectsAndActivities = () => {
     let posts = []
     posts = useSelector((state => state.userPosts.posts));
 
-
     const projects = [];
     userGitProjects.map((project) => {
         if (project.fork === false) {
@@ -74,7 +73,7 @@ const ProjectsAndActivities = () => {
         image: {
             width: '50%',
         },
-        post:{
+        post: {
             width: 'inherit'
         }
     });
@@ -95,6 +94,7 @@ const ProjectsAndActivities = () => {
                                 centered
                             >
                                 {role === 'developer' && (<Tab label="Projects" />)}
+                                {role === 'recruiter' && (<Tab label="Job Posted" />)}
 
                                 <Tab label="Activities" />
                             </Tabs>
@@ -133,18 +133,22 @@ const ProjectsAndActivities = () => {
                             <Grid item xs={6} className={classes.feed}>
                                 <Grid container spacing={2} justifyContent="center" alignItems="center">
                                     {posts && posts.length && posts.map((post) => (
-                                        <Grid item className={classes.post} key={post._id}>
-                                            <Post
-                                            id={post._id}
-                                            userId={post.userId._id} 
-                                            name={post.userId.name} 
-                                            activity={true} 
-                                            avatarURL={post.userId.picURL} 
-                                            content={post.content} 
-                                            imageId={post.imageId}
-                                            imageURL={post.imageURL}
-                                            getPosts={GetPostsById} />
-                                        </Grid>
+                                        <div  key={post._id}>
+                                            {post.userId._id === _id && (
+                                                <Grid item className={classes.post}>
+                                                    <Post
+                                                        id={post._id}
+                                                        userId={post.userId._id}
+                                                        name={post.userId.name}
+                                                        activity={true}
+                                                        avatarURL={post.userId.picURL}
+                                                        content={post.content}
+                                                        imageId={post.imageId}
+                                                        imageURL={post.imageURL}
+                                                        getPosts={GetPostsById} />
+                                                </Grid>
+                                            )}
+                                        </div>
                                     ))}
                                 </Grid>
                             </Grid>
@@ -152,9 +156,9 @@ const ProjectsAndActivities = () => {
                             </Grid>
                         </Grid>
                         )}
-                    </CardContent>
-                </Card>
-            </div>
+                </CardContent>
+            </Card>
+        </div>
         </div >
     )
 }

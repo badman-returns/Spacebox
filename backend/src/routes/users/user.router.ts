@@ -30,7 +30,7 @@ class UserRouting {
 
         // User Routes
         this.router.get('/profile/:id', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], GetProfile)
-        this.router.post('/profile/:id', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser, this.upload.single('profile')], EditProfile);
+        this.router.post('/profile', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser, this.upload.single('profile')], EditProfile);
 
         // Post Routes
         this.router.post('/add/post', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser, this.upload.single('post')], CreatePost);

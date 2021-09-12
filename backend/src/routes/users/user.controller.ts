@@ -10,7 +10,7 @@ class UserController {
 
     public static getProfileById = async (req: ExtendedRequest, res: Response) => {
         const userId = req.params.id;
-        let response: ResponseObject<any>;    
+        let response: ResponseObject<any>;
 
         try {
             const user = await Users.findById(userId);
@@ -26,51 +26,46 @@ class UserController {
     }
 
     public static editProfile = async (req: ExtendedRequest, res: Response) => {
-        const userId = req.params.id;
+        const userId = req.user._id;
         const file = req.file;
         const name = req.body.name;
         const bio = req.body.bio;
-        const techStack = req.body.techStack!=="" ? (req.body.techStack).split(','): null;
+        const techStack = req.body.techStack !== "" ? (req.body.techStack).split(',') : null;
         let response: ResponseObject<any>;
-
-        if (req.user._id !== userId) {
-            res.status(401).send({ msg: 'Unauthorized attempt' });
-        }
-        else {
-            try {
-                let user;
-                if (!file) {
-                    user = await Users.updateMany({
-                        userId,
+        try {
+            if (!file) {
+                await Users.updateOne({ _id: userId }, {
+                    $set: {
                         name,
                         bio,
                         techStack
-                    });
-                } else {
+                    }
+                });
+            } else {
 
-                    const { public_id, url } = await cloudinary.v2.uploader.upload(file.path, { width: 460, height: 460, gravity: "faces", crop: "fill" });
-                    const picId = public_id;
-                    const picURL = url;
+                const { public_id, url } = await cloudinary.v2.uploader.upload(file.path, { width: 460, height: 460, gravity: "faces", crop: "fill" });
+                const picId = public_id;
+                const picURL = url;
 
-                    const user = await Users.updateMany({
-                        userId,
+                await Users.updateOne({ _id: userId }, {
+                    $set: {
                         name,
                         bio,
                         picId,
                         picURL,
                         techStack
-                    });
-                }
-
-                response = {
-                    ResponseData: user,
-                    ResponseMessage: 'Profile edited successfully',
-                }
-                return res.send(response);
-            } catch (error) {
-                console.log(error);
-                return res.status(500).end()
+                    }
+                });
             }
+
+            response = {
+                ResponseData: null,
+                ResponseMessage: 'Profile edited successfully',
+            }
+            return res.send(response);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).end()
         }
     }
 }

@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Copyright from '../copyright/Copyright';
 import InputLabel from '@material-ui/core/InputLabel';
+import Typography from '@material-ui/core/Typography';
 import { RegistrationService } from '../../services/register.service';
 import BaseService from '../../services/base.service';
 import { useDispatch } from "react-redux";
@@ -35,6 +36,9 @@ const RegisterLogin = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [validationState, setValidationState] = useState(false);
     const [isMatchPassword, setIsMatchPassword] = useState(true);
+
+
+    const [registrationSuccess, setRegistrationSuccess] = useState('');
 
     const isValidEmail = () => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -90,6 +94,7 @@ const RegisterLogin = () => {
             try {
                 const response = await RegistrationService(registrationData);
                 console.log(response);
+                setRegistrationSuccess(response);
             } catch (error) {
                 console.log(error);
             }
@@ -99,6 +104,7 @@ const RegisterLogin = () => {
             try {
                 const response = await RegistrationService(registrationData);
                 console.log(response);
+                setRegistrationSuccess(response);
             } catch (error) {
                 console.log(error);
             }
@@ -108,9 +114,9 @@ const RegisterLogin = () => {
     const sendLoginData = async () => {
         if (email !== '' && password !== '') {
             try {
-               let response =  await BaseService.login(email, password);
-               dispatch(setUserInfo(response));
-               history.push('/in/feed');
+                let response = await BaseService.login(email, password);
+                dispatch(setUserInfo(response));
+                history.push('/in/feed');
             } catch (error) {
                 console.log(error);
             }
@@ -118,10 +124,11 @@ const RegisterLogin = () => {
     }
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth={registrationSuccess ? 'lg' : 'xs'}>
             <CssBaseline />
             <div className={classes.paper}>
-                <form className={classes.form} onSubmit={handleRegisterAndLogin}>
+                <img src={process.env.PUBLIC_URL + 'logo.png'} alt='logo' />
+                {!registrationSuccess && (<form className={classes.form} onSubmit={handleRegisterAndLogin}>
                     <Grid container spacing={2}>
                         {signUp && (
                             <>
@@ -238,37 +245,49 @@ const RegisterLogin = () => {
                     </Grid>
                     {signIn && (
                         <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign In
-                    </Button>
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Sign In
+                        </Button>
                     )}
                     {signUp && (
                         <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign Up
-                    </Button>
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Sign Up
+                        </Button>
                     )}
                     <Grid container justifyContent="center">
-                        <Grid item>
-                            {signIn && <Link href="#" variant="body2" onClick={setState}>
-                                Don't have an account? Sign Up
-                            </Link>}
-                            {signUp && <Link href="#" variant="body2" onClick={setState}>
-                                Have an account? Sign In
-                            </Link>}
+                        <Grid item xs={12}>
+                            <Grid container justifyContent="center">
+                                {signIn && <Link href="#" variant="body2" onClick={setState}>
+                                    Don't have an account? Sign Up
+                                </Link>}
+                                {signUp && <Link href="#" variant="body2" onClick={setState}>
+                                    Have an account? Sign In
+                                </Link>}
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Grid container justifyContent="center">
+                                {signIn && <Link href="#" variant="body2">
+                                    Forget Password
+                                </Link>}
+                            </Grid>
                         </Grid>
                     </Grid>
-                </form>
+                </form>)}
+                {registrationSuccess && (
+                    <Typography variant='h6'>{registrationSuccess}</Typography>
+                )}
             </div>
             <Box mt={5}>
                 <Copyright />

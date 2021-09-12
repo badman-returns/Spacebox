@@ -6,12 +6,23 @@ dotenv.config();
 const RegistrationService = async (registrationData) => {
     try {
         const response = await axios.post(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/register`, registrationData);
-        return (response);
+        return (response.data.ResponseMessage);
     } catch (error) {
         return error;
     };
 }
 
+const VerifyEmailandActivateUser = async (data) => {
+    try{
+        const response = await axios.post(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/verify-email/${data.userId}/${data.token}`);
+        return (response);
+    } catch (error) {
+        console.log(error);
+        return (error);
+    }
+}
+
 export {
-    RegistrationService
+    RegistrationService,
+    VerifyEmailandActivateUser
 }

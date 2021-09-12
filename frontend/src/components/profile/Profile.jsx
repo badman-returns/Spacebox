@@ -47,7 +47,11 @@ const Profile = () => {
                                 <Grid container justifyContent='center'>
                                     <Grid item xs={8}>
                                         <Grid container justifyContent='center'>
-                                            <img src={userInfo.picURL} className={classes.profilePic} alt='profile' />
+                                            {
+                                               userInfo.picURL ? (<img src={userInfo.picURL} className={classes.profilePic} alt='profile' />) :
+                                               (<Typography variant='body2'>Click on edit to add picture</Typography>)
+
+                                            }
                                         </Grid>
                                         <Grid container justifyContent='center'>
                                             <Typography variant='h4'>{userInfo.name}</Typography>
@@ -56,7 +60,7 @@ const Profile = () => {
                                             <Typography variant='body2'>{userInfo.bio}</Typography>
                                         </Grid>
                                         <Grid container justifyContent='center'>
-                                            {userInfo && userInfo.techStack && userInfo.techStack.map((stack) => (
+                                            {userInfo.role==='developer' && userInfo && userInfo.techStack && userInfo.techStack.map((stack) => (
                                                 <Chip className={classes.chips} label={stack} />
                                             ))}
                                         </Grid>

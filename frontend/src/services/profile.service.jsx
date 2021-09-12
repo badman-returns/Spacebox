@@ -12,9 +12,9 @@ const GetProfileService = async (id) => {
     }
 }
 
-const EditProfileService = async (formData, userId) => {
+const EditProfileService = async (formData) => {
     try {
-        const response = await BaseService.getAuthorizationClient().post(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/profile/${userId}`, formData);
+        const response = await BaseService.getAuthorizationClient().post(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/profile`, formData);
         return (response.data.ResponseMessage);
     } catch (error) {
         return error;

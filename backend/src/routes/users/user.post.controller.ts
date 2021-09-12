@@ -8,7 +8,7 @@ class UserPostController {
     }
 
     public static createPost = async (req: ExtendedRequest, res: Response) => {
-        const content = req.body.content;
+        const content = req.body.content || null;
         const file = req.file;
         const userId = req.body.id;
         const name = req.user.name;
