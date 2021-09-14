@@ -6,6 +6,7 @@ interface User extends Document{
     picId: string,
     picURL: string,
     email: string,
+    role: string,
     password: string,
     active: boolean,
     githubId?: string,
