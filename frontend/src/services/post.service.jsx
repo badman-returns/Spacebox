@@ -6,7 +6,7 @@ dotenv.config();
 const createPost = async (formData) => {
     try {
         const response = await BaseService.getAuthorizationClient().post(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/add/post`, formData)
-        return (response.data);
+        return (response);
     } catch (error) {
         return (error);
     }
@@ -15,7 +15,7 @@ const createPost = async (formData) => {
 const GetPost = async () => {
     try {
         const response = await BaseService.getAuthorizationClient().get(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/post`);
-        return (response.data.ResponseData);
+        return (response);
     } catch (error) {
         return error;
     };
@@ -24,7 +24,7 @@ const GetPost = async () => {
 const GetPostByUserId = async (userId) => {
     try {
         const response = await BaseService.getAuthorizationClient().get(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/post/`, { id: userId });
-        return (response.data.ResponseData);
+        return (response);
     } catch (error) {
         return error;
     }
@@ -34,7 +34,7 @@ const DeletePostById = async (data) => {
     try {
         console.log(data);
         const response = await BaseService.getAuthorizationClient().delete(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/post/${data.id}`, {data});
-        return (response.data.ResponseMessage);
+        return (response);
     } catch (error) {
         return error;
     }

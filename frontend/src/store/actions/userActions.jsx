@@ -7,6 +7,13 @@ const setUserInfo = (user) => {
     };
 };
 
+const setUserProfile = (user) => {
+    return {
+        type: ActionTypes.SET_USER_PROFILE,
+        payload: user,
+    }
+}
+
 const setUserGithubInfo = (gitUser) => {
     return {
         type: ActionTypes.SET_USER_GITHUB_INFO,
@@ -16,5 +23,6 @@ const setUserGithubInfo = (gitUser) => {
 
 export {
     setUserInfo,
-    setUserGithubInfo
+    setUserGithubInfo,
+    setUserProfile
 }

@@ -6,7 +6,7 @@ dotenv.config();
 const RegistrationService = async (registrationData) => {
     try {
         const response = await axios.post(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/register`, registrationData);
-        return (response.data.ResponseMessage);
+        return (response);
     } catch (error) {
         return error;
     };

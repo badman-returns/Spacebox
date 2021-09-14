@@ -6,7 +6,7 @@ dotenv.config();
 const GetProfileService = async (id) => {
     try {
         const response = await BaseService.getAuthorizationClient().get(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/profile/${id}`);
-        return (response.data.ResponseData);
+        return (response);
     } catch (error) {
         return error;
     }
@@ -15,7 +15,7 @@ const GetProfileService = async (id) => {
 const EditProfileService = async (formData) => {
     try {
         const response = await BaseService.getAuthorizationClient().post(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/profile`, formData);
-        return (response.data.ResponseMessage);
+        return (response);
     } catch (error) {
         return error;
     }

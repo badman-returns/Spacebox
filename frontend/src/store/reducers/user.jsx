@@ -14,6 +14,15 @@ const userInfoReducer = (state = initialState, { type, payload }) => {
     }
 };
 
+const userProfileReducer = (state = initialState, {type, payload}) => {
+    switch(type){
+        case ActionTypes.SET_USER_PROFILE:
+            return {...state, user: payload};
+        default:
+            return state;
+    }
+}
+
 const userGitInfoReducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case ActionTypes.SET_USER_GITHUB_INFO:
@@ -25,5 +34,6 @@ const userGitInfoReducer = (state = initialState, { type, payload }) => {
 
 export {
     userInfoReducer,
-    userGitInfoReducer
+    userGitInfoReducer,
+    userProfileReducer
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import RegisterLogin from '../../components/registerLogin/RegisterLogin';
 
-export default function RegisterLoginPage() {
+const RegisterLoginPage = () => {
 
   return (
     <div>
@@ -15,3 +15,5 @@ export default function RegisterLoginPage() {
     </div>
   );
 }
+
+export default RegisterLoginPage;

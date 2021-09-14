@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Grid, CardContent, Typography, Card, Button, Chip } from '@material-ui/core'
 import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,10 +8,22 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
-    let userInfo = useSelector((state => state.userInfo.user));
+    let profileUser = useSelector((state => state.profileInfo.user));
+    let loggedUser = useSelector((state => state.userInfo.user));
 
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-    const [currentData, setCurrentData] = useState({})
+    const [currentData, setCurrentData] = useState({});
+
+    const [permission, setPermission] =useState();
+
+    const invokePermission = () => {
+        if (loggedUser._id === profileUser._id){
+            setPermission(true);
+        }
+        else{
+            setPermission(false);
+        }
+    }
    
     const toaster = (message) => {
         toast.success(message);
@@ -19,7 +31,7 @@ const Profile = () => {
 
     const handleEdit = () => {
         setOpenConfirmationDialog(true);
-        setCurrentData(userInfo);
+        setCurrentData(profileUser);
     }
 
     const useStyles = makeStyles((theme) => ({
@@ -35,6 +47,11 @@ const Profile = () => {
         }
     }));
 
+    useEffect(() => {
+        invokePermission();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [profileUser]);
+
     const classes = useStyles();
 
     return (
@@ -48,25 +65,24 @@ const Profile = () => {
                                     <Grid item xs={8}>
                                         <Grid container justifyContent='center'>
                                             {
-                                               userInfo.picURL ? (<img src={userInfo.picURL} className={classes.profilePic} alt='profile' />) :
+                                               profileUser.picURL ? (<img src={profileUser.picURL} className={classes.profilePic} alt='profile' />) :
                                                (<Typography variant='body2'>Click on edit to add picture</Typography>)
-
                                             }
                                         </Grid>
                                         <Grid container justifyContent='center'>
-                                            <Typography variant='h4'>{userInfo.name}</Typography>
+                                            <Typography variant='h4'>{profileUser.name}</Typography>
                                         </Grid>
                                         <Grid container justifyContent='center'>
-                                            <Typography variant='body2'>{userInfo.bio}</Typography>
+                                            <Typography variant='body2'>{profileUser.bio}</Typography>
                                         </Grid>
                                         <Grid container justifyContent='center'>
-                                            {userInfo.role==='developer' && userInfo && userInfo.techStack && userInfo.techStack.map((stack) => (
+                                            {profileUser.role==='developer' && profileUser && profileUser.techStack && profileUser.techStack.map((stack) => (
                                                 <Chip className={classes.chips} label={stack} />
                                             ))}
                                         </Grid>
-                                        <Grid container justifyContent='center'>
+                                        {permission && (<Grid container justifyContent='center'>
                                             <Button className={classes.editPicButton} variant='contained' color="primary" onClick={handleEdit}><EditIcon />Edit</Button>
-                                        </Grid>
+                                        </Grid>)}
                                     </Grid>
                                 </Grid>
                             </Grid>

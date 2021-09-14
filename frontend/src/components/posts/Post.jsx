@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Card, CssBaseline, CardContent, Typography, Avatar, Divider } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -10,8 +10,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     contentImage: {
@@ -30,13 +30,19 @@ const useStyles = makeStyles((theme) => ({
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
     },
+    linkText: {
+        textDecoration: 'none',
+        color: '#000',
+    }
 }));
 
 
 const Post = (props) => {
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [permission, setPermission] = useState();
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+    const loggedUser = useSelector(state => state.userInfo.user);
 
     const handleClose = () => {
         setOpen(false);
@@ -59,13 +65,31 @@ const Post = (props) => {
                 imageId: props.imageId
             }
             const response = await DeletePostById(data);
-            props.getPosts();
-            toast.success(response);
+            if (response.status === 200) {
+                props.getPosts();
+                toast.success(response.data.ResponseMessage);
+            }
+            else {
+                toast.failure('Something went wrong');
+            }
             handleClose();
         } catch (error) {
             console.log(error);
         }
     }
+
+    const invokePermission = () => {
+        if (loggedUser._id === props.userId) {
+            setPermission(true);
+        } else {
+            setPermission(false);
+        }
+    }
+
+    useEffect(() => {
+        invokePermission();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.userId]);
 
     const classes = useStyles();
     return (
@@ -77,18 +101,20 @@ const Post = (props) => {
                         <Grid item xs={12}>
                             <Grid container spacing={1} justifyContent="space-between" alignItems="center">
                                 <Grid item>
-                                    <Grid container>
+                                    <Grid container alignItems='center' spacing={1}>
                                         <Grid item>
+                                        <Link className={classes.linkText} to={`/in/profile/${props.id}`}>
                                             <Avatar src={props.avatarURL ? props.avatarURL : props.avatarURL} />
+                                        </Link>
                                         </Grid>
                                         <Grid item>
                                             <Typography variant="h6" component="h4">
-                                                {props.name}
+                                                <Link className={classes.linkText} to={`/in/profile/${props.id}`}>{props.name}</Link>
                                             </Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                {props.activity === true && (
+                                {props.activity === true && permission && (
                                     <Grid item>
                                         <DeleteIcon className={classes.delete} onClick={handleDelete} />
                                     </Grid>

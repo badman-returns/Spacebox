@@ -93,8 +93,9 @@ const RegisterLogin = () => {
             Object.assign(registrationData, { githubId: githubId });
             try {
                 const response = await RegistrationService(registrationData);
-                console.log(response);
-                setRegistrationSuccess(response);
+                if (response.status === 200){
+                    setRegistrationSuccess(response);
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -103,8 +104,9 @@ const RegisterLogin = () => {
             Object.assign(registrationData, { company: company });
             try {
                 const response = await RegistrationService(registrationData);
-                console.log(response);
-                setRegistrationSuccess(response);
+                if (response.status === 200){
+                    setRegistrationSuccess(response);
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -127,7 +129,8 @@ const RegisterLogin = () => {
         <Container component="main" maxWidth={registrationSuccess ? 'lg' : 'xs'}>
             <CssBaseline />
             <div className={classes.paper}>
-                <img src={process.env.PUBLIC_URL + 'logo.png'} alt='logo' />
+                <img  className={classes.logo} src={process.env.PUBLIC_URL + 'logo.png'} alt='logo' />
+                <img className={classes.navlogo} src={process.env.PUBLIC_URL + 'navlogo.png'} alt='logo' />
                 {!registrationSuccess && (<form className={classes.form} onSubmit={handleRegisterAndLogin}>
                     <Grid container spacing={2}>
                         {signUp && (
@@ -318,6 +321,16 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(3, 0, 2),
         height: '60px'
     },
+    logo: {
+        '@media (max-width: 1280px)': {
+            display: 'none',
+        }
+    },
+    navlogo: {
+        '@media (min-width: 1280px)': {
+            display: 'none'
+        }
+    }
 }));
 
 export default RegisterLogin;

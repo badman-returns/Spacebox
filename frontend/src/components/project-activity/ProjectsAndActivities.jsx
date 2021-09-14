@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, CardContent, Typography, Card, Tabs, Tab, Drawer } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { FetchGitHubProjects } from '../../services/github.service';
@@ -10,20 +10,25 @@ import Post from '../posts/Post';
 import Chip from '@material-ui/core/Chip';
 
 
-const ProjectsAndActivities = () => {
+const ProjectsAndActivities = (props) => {
     let { repos_url } = useSelector((state => state.userGitInfo.user));
     let userGitProjects = useSelector((state => state.githubProjects.projects));
-    let { role, _id } = useSelector((state => state.userInfo.user));
+    let { role, _id } = useSelector((state => state.profileInfo.user));
     let posts = []
     posts = useSelector((state => state.userPosts.posts));
 
-    const projects = [];
-    userGitProjects.map((project) => {
-        if (project.fork === false) {
-            projects.push(project);
-        }
-        return null;
-    });
+    const [done, setDone] = useState(false);
+
+    let projects = [];
+    if (userGitProjects != null) {
+        // eslint-disable-next-line array-callback-return
+        userGitProjects.map((project) => {
+            if (project.fork !== true){
+                projects.push(project);
+            }
+        })
+    }
+
 
     const dispatch = useDispatch();
 
@@ -33,29 +38,37 @@ const ProjectsAndActivities = () => {
         setValue(value);
     }
 
-    const GetProjectData = useCallback(async () => {
+    const GetProjectData = async () => {
         try {
             const response = await FetchGitHubProjects(repos_url);
-            dispatch(setProjects(response));
+            if (response.status === 200) {
+                dispatch(setProjects(response.data));
+            }
+            setDone(true);
         } catch (error) {
             console.log(error);
         }
-    }, [repos_url, dispatch]);
+    };
 
-    const GetPostsById = useCallback(async () => {
+    const GetPostsById = async () => {
         try {
             const response = await GetPostByUserId(_id);
-            dispatch(setPostById(response));
+            if (response.status === 200) {
+                dispatch(setPostById(response.data.ResponseData));
+            }
         } catch (error) {
             console.log(error);
         }
-    }, [_id, dispatch]);
+    };
 
     useEffect(() => {
         GetProjectData();
         GetPostsById();
-
-    }, [GetProjectData, GetPostsById]);
+        return () => {
+            setValue(0);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [_id]);
 
     const useStyles = makeStyles({
         hideLongText: {
@@ -83,7 +96,7 @@ const ProjectsAndActivities = () => {
     return (
         <div>
             <div>
-                <Card >
+                {done && (<Card >
                     <CardContent>
                         <Grid container justifyContent='center'>
                             <Tabs
@@ -128,12 +141,12 @@ const ProjectsAndActivities = () => {
                             </Grid>
                         </Grid>
                         {value === 1 && (<Grid container>
-                            <Grid item xs={3} className={classes.panel}>
+                            <Grid item xs={1} lg={2} xl={3} className={classes.panel}>
                             </Grid>
-                            <Grid item xs={6} className={classes.feed}>
+                            <Grid item xs={10} lg={8} xl={6} className={classes.feed}>
                                 <Grid container spacing={2} justifyContent="center" alignItems="center">
                                     {posts && posts.length && posts.map((post) => (
-                                        <div  key={post._id}>
+                                        <div key={post._id}>
                                             {post.userId._id === _id && (
                                                 <Grid item className={classes.post}>
                                                     <Post
@@ -152,13 +165,13 @@ const ProjectsAndActivities = () => {
                                     ))}
                                 </Grid>
                             </Grid>
-                            <Grid item xs={3} className={classes.feed}>
+                            <Grid item xs={1} lg={2} xl={3} className={classes.feed}>
                             </Grid>
                         </Grid>
                         )}
-                </CardContent>
-            </Card>
-        </div>
+                    </CardContent>
+                </Card>)}
+            </div>
         </div >
     )
 }

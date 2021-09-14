@@ -9,7 +9,7 @@ import { GetPost, createPost } from '../../services/post.service';
 import { Card, CardContent, Typography, Button } from '@material-ui/core';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import SendIcon from '@material-ui/icons/Send';
 
 const Feed = () => {
 
@@ -47,14 +47,14 @@ const Feed = () => {
                 inputRef.current.value = '';
                 setUploading(true);
                 setSelectedFile(null);
-                let post = await createPost(formData);
-                if (post) {
+                let postEditResponse = await createPost(formData);
+                if (postEditResponse.status === 200){
                     setContent(null);
                     setFiles(null);
                 }
-                let response = await GetPost();
-                if (response) {
-                    dispatch(setPosts(response));
+                let postGetResponse = await GetPost();
+                if (postGetResponse.status === 200) {
+                    dispatch(setPosts(postGetResponse.data.ResponseData));
                     setUploading(false);
                 }
             } catch (error) {
@@ -66,7 +66,7 @@ const Feed = () => {
     useEffect(() => {
         setLoading(true);
         GetPost().then((response) => {
-            dispatch(setPosts(response));
+            dispatch(setPosts(response.data.ResponseData));
             setLoading(false);
         }).catch((error) => {
             console.log(error);
@@ -76,9 +76,9 @@ const Feed = () => {
     return (
         <div className={classes.root}>
             <Grid container>
-                <Grid item xs={4} className={classes.panel}>
+                <Grid item xs={1} lg={3} xl={4} className={classes.panel}>
                 </Grid>
-                <Grid item xs={4} className={classes.feed}>
+                <Grid item xs={10} lg={6} xl={4} className={classes.feed}>
                     <Grid container spacing={2} justifyContent="center" alignItems="center">
                         <Grid item xs={12}>
                             <Card>
@@ -106,14 +106,17 @@ const Feed = () => {
                                             <label htmlFor="file-input">
                                                 <div className={classes.addPhoto}>
                                                     <PhotoCameraIcon />
-                                                    <Typography variant='body2'>Add Photo</Typography>
+                                                    <Typography variant='body2' className={classes.photoText}>Add Photo</Typography>
                                                 </div>
                                             </label>
                                         </Grid>
                                         <Grid item xs={10}>
                                             <Grid container justifyContent='flex-end'>
-                                                <Button variant="contained" color="primary" onClick={savePost}>
+                                                <Button className={classes.sendLarge} variant="contained" color="primary" onClick={savePost}>
                                                     Create Post
+                                                </Button>
+                                                <Button className={classes.sendSmall} variant="contained" color="primary" onClick={savePost}>
+                                                    <SendIcon />
                                                 </Button>
                                             </Grid>
                                         </Grid>
@@ -132,11 +135,11 @@ const Feed = () => {
                             </Grid>
                         )}
                         {!loading && posts.length && posts.map((post) => (
-                            <Grid item className={classes.post} key={post._id}><Post name={post.userId.name} avatarURL={post.userId.picURL} content={post.content} imageURL={post.imageURL} /></Grid>
+                            <Grid item className={classes.post} key={post._id}><Post id={post.userId._id} name={post.userId.name} avatarURL={post.userId.picURL} content={post.content} imageURL={post.imageURL} /></Grid>
                         ))}
                     </Grid>
                 </Grid>
-                <Grid item xs={4} className={classes.feed}>
+                <Grid item xs={1} lg={3} xl={4} className={classes.feed}>
                 </Grid>
             </Grid>
 
@@ -183,6 +186,21 @@ const useStyles = makeStyles((theme) => ({
     },
     post: {
         width: 'inherit'
+    },
+    photoText: {
+        '@media (max-width: 600px)': {
+            display: 'none',
+        }
+    },
+    sendLarge: {
+        '@media (max-width: 1280px)': {
+            display: 'none'
+        }
+    },
+    sendSmall: {
+        '@media (min-width: 1280px)': {
+            display: 'none'
+        }
     }
 }));
 
