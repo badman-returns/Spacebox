@@ -4,7 +4,7 @@ import { GetStorage } from "../../utility/uploader";
 import { LoadAuthorization, ValidateBearerToken, ValidateBasicAuth, LoadAuthorizedUser } from "../../middleware/common.middleware";
 import { ForgetPassword, LoginByEmailAndPassword, Register, ResetPassword, VerifyEmailAndActivateAccount } from "./user.controller";
 import { EditProfile, GetProfile } from "./controllers/user.profile.controller";
-import { CreatePost, DeletePostById, GetPost, GetPostByUserId } from "./controllers/user.post.controller";
+import { CreatePost, DeletePostById, EditPost, GetPost, GetPostByUserId } from "./controllers/user.post.controller";
 import { CreateJob, DeleteJob, EditJob, GetJobs, GetJobsById } from "./controllers/user.job.controller";
 
 class UserRouting {
@@ -38,6 +38,7 @@ class UserRouting {
         this.router.get('/post', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], GetPost);
         this.router.get('/post/:id', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], GetPostByUserId);
         this.router.delete('/post/:id', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], DeletePostById);
+        this.router.post('/post/:id', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser, this.upload.single('edit')], EditPost);
 
         // Job Routes
         this.router.post('/add/job', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], CreateJob);

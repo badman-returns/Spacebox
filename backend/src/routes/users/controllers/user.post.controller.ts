@@ -11,8 +11,6 @@ class UserPostController {
         const content = req.body.content || null;
         const file = req.file;
         const userId = req.body.id;
-        const name = req.user.name;
-        const avatarURL = req.user.picURL;
 
         if (req.user._id !== userId) {
             res.status(401).send({
@@ -63,6 +61,50 @@ class UserPostController {
             return res.status(500).end();
         }
 
+    }
+
+    public static editPost = async (req: ExtendedRequest, res: Response) => {
+        const userId = req.body.userId;
+        const postId = req.params.id;
+        const content = req.body.content;
+        const file = req.file;
+
+        let response: ResponseObject<any>;
+
+        if (req.user._id !== userId) {
+            res.status(401).send({
+                msg: 'Unauthorized attempt'
+            });
+        } else {
+            try {
+                if (!file) {
+                    await Post.updateOne({ _id: postId }, {
+                        $set: {
+                            content,
+                        }
+                    });
+                } else {
+                    const { public_id, url } = await cloudinary.v2.uploader.upload(file.path, { width: 460, height: 460, gravity: "faces", crop: "fill" });
+                    const imageId = public_id;
+                    const imageURL = url;
+                    await Post.updateOne({ _id: postId }, {
+                        $set: {
+                            content,
+                            imageId,
+                            imageURL
+                        }
+                    });
+                }
+                response = {
+                    ResponseData: null,
+                    ResponseMessage: 'Post successfully edited',
+                }
+                return res.send(response);
+            } catch (error) {
+                console.log(error);
+                return res.status(500).end();
+            }
+        }
     }
 
     public static getPostsByUserId = async (req: ExtendedRequest, res: Response) => {
@@ -120,10 +162,12 @@ const CreatePost = UserPostController.createPost;
 const GetPost = UserPostController.getPosts;
 const GetPostByUserId = UserPostController.getPostsByUserId;
 const DeletePostById = UserPostController.deletePostById;
+const EditPost = UserPostController.editPost
 
 export {
     CreatePost,
     GetPost,
     GetPostByUserId,
-    DeletePostById
+    DeletePostById,
+    EditPost
 }
