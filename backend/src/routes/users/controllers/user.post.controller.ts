@@ -1,7 +1,7 @@
 import { Response } from "express";
-import { ExtendedRequest, ResponseObject } from "../../interfaces";
+import { ExtendedRequest, ResponseObject } from "../../../interfaces";
 import cloudinary from 'cloudinary';
-import { Post, Users } from '../../models';
+import { Post, Users } from '../../../models';
 class UserPostController {
     constructor() {
 
@@ -12,7 +12,6 @@ class UserPostController {
         const file = req.file;
         const userId = req.body.id;
         const name = req.user.name;
-        const username = 'tsgoswami';
         const avatarURL = req.user.picURL;
 
         if (req.user._id !== userId) {

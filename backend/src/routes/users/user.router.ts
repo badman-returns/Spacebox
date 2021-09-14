@@ -2,9 +2,9 @@ import * as express from "express";
 import multer from "multer";
 import { GetStorage } from "../../utility/uploader";
 import { LoadAuthorization, ValidateBearerToken, ValidateBasicAuth, LoadAuthorizedUser } from "../../middleware/common.middleware";
-import { ForgetPassword, LoginByEmailAndPassword, Register, ResetPassword, VerifyEmailAndActivateAccount } from "./common.controller";
-import { EditProfile, GetProfile } from "./user.controller";
-import { CreatePost, DeletePostById, GetPost, GetPostByUserId } from "./user.post.controller";
+import { ForgetPassword, LoginByEmailAndPassword, Register, ResetPassword, VerifyEmailAndActivateAccount } from "./user.controller";
+import { EditProfile, GetProfile } from "./controllers/user.profile.controller";
+import { CreatePost, DeletePostById, GetPost, GetPostByUserId } from "./controllers/user.post.controller";
 
 class UserRouting {
     public router: express.Router;

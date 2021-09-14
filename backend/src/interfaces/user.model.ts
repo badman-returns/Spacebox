@@ -3,7 +3,6 @@ import { Document } from 'mongoose';
 interface User extends Document{
     id: string,
     name: string,
-    username: string,
     picId: string,
     picURL: string,
     email: string,
