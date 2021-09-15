@@ -67,6 +67,7 @@ class UserPostController {
         const userId = req.body.userId;
         const postId = req.params.id;
         const content = req.body.content;
+        const fileId = req.body.imageId;
         const file = req.file;
 
         let response: ResponseObject<any>;
@@ -77,14 +78,31 @@ class UserPostController {
             });
         } else {
             try {
-                if (!file) {
+                if (!file && !fileId) {
                     await Post.updateOne({ _id: postId }, {
                         $set: {
                             content,
                         }
                     });
-                } else {
-                    const { public_id, url } = await cloudinary.v2.uploader.upload(file.path, { width: 460, height: 460, gravity: "faces", crop: "fill" });
+                } else if (!fileId) {
+                    const { public_id, url } = await cloudinary.v2.uploader.upload(file.path);
+                    const imageId = public_id;
+                    const imageURL = url;
+                    await Post.updateOne({ _id: postId }, {
+                        $set: {
+                            content,
+                            imageId,
+                            imageURL
+                        }
+                    });
+                    response = {
+                        ResponseData: null,
+                        ResponseMessage: 'Post successfully edited',
+                    }
+                }
+                else {
+                    await cloudinary.v2.uploader.destroy(fileId);
+                    const { public_id, url } = await cloudinary.v2.uploader.upload(file.path);
                     const imageId = public_id;
                     const imageURL = url;
                     await Post.updateOne({ _id: postId }, {

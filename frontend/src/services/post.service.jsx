@@ -30,9 +30,17 @@ const GetPostByUserId = async (userId) => {
     }
 }
 
+const EditPostById = async (id, formData) => {
+    try {
+        const response = await BaseService.getAuthorizationClient().post(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/post/${id}`, formData);
+        return (response);
+    } catch (error) {
+        return error;
+    }
+}
+
 const DeletePostById = async (data) => {
     try {
-        console.log(data);
         const response = await BaseService.getAuthorizationClient().delete(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/post/${data.id}`, {data});
         return (response);
     } catch (error) {
@@ -45,4 +53,5 @@ export {
     createPost,
     GetPostByUserId,
     DeletePostById,
+    EditPostById
 }

@@ -12,6 +12,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import CreateIcon from '@material-ui/icons/Create';
+import EditPost from '../EditPost/EditPost';
 
 const useStyles = makeStyles((theme) => ({
     contentImage: {
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: '10px 0px',
         letterSpacing: '1px',
     },
-    delete: {
+    icon: {
         cursor: 'pointer',
     },
     backdrop: {
@@ -42,6 +44,7 @@ const Post = (props) => {
     const [open, setOpen] = useState(false);
     const [permission, setPermission] = useState();
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+    const [openEditDialog, setOpenEditDialog] = useState(false);
     const loggedUser = useSelector(state => state.userInfo.user);
 
     const handleClose = () => {
@@ -51,8 +54,20 @@ const Post = (props) => {
         setOpen(!open);
     };
 
+    const toasterSuccess = (message) => {
+        toast.success(message);
+    }
+
+    const toasterFailure = (message) => {
+        toast.error(message);
+    }
+
     const handleDelete = () => {
         setOpenConfirmationDialog(true);
+    }
+
+    const handleEdit = () => {
+        setOpenEditDialog(true);
     }
 
     const confirmDeletePost = async () => {
@@ -88,7 +103,7 @@ const Post = (props) => {
 
     useEffect(() => {
         invokePermission();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.userId]);
 
     const classes = useStyles();
@@ -100,12 +115,12 @@ const Post = (props) => {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Grid container spacing={1} justifyContent="space-between" alignItems="center">
-                                <Grid item>
+                                <Grid item xs={8}>
                                     <Grid container alignItems='center' spacing={1}>
                                         <Grid item>
-                                        <Link className={classes.linkText} to={`/in/profile/${props.id}`}>
-                                            <Avatar src={props.avatarURL ? props.avatarURL : props.avatarURL} />
-                                        </Link>
+                                            <Link className={classes.linkText} to={`/in/profile/${props.id}`}>
+                                                <Avatar src={props.avatarURL ? props.avatarURL : props.avatarURL} />
+                                            </Link>
                                         </Grid>
                                         <Grid item>
                                             <Typography variant="h6" component="h4">
@@ -114,11 +129,18 @@ const Post = (props) => {
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                {props.activity === true && permission && (
-                                    <Grid item>
-                                        <DeleteIcon className={classes.delete} onClick={handleDelete} />
-                                    </Grid>
-                                )}
+                                <Grid item xs={4}>
+                                    {props.activity === true && permission && (
+                                        <Grid container justifyContent='flex-end' spacing={2}>
+                                            <Grid item>
+                                                <CreateIcon className={classes.icon} onClick={handleEdit} />
+                                            </Grid>
+                                            <Grid item>
+                                                <DeleteIcon className={classes.icon} onClick={handleDelete} />
+                                            </Grid>
+                                        </Grid>
+                                    )}
+                                </Grid>
                             </Grid>
                         </Grid>
                         <Grid item xs={12}>
@@ -153,6 +175,15 @@ const Post = (props) => {
                 title="Delete Post"
                 content="Are you sure want to delete this post?"
                 handleConfirm={confirmDeletePost}
+                confirmButtonColorSecondary={false}
+            />
+            <EditPost
+                SetOpen={openEditDialog}
+                handleClose={() => setOpenEditDialog(false)}
+                data={props}
+                toasterSuccess={toasterSuccess}
+                toasterFailure={toasterFailure}
+                title="Edit Post"
                 confirmButtonColorSecondary={false}
             />
             <Backdrop className={classes.backdrop} open={open}>
