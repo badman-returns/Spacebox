@@ -57,11 +57,26 @@ class UserJobController {
         }
     }
 
-    public static getJobsById = async (req: ExtendedRequest, res: Response) => {
+    public static getJobsByUserId = async (req: ExtendedRequest, res: Response) => {
         const userId = req.params.userId;
         let response: ResponseObject<any>;
         try {
-            const jobs = await Jobs.find({ userId: userId }).sort({ createdOn: -1 }).populate('createdBy');
+            const jobs = await Jobs.find({ createdBy: userId }).sort({ createdOn: -1 }).populate('createdBy');
+            response = {
+                ResponseData: jobs,
+                ResponseMessage: 'Job fetched successfully',
+            }
+            return res.send(response);
+        } catch (error) {
+            return res.status(500).end();
+        }
+    }
+
+    public static getJobsById = async (req: ExtendedRequest, res: Response) => {
+        const id = req.params.id;
+        let response: ResponseObject<any>;
+        try {
+            const jobs = await Jobs.find({ _id: id }).sort({ createdOn: -1 }).populate('createdBy');
             response = {
                 ResponseData: jobs,
                 ResponseMessage: 'Job fetched successfully',
@@ -142,12 +157,14 @@ class UserJobController {
 
 const CreateJob = UserJobController.createJob;
 const GetJobs = UserJobController.getJobs;
+const GetJobsByUserId = UserJobController.getJobsByUserId;
 const GetJobsById = UserJobController.getJobsById;
 const DeleteJob = UserJobController.deleteJobs;
 const EditJob = UserJobController.editJobs;
 export {
     CreateJob,
     GetJobs,
+    GetJobsByUserId,
     GetJobsById,
     DeleteJob,
     EditJob

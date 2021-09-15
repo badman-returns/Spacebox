@@ -64,7 +64,7 @@ export default function Navbar() {
                     <Grid item>
                         <Grid container alignItems='center' justifyContent='center'>
                             <Grid item>
-                                <Link className={classes.linkText} to={`/in/feed`}>
+                                <Link to={`/in/feed`}>
                                     <img src={process.env.PUBLIC_URL + 'navlogo.png'} alt='logo' />
                                 </Link>
                             </Grid>

@@ -5,7 +5,7 @@ import { LoadAuthorization, ValidateBearerToken, ValidateBasicAuth, LoadAuthoriz
 import { ForgetPassword, LoginByEmailAndPassword, Register, ResetPassword, VerifyEmailAndActivateAccount } from "./user.controller";
 import { EditProfile, GetProfile } from "./controllers/user.profile.controller";
 import { CreatePost, DeletePostById, EditPost, GetPost, GetPostByUserId } from "./controllers/user.post.controller";
-import { CreateJob, DeleteJob, EditJob, GetJobs, GetJobsById } from "./controllers/user.job.controller";
+import { CreateJob, DeleteJob, EditJob, GetJobs, GetJobsById, GetJobsByUserId } from "./controllers/user.job.controller";
 
 class UserRouting {
     public router: express.Router;
@@ -44,6 +44,7 @@ class UserRouting {
         this.router.post('/add/job', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], CreateJob);
         this.router.get('/jobs', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], GetJobs);
         this.router.get('/job/:id', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], GetJobsById);
+        this.router.get('/job/user/:userId', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], GetJobsByUserId);
         this.router.post('/job/:id', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], EditJob);
         this.router.delete('/delete/:jobId/:userId', [...ValidateBearerToken, ...LoadAuthorization, ...LoadAuthorizedUser], DeleteJob);
     }

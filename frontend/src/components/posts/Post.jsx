@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import CreateIcon from '@material-ui/icons/Create';
-import EditPost from '../EditPost/EditPost';
+import EditPost from '../edit-post/EditPost';
 
 const useStyles = makeStyles((theme) => ({
     contentImage: {

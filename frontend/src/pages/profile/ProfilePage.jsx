@@ -81,7 +81,7 @@ const ProfilePage = () => {
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
-        marginTop: '80px',
+        paddingTop: '60px',
     },
     item: {
         marginTop: '20px',

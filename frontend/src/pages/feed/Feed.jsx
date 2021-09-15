@@ -150,7 +150,7 @@ const Feed = () => {
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
-        marginTop: '80px',
+        paddingTop: '80px',
         width: '100%',
         '& > * + *': {
             marginTop: theme.spacing(2),

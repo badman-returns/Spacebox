@@ -10,7 +10,7 @@ const ProtectedRouter = () => {
         <Switch>
             <Protector path='/in/feed'><Feed /></Protector>
             <Protector path='/in/profile/:id'><ProfilePage /></Protector>
-            <Protector path='/in/job'><Job /></Protector>
+            <Protector path='/in/jobs'><Job /></Protector>
         </Switch>
     )
 }
