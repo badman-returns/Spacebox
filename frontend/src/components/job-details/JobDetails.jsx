@@ -46,13 +46,13 @@ const JobDetails = () => {
                                                 Posted By  &nbsp;
                                                 <Grid container alignItems='center' spacing={1}>
                                                     <Grid item>
-                                                        <Link className={classes.user} to={`/in/profile/${currentJob.id}`}>
+                                                        <Link className={classes.user} to={`/in/profile/${currentJob.createdBy._id}`}>
                                                             <Avatar src={currentJob.createdBy.picURL ? currentJob.createdBy.picURL : ''} />
                                                         </Link>
                                                     </Grid>
                                                     <Grid item>
                                                         <Typography variant="body" component="h3">
-                                                            <Link className={classes.user} to={`/in/profile/${currentJob.id}`}>{currentJob.createdBy.name}</Link>
+                                                            <Link className={classes.user} to={`/in/profile/${currentJob.createdBy._id}`}>{currentJob.createdBy.name}</Link>
                                                         </Typography>
                                                     </Grid>
                                                 </Grid>
