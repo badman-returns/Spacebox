@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const AlertDialog = ({
+const DeleteDialog = ({
     SetOpen,
     handleClose,
     title,
@@ -54,4 +54,4 @@ const AlertDialog = ({
     );
 };
 
-export default AlertDialog;
+export default DeleteDialog;

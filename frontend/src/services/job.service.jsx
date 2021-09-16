@@ -39,9 +39,29 @@ const PostJob = async (data) => {
     }
 }
 
+const EditJobService = async (id, data) => {
+    try {
+        const response = await BaseService.getAuthorizationClient().post(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/job/${id}`, data);
+        return (response);
+    } catch (error) {
+        return error;
+    }
+}
+
+const DeleteJob = async (userId, jobId) => {
+    try {
+        const response = await BaseService.getAuthorizationClient().delete(`${process.env.REACT_APP_BASE_BACKEND_API_URL}/user/delete/${jobId}/${userId}`);
+        return (response);
+    } catch (error) {
+        return error;
+    }
+}
+
 export {
     GetJobs,
     PostJob,
     GetJobById,
-    GetJobByUserId
+    GetJobByUserId,
+    DeleteJob,
+    EditJobService
 }

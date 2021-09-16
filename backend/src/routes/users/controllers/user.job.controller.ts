@@ -123,7 +123,7 @@ class UserJobController {
         }
     }
 
-    public static deleteJobs = async (req: ExtendedRequest, res: Response) => {
+    public static deleteJob = async (req: ExtendedRequest, res: Response) => {
         const userId = req.params.userId;
         const jobId = req.params.jobId;
         let response: ResponseObject<any>;
@@ -159,7 +159,7 @@ const CreateJob = UserJobController.createJob;
 const GetJobs = UserJobController.getJobs;
 const GetJobsByUserId = UserJobController.getJobsByUserId;
 const GetJobsById = UserJobController.getJobsById;
-const DeleteJob = UserJobController.deleteJobs;
+const DeleteJob = UserJobController.deleteJob;
 const EditJob = UserJobController.editJobs;
 export {
     CreateJob,

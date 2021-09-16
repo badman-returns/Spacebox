@@ -3,12 +3,10 @@ import { Grid, CardContent, Typography, Card, Tabs, Tab, Drawer } from '@materia
 import { makeStyles } from '@material-ui/core/styles';
 import { FetchGitHubProjects } from '../../services/github.service';
 import { GetPostByUserId } from '../../services/post.service';
-import { GetJobByUserId } from '../../services/job.service';
 import { useSelector, useDispatch } from "react-redux";
 import { setProjects } from '../../store/actions/projectActions';
 import { setPostById } from '../../store/actions/postAction';
-import { setUserJobs } from '../../store/actions/jobAction';
-import {htmlParser} from '../../utility/html-parser';
+import JobList from '../job-lists/JobList';
 import Post from '../posts/Post';
 import Chip from '@material-ui/core/Chip';
 
@@ -18,9 +16,7 @@ const ProjectsAndActivities = (props) => {
     let userGitProjects = useSelector((state => state.githubProjects.projects));
     let { role, _id } = useSelector((state => state.profileInfo.user));
     let posts = [];
-    let jobs = [];
     posts = useSelector((state => state.userPosts.posts));
-    jobs = useSelector((state => state.userJobs.jobs));
 
     const [done, setDone] = useState(false);
 
@@ -44,15 +40,18 @@ const ProjectsAndActivities = (props) => {
     }
 
     const GetProjectData = async () => {
-        try {
-            const response = await FetchGitHubProjects(repos_url);
-            if (response.status === 200) {
-                dispatch(setProjects(response.data));
+        if (role === 'developer') {
+            try {
+                const response = await FetchGitHubProjects(repos_url);
+                if (response.status === 200) {
+                    dispatch(setProjects(response.data));
+                }
+                setDone(true);
+            } catch (error) {
+                console.log(error);
             }
-            setDone(true);
-        } catch (error) {
-            console.log(error);
         }
+
     };
 
     const GetPostsById = async () => {
@@ -61,28 +60,15 @@ const ProjectsAndActivities = (props) => {
             if (response.status === 200) {
                 dispatch(setPostById(response.data.ResponseData));
             }
+            setDone(true);
         } catch (error) {
             console.log(error);
-        }
-    };
-
-    const GetJobsByUserId = async () => {
-        if (role !== 'developer') {
-            try {
-                const response = await GetJobByUserId(_id);
-                if (response.status === 200) {
-                    dispatch(setUserJobs(response.data.ResponseData));
-                }
-            } catch (error) {
-                console.log(error);
-            }
         }
     };
 
     useEffect(() => {
         GetProjectData();
         GetPostsById();
-        GetJobsByUserId();
         return () => {
             setValue(0);
         }
@@ -115,7 +101,7 @@ const ProjectsAndActivities = (props) => {
     return (
         <div>
             <div>
-                {done && (<Card >
+                {done &&(<Card >
                     <CardContent>
                         <Grid container justifyContent='center'>
                             <Tabs
@@ -131,7 +117,7 @@ const ProjectsAndActivities = (props) => {
                                 <Tab label="Activities" />
                             </Tabs>
                         </Grid>
-                        <Grid container>
+                        <Grid container style={{ marginTop: '10px' }}>
                             <Grid item xs={12}>
                                 {value === 0 && role === 'developer' && (<Grid container spacing={2}>
                                     {projects.reverse().map((project) => (
@@ -144,7 +130,7 @@ const ProjectsAndActivities = (props) => {
                                                                 <Typography className={classes.name} variant='h5'>{project.name}</Typography>
                                                             </Grid>
                                                             <Grid item xs={12}>
-                                                                <div className={classes.hideLongText}><Typography>{project.description}</Typography></div>
+                                                                <div className={classes.hideLongText}><Typography variant='body1'>{project.description}</Typography></div>
                                                                 <Drawer />
                                                             </Grid>
                                                             <Grid item xs={3}>
@@ -159,30 +145,10 @@ const ProjectsAndActivities = (props) => {
                                 </Grid>)}
                             </Grid>
                             <Grid item xs={12}>
-                                {value === 0 && role === 'recruiter' && (<Grid container spacing={2}>
-                                    {jobs.reverse().map((job) => (
-                                        <Grid item xs={12} lg={4} key={job.id}>
-                                                <Card>
-                                                    <CardContent>
-                                                        <Grid container spacing={2}>
-                                                            <Grid item xs={12}>
-                                                                <Typography className={classes.name} variant='h5'>{job.title}</Typography>
-                                                            </Grid>
-                                                            <Grid item xs={12}>
-                                                                <Typography className={classes.name} variant='h6'>{job.company}</Typography>
-                                                            </Grid>
-                                                            <Grid item xs={12}>
-                                                                <div className={classes.hideLongText}><Typography>{htmlParser(job.description)}</Typography></div>
-                                                                <Drawer />
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <Chip color='primary' label={job.location} />
-                                                            </Grid>
-                                                        </Grid>
-                                                    </CardContent>
-                                                </Card>
-                                        </Grid>
-                                    ))}
+                                {value === 0 && role === 'recruiter' && (<Grid container justifyContent='center' spacing={2}>
+                                    <Grid item lg={6} xl={5}>
+                                        <JobList allJobs={false} profile={true} />
+                                    </Grid>
                                 </Grid>)}
                             </Grid>
                         </Grid>

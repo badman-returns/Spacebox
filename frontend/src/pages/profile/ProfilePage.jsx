@@ -56,17 +56,17 @@ const ProfilePage = () => {
     }, [userId]);
 
     return (
-        <div className={classes.root}>
+        <Grid className={classes.root}>
             <Grid container>
                 <Grid item xs={1} className={classes.panel}>
                 </Grid>
                 <Grid item xs={10} className={classes.feed}>
-                    <Grid container-fluid justifyContent="center" alignItems="center">
+                    <Grid container justifyContent="center" alignItems="center">
                         {done && (
-                            <div>
+                            <Grid>
                                 <Grid item className={classes.item}><Profile /></Grid>
                                 <Grid item className={classes.item}><ProjectsAndActivities /></Grid>
-                            </div>
+                            </Grid>
                         )}
                     </Grid>
                 </Grid>
@@ -74,7 +74,7 @@ const ProfilePage = () => {
                 </Grid>
             </Grid>
 
-        </div>
+        </Grid>
     )
 }
 

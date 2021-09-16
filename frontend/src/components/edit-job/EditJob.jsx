@@ -6,39 +6,32 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
-import Typography from '@material-ui/core/Typography';
-import { GetPostByUserId, EditPostById } from '../../services/post.service';
-import { setPostById } from '../../store/actions/postAction';
+import TextField from '@material-ui/core/TextField';
+import { EditJobService, GetJobByUserId } from '../../services/job.service';
+import { setUserJobs } from '../../store/actions/jobAction';
 import { useDispatch } from 'react-redux';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
+import ReactQuill from 'react-quill';
+import '../../../node_modules/react-quill/dist/react-quill';
 
-const EditPost = ({
+const EditJob = ({
     SetOpen,
     handleClose,
-    title,
+    heading,
     data,
     toasterSuccess,
     toasterFailure
 }) => {
 
-    const [content, setContent] = useState('');
-    const [files, setFiles] = useState(null);
-    const [selectedFile, setSelectedFile] = useState(null)
     const dispatch = useDispatch();
+    const descriptionRef = useRef();
+    const [title, setTitle] = useState(false);
+    const [company, setCompany] = useState(false);
+    const [location, setLocation] = useState(false);
+    const [description, setDescription] = useState(false);
     const [open, setOpen] = useState(false);
-    const inputRef = useRef();
-
-
-    const onFileChange = (event) => {
-        if (event.target.files.length > 0) {
-            const files = event.target.files[0];
-            setFiles(files);
-            setSelectedFile(URL.createObjectURL(event.target.files[0]))
-        }
-    };
 
 
     const handleStopLoader = () => {
@@ -50,19 +43,20 @@ const EditPost = ({
 
     const handleSave = async () => {
         handleStartLoader();
-        const formData = new FormData();
-        if (selectedFile) {
-            formData.append('edit', files);
+        const editedData = {
+            title: title,
+            company: company,
+            location: location,
+            description: description,
+            userId: data.createdBy._id,
         }
-        formData.append('content', content);
-        formData.append('userId', data.userId);
 
         try {
-            const editResponse = await EditPostById(data.id, formData);
+            const editResponse = await EditJobService(data._id, editedData);
             if (editResponse.status === 200) {
-                const response = await GetPostByUserId( data.userId._id)
+                const response = await GetJobByUserId(data.createdBy._id)
                 if (response.status === 200) {
-                    dispatch(setPostById(response.data.ResponseData));
+                    dispatch(setUserJobs(response.data.ResponseData));
                     handleStopLoader();
                     handleClose();
                     toasterSuccess(editResponse.data.ResponseMessage);
@@ -70,16 +64,23 @@ const EditPost = ({
             }
         } catch (error) {
             toasterFailure('Something went wrong');
+            handleStopLoader();
             console.log(error);
         }
     }
 
     const setDefault = () => {
-        setContent('');
+        setTitle('');
+        setCompany('');
+        setLocation('');
+        setDescription('');
     }
 
     useEffect(() => {
-        setContent(data.content);
+        setTitle(data.title);
+        setCompany(data.company)
+        setLocation(data.location);
+        setDescription(data.description)
         return () => {
             setDefault();
         }
@@ -95,52 +96,42 @@ const EditPost = ({
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{heading}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    <Grid container justifyContent='center'>
-                        {data.imageURL && selectedFile == null && (
-                            <img src={data.imageURL} alt='profilepic' style={{
-                                width: '50%',
-                            }} />
-                        )
-                        }
-                        {selectedFile && (
-                            <img src={selectedFile} alt='profilepic' style={{
-                                width: '50%',
-                            }} />
-                        )}
-                        {!selectedFile && data.imageURL === '' && (
-                            <Typography variant='h6'>Add Picture</Typography>
-                        )}
-                    </Grid>
-                    <Grid container justifyContent='center'>
-                        <Grid item>
-                            <input
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                id="file-input"
-                                multiple
-                                type="file"
-                                onChange={onFileChange}
-                            />
-                            <div>
-                                <Button style={{ margin: '10px 0px' }} variant='contained' color="primary">
-                                    <label htmlFor="file-input" style={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        justifyContent: 'center',
-                                        cursor: 'pointer'
-                                    }}>
-                                        <PhotoCameraIcon />Upload
-                                    </label>
-                                </Button>
-                            </div>
-                        </Grid>
-                    </Grid>
                     <Grid container justifyContent='center' spacing={2}>
                         <Grid item xs={12}>
-                                <textarea value={content} ref={inputRef} className={classes.inputBox} onInput={(e) => setContent(e.target.value)} />
+                            <TextField
+                                label="Title"
+                                variant="outlined"
+                                fullWidth
+                                value={title}
+                                onInput={(e) => setTitle(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Company"
+                                variant="outlined"
+                                fullWidth
+                                value={company}
+                                onInput={(e) => setCompany(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Location"
+                                variant="outlined"
+                                fullWidth
+                                value={location}
+                                onInput={(e) => setLocation(e.target.value)}
+                            />
+                            <Grid item lg={12}>
+                                <ReactQuill ref={descriptionRef}
+                                    value={description}
+                                    onChange={(e) => setDescription(e)}
+                                />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </DialogContentText>
@@ -199,4 +190,4 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default EditPost;
+export default EditJob;

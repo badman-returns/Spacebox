@@ -10,7 +10,7 @@ import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { EditProfileService, GetProfileService } from '../../services/profile.service';
-import { setUserInfo } from '../../store/actions/userActions';
+import { setUserInfo, setUserProfile } from '../../store/actions/userActions';
 import { useDispatch } from 'react-redux';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -63,10 +63,11 @@ const EditProfile = ({
         try {
             const response = await EditProfileService(formData);
             const responseData = await GetProfileService(data._id)
-            dispatch(setUserInfo(responseData));
+            dispatch(setUserInfo(responseData.data.ResponseData));
+            dispatch(setUserProfile(responseData.data.ResponseData));
+            toaster(response);
             handleStopLoader();
             handleClose();
-            toaster(response);
         } catch (error) {
             console.log(error);
         }

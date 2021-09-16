@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Card, CssBaseline, CardContent, Typography, Avatar, Divider } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import AlertDialog from '../alert-dialog/AlertDialog';
+import DeleteDialog from '../delete-dialog/DeleteDialog';
 import { DeletePostById } from '../../services/post.service';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -169,7 +169,7 @@ const Post = (props) => {
                 </CardContent>
             </Card>
 
-            <AlertDialog
+            <DeleteDialog
                 SetOpen={openConfirmationDialog}
                 handleClose={() => setOpenConfirmationDialog(false)}
                 title="Delete Post"

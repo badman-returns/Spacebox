@@ -25,7 +25,7 @@ function Job() {
                         <AddJobs handleJobRefresh={handleJobRefresh} />
                     </Grid>
                     <Grid item lg={4}>
-                        <JobList refreshJobData={refreshJobData} />
+                        <JobList refreshJobData={refreshJobData} allJobs={true} profile={false}/>
                     </Grid>
                     <Grid item lg={5}>
                         <JobDetails />
@@ -38,7 +38,7 @@ function Job() {
                 (
                     <>
                         <Grid item lg={5}>
-                            <JobList refreshJobData={refreshJobData} />
+                            <JobList refreshJobData={refreshJobData} allJobs={true} profile={false}/>
                         </Grid>
                         <Grid item lg={7}>
                             <JobDetails />

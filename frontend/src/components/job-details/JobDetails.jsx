@@ -11,19 +11,18 @@ const JobDetails = () => {
 
 
     const selectedJob = useSelector(state => state.currentJob.job);
-    console.log(selectedJob);
+
     let currentJob;
     if (selectedJob !== undefined && selectedJob !== null) {
         currentJob = selectedJob[0];
     }
 
-
     const classes = useStyles();
 
     return (
-        <div>
+        <>
             <CssBaseline />
-            {currentJob !== null && currentJob !== undefined && (<Card style={{ height: '92vh', overflow: 'auto' }}>
+            {currentJob && (<Card style={{ height: '92vh', overflow: 'auto' }}>
                 <CardContent>
                     <Grid container spacing={4}>
                         <Grid item xs={12}>
@@ -42,21 +41,19 @@ const JobDetails = () => {
                                     </Grid>
                                     <Grid container justifyContent='space-between'>
                                         <Grid item >
-                                            <Typography variant='body'>
-                                                Posted By  &nbsp;
-                                                <Grid container alignItems='center' spacing={1}>
-                                                    <Grid item>
-                                                        <Link className={classes.user} to={`/in/profile/${currentJob.createdBy._id}`}>
-                                                            <Avatar src={currentJob.createdBy.picURL ? currentJob.createdBy.picURL : ''} />
-                                                        </Link>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Typography variant="body" component="h3">
-                                                            <Link className={classes.user} to={`/in/profile/${currentJob.createdBy._id}`}>{currentJob.createdBy.name}</Link>
-                                                        </Typography>
-                                                    </Grid>
+                                            Posted By  &nbsp;
+                                            <Grid container alignItems='center' spacing={1}>
+                                                <Grid item>
+                                                    <Link className={classes.user} to={`/in/profile/${currentJob.createdBy._id}`}>
+                                                        <Avatar src={currentJob.createdBy.picURL ? currentJob.createdBy.picURL : ''} />
+                                                    </Link>
                                                 </Grid>
-                                            </Typography>
+                                                <Grid item>
+                                                    <Typography variant="body1">
+                                                        <Link className={classes.user} to={`/in/profile/${currentJob.createdBy._id}`}>{currentJob.createdBy.name}</Link>
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
                                         </Grid>
                                         <Grid item>
                                             <b>{moment(currentJob.createdOn).format('DD-MM-YYYY')}</b>
@@ -88,7 +85,6 @@ const JobDetails = () => {
                             </Grid >
                         </Grid>
                     </Grid>
-
                 </CardContent>
             </Card>)}
             {!currentJob && (
@@ -96,7 +92,7 @@ const JobDetails = () => {
                     <Typography variant='h5'>Select Job <ArrowForwardIcon /> to view Job Description</Typography>
                 </Grid>
             )}
-        </div>
+        </>
     )
 }
 
@@ -105,7 +101,11 @@ const useStyles = makeStyles((theme) => ({
     user: {
         textDecoration: 'none',
         color: '#000'
-    }
+    },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+    },
 }));
 
 export default JobDetails
