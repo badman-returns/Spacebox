@@ -105,7 +105,7 @@ const RegisterLogin = () => {
             try {
                 const response = await RegistrationService(registrationData);
                 if (response.status === 200){
-                    setRegistrationSuccess(response);
+                    setRegistrationSuccess(response.data.ResponseData);
                 }
             } catch (error) {
                 console.log(error);
