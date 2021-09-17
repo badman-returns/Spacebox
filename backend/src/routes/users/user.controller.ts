@@ -51,13 +51,13 @@ class CommonController {
                     cc: [],
                     bcc: []
                 },
-                subject: `Easy Account Email Verification`,
+                subject: `Spacebox Account Email Verification`,
                 content: `Please click on the link to verify your email address within one hour of recieving it:\n` +
                     `Activate your account by clicking on the link above\n\n` +
                     `${verificationLink}\n\n` +
                     `Regards\n` +
-                    `Support Team\n` +
-                    `Easy`
+                    `Trishnangshu\n` +
+                    `Spacebox`
             }
             await Mailer.sendEmail(mailData);
             response = {
@@ -202,14 +202,14 @@ class CommonController {
                     cc: [],
                     bcc: []
                 },
-                subject: `Easy Developer Account Password Reset`,
+                subject: `Spacebox Account Password Reset`,
                 content: `You are receiving this mail because you (or someone else) have requested the reset of the password for your account.\n\n` +
                     `Please click on the link within one hour of recieving it:\n\n ` +
                     `${verificationLink}\n\n` +
                     `If you did not request this, please ignore this email and your password will remail unchanged.\n` +
                     `Regards\n` +
-                    `Support Team` +
-                    `Easy`
+                    `Trishnangshu` +
+                    `Spacebox`
             }
             await Mailer.sendEmail(mailData);
             response = {

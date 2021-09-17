@@ -281,7 +281,7 @@ const RegisterLogin = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <Grid container justifyContent="center">
-                                {signIn && <Link href="#" variant="body2">
+                                {signIn && <Link href="/#/forget-password" variant="body2">
                                     Forget Password
                                 </Link>}
                             </Grid>

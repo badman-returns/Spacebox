@@ -7,6 +7,8 @@ import ScrollToTop from './utility/scroll-to-top';
 import VerifyEmail from './pages/home/VerifyEmail';
 import BottomNav from './components/bottom-navigation/BottomNav';
 import { makeStyles } from '@material-ui/core';
+import ForgetPassword from './pages/forget-password/ForgetPassword';
+import ResetPassword from './pages/forget-password/ResetPassword';
 
 const useStyles = makeStyles((theme) => ({
   bottomNav: {
@@ -37,6 +39,18 @@ const App = () => {
 
         <Route exact path='/verify-email/:userId/:token'>
           <VerifyEmail />
+        </Route>
+
+        <Route exact path='/forget-password'>
+          <div className={classes.root}>
+            <ForgetPassword />
+          </div>
+        </Route>
+
+        <Route exact path='/password-reset/:userId/:token'>
+          <div className={classes.root}>
+            <ResetPassword />
+          </div>
         </Route>
 
         <Route path='/'>
