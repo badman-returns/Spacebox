@@ -126,7 +126,7 @@ const EditJob = ({
                                 value={location}
                                 onInput={(e) => setLocation(e.target.value)}
                             />
-                            <Grid item lg={12}>
+                            <Grid item lg={12} style={{margin:'10px'}}>
                                 <ReactQuill ref={descriptionRef}
                                     value={description}
                                     onChange={(e) => setDescription(e)}
