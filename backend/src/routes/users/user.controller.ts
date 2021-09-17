@@ -15,7 +15,7 @@ class CommonController {
         const techStack = req.body.techStack || null;
         const company = req.body.company || null;
         const password = Encryption.encryptPassword(req.body.password);
-    
+
         let role;
         if (githubId == null && techStack == null) {
             role = 'recruiter';
@@ -23,52 +23,59 @@ class CommonController {
             role = 'developer';
         }
 
-        let response: ResponseObject<any>;
-
-        try {
-            const user = await Users.create({
-                name,
-                email,
-                role,
-                githubId,
-                techStack,
-                company,
-                password,
+        let user = await Users.findOne({ email: email });
+        if (user) {
+            return res.status(401).send({
+                msg: 'User already exists',
             });
+        } else {
+            let response: ResponseObject<any>;
 
-            let token = await Token.findOne({ userId: user._id });
-            if (!token) {
-                token = await new Token({
-                    userId: user._id,
-                    token: await Encryption.createToken({ userId: user._id }),
-                }).save();
+            try {
+                const user = await Users.create({
+                    name,
+                    email,
+                    role,
+                    githubId,
+                    techStack,
+                    company,
+                    password,
+                });
+
+                let token = await Token.findOne({ userId: user._id });
+                if (!token) {
+                    token = await new Token({
+                        userId: user._id,
+                        token: await Encryption.createToken({ userId: user._id }),
+                    }).save();
+                }
+                token = await Token.find({ userId: user._id }, { token: 1 })
+                const verificationLink = `${process.env.BASE_URL}/verify-email/${user._id}/${token[0]._doc.token}`;
+                const mailData: MailRequestModel = {
+                    reciever: {
+                        to: email,
+                        cc: [],
+                        bcc: []
+                    },
+                    subject: `Spacebox Account Email Verification`,
+                    content: `Please click on the link to verify your email address within one hour of recieving it:\n` +
+                        `Activate your account by clicking on the link above\n\n` +
+                        `${verificationLink}\n\n` +
+                        `Regards\n` +
+                        `Trishnangshu\n` +
+                        `Spacebox`
+                }
+                await Mailer.sendEmail(mailData);
+                response = {
+                    ResponseData: null,
+                    ResponseMessage: `Email verification link sent to ${email} address. Activate account by verifying email.`,
+                }
+                return res.send(response);
             }
-            token = await Token.find({ userId: user._id }, { token: 1 })
-            const verificationLink = `${process.env.BASE_URL}/verify-email/${user._id}/${token[0]._doc.token}`;
-            const mailData: MailRequestModel = {
-                reciever: {
-                    to: email,
-                    cc: [],
-                    bcc: []
-                },
-                subject: `Spacebox Account Email Verification`,
-                content: `Please click on the link to verify your email address within one hour of recieving it:\n` +
-                    `Activate your account by clicking on the link above\n\n` +
-                    `${verificationLink}\n\n` +
-                    `Regards\n` +
-                    `Trishnangshu\n` +
-                    `Spacebox`
+            catch (error) {
+                console.log(error);
+                return res.status(500).end();
             }
-            await Mailer.sendEmail(mailData);
-            response = {
-                ResponseData: null,
-                ResponseMessage: `Email verification link sent to ${email} address. Activate account by verifying email.`,
-            }
-            return res.send(response);
-        }
-        catch (error) {
-            console.log(error);
-            return res.status(500).end();
         }
     }
 
@@ -96,7 +103,7 @@ class CommonController {
                     userId: userId,
                     token: activationToken
                 });
-    
+
                 if (!validToken) {
                     return res.status(400).send('Invalid Token or Expired');
                 }

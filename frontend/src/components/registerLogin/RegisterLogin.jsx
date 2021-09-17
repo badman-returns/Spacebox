@@ -18,6 +18,9 @@ import BaseService from '../../services/base.service';
 import { useDispatch } from "react-redux";
 import { setUserInfo } from '../../store/actions/userActions';
 import { useHistory } from 'react-router';
+import { toast, ToastContainer } from 'react-toastify'
+import { FetchGithubProfile } from '../../services/github.service';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterLogin = () => {
     const classes = useStyles();
@@ -79,7 +82,33 @@ const RegisterLogin = () => {
                 sendLoginData();
             }
         }
+    }
 
+    const ValidateGithubProfile = async () => {
+        try {
+            const response = await FetchGithubProfile(githubId);
+            console.log(response);
+            if (response.status === 200) {
+                return response;
+            } else {
+                toast.error('Invalid Git Username');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const sendRegistrationDataService = async (registrationData) => {
+        try {
+            const response = await RegistrationService(registrationData);
+            if (response.status === 200) {
+                return response;
+            } else {
+                toast.error(`Email already exist`);
+            }
+        } catch (error) {
+            return error;
+        }
     }
 
     const sendRegistrationData = async () => {
@@ -92,9 +121,12 @@ const RegisterLogin = () => {
         if (role === 'developer') {
             Object.assign(registrationData, { githubId: githubId });
             try {
-                const response = await RegistrationService(registrationData);
-                if (response.status === 200){
-                    setRegistrationSuccess(response.data.ResponseData);
+                const response = await ValidateGithubProfile(githubId);
+                if (response.status === 200) {
+                    const response = await sendRegistrationDataService(registrationData);
+                    if (response.status === 200) {
+                        setRegistrationSuccess(response.data.ResponseData);
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -104,7 +136,7 @@ const RegisterLogin = () => {
             Object.assign(registrationData, { company: company });
             try {
                 const response = await RegistrationService(registrationData);
-                if (response.status === 200){
+                if (response.status === 200) {
                     setRegistrationSuccess(response.data.ResponseData);
                 }
             } catch (error) {
@@ -117,9 +149,12 @@ const RegisterLogin = () => {
         if (email !== '' && password !== '') {
             try {
                 let response = await BaseService.login(email, password);
-                dispatch(setUserInfo(response));
-                history.push('/in/feed');
+                if (response.status === 200) {
+                    dispatch(setUserInfo(response.data));
+                    history.push('/in/feed');
+                }
             } catch (error) {
+                toast.error('Incorrect Password or No Account');
                 console.log(error);
             }
         }
@@ -129,7 +164,7 @@ const RegisterLogin = () => {
         <Container component="main" maxWidth={registrationSuccess ? 'lg' : 'xs'}>
             <CssBaseline />
             <div className={classes.paper}>
-                <img  className={classes.logo} src={process.env.PUBLIC_URL + 'logo.png'} alt='logo' />
+                <img className={classes.logo} src={process.env.PUBLIC_URL + 'logo.png'} alt='logo' />
                 <img className={classes.navlogo} src={process.env.PUBLIC_URL + 'navlogo.png'} alt='logo' />
                 {!registrationSuccess && (<form className={classes.form} onSubmit={handleRegisterAndLogin}>
                     <Grid container spacing={2}>
@@ -140,7 +175,6 @@ const RegisterLogin = () => {
                                         autoComplete="name"
                                         name="Name"
                                         variant="outlined"
-                                        required
                                         fullWidth
                                         id="Name"
                                         label="Full Name"
@@ -157,7 +191,7 @@ const RegisterLogin = () => {
                                             id="Role"
                                             label="Role"
                                             value={role}
-                                            required='true'
+                                            required={true}
                                             onChange={handleRoleChange}
                                             error={validationState && role === ''}
                                         >
@@ -291,10 +325,22 @@ const RegisterLogin = () => {
                 {registrationSuccess && (
                     <Typography variant='h6'>{registrationSuccess}</Typography>
                 )}
+                
             </div>
             <Box mt={5}>
                 <Copyright />
             </Box>
+            <ToastContainer
+                    position="bottom-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
         </Container>
     );
 }

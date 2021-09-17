@@ -5,7 +5,6 @@ import { Card, CardContent, Grid, Typography, Divider, CssBaseline, Avatar } fro
 import { useSelector } from 'react-redux';
 import { htmlParser } from '../../utility/html-parser';
 import { makeStyles } from '@material-ui/core/styles';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const JobDetails = () => {
 
@@ -87,11 +86,6 @@ const JobDetails = () => {
                     </Grid>
                 </CardContent>
             </Card>)}
-            {!currentJob && (
-                <Grid container justifyContent='center' alignItems='center'>
-                    <Typography variant='h5'>Select Job <ArrowForwardIcon /> to view Job Description</Typography>
-                </Grid>
-            )}
         </>
     )
 }

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import Post from '../../components/posts/Post';
 import { setPosts } from '../../store/actions/postAction';
 import { GetPost, createPost } from '../../services/post.service';
-import { Card, CardContent, Typography, Button } from '@material-ui/core';
+import { Container, Card, CardContent, Typography, Button } from '@material-ui/core';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import SendIcon from '@material-ui/icons/Send';
@@ -48,7 +48,7 @@ const Feed = () => {
                 setUploading(true);
                 setSelectedFile(null);
                 let postEditResponse = await createPost(formData);
-                if (postEditResponse.status === 200){
+                if (postEditResponse.status === 200) {
                     setContent(null);
                     setFiles(null);
                 }
@@ -134,9 +134,19 @@ const Feed = () => {
                                 </Card>
                             </Grid>
                         )}
-                        {!loading && posts.length && posts.map((post) => (
-                            <Grid item className={classes.post} key={post._id}><Post id={post.userId._id} name={post.userId.name} avatarURL={post.userId.picURL} content={post.content} imageURL={post.imageURL} /></Grid>
-                        ))}
+                        <Container>
+                            {!loading && posts && posts.length && posts.map((post) => (
+                                <Grid container spacing={4}>
+                                    <Grid item className={classes.post} key={post._id}>
+                                        <Post id={post.userId._id}
+                                            name={post.userId.name}
+                                            avatarURL={post.userId.picURL}
+                                            content={post.content}
+                                            imageURL={post.imageURL} />
+                                    </Grid>
+                                </Grid>
+                            ))}
+                        </Container>
                     </Grid>
                 </Grid>
                 <Grid item xs={1} lg={3} xl={4} className={classes.feed}>

@@ -49,7 +49,6 @@ const AddJobs = ({ handleJobRefresh }) => {
     return (
         <Grid container justifyContent='center' alignItems='center' >
             <CssBaseline />
-            {/* <Grid item xl={9} lg={10}> */}
                 <Card style={{ height: '92vh', overflow: 'auto' }}>
                     <CardContent>
                         <Grid container spacing={3}>
@@ -97,7 +96,6 @@ const AddJobs = ({ handleJobRefresh }) => {
                         </Grid>
                     </CardContent>
                 </Card>
-            {/* </Grid> */}
         </Grid >
     )
 }

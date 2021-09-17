@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, CardContent, Typography, Card, Tabs, Tab, Drawer } from '@material-ui/core'
+import { Grid, CardContent, Typography, Card, Tabs, Tab, Drawer, Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { FetchGitHubProjects } from '../../services/github.service';
 import { GetPostByUserId } from '../../services/post.service';
@@ -101,7 +101,7 @@ const ProjectsAndActivities = (props) => {
     return (
         <div>
             <div>
-                {done &&(<Card >
+                {done && (<Card >
                     <CardContent>
                         <Grid container justifyContent='center'>
                             <Tabs
@@ -156,26 +156,28 @@ const ProjectsAndActivities = (props) => {
                             <Grid item xs={1} lg={2} xl={3} className={classes.panel}>
                             </Grid>
                             <Grid item xs={10} lg={8} xl={6} className={classes.feed}>
-                                <Grid container spacing={2} justifyContent="center" alignItems="center">
+                                <Container>
                                     {posts && posts.length && posts.map((post) => (
-                                        <div key={post._id}>
+                                        <Container key={post._id}>
                                             {post.userId._id === _id && (
-                                                <Grid item className={classes.post}>
-                                                    <Post
-                                                        id={post._id}
-                                                        userId={post.userId._id}
-                                                        name={post.userId.name}
-                                                        activity={true}
-                                                        avatarURL={post.userId.picURL}
-                                                        content={post.content}
-                                                        imageId={post.imageId}
-                                                        imageURL={post.imageURL}
-                                                        getPosts={GetPostsById} />
+                                                <Grid container spacing={4}>
+                                                    <Grid item className={classes.post}>
+                                                        <Post
+                                                            id={post._id}
+                                                            userId={post.userId._id}
+                                                            name={post.userId.name}
+                                                            activity={true}
+                                                            avatarURL={post.userId.picURL}
+                                                            content={post.content}
+                                                            imageId={post.imageId}
+                                                            imageURL={post.imageURL}
+                                                            getPosts={GetPostsById} />
+                                                    </Grid>
                                                 </Grid>
                                             )}
-                                        </div>
+                                        </Container>
                                     ))}
-                                </Grid>
+                                </Container>
                             </Grid>
                             <Grid item xs={1} lg={2} xl={3} className={classes.feed}>
                             </Grid>

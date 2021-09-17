@@ -127,74 +127,71 @@ const JobList = ({ allJobs, refreshJobData, profile }) => {
     return (
         <Grid container justifyContent='flex-start' alignItems='center' >
             <CssBaseline />
-            {allJobs === true && (<Card style={{ height: '92vh', overflow: 'auto' }}>
-                <CardContent>
-                    <Grid container spacing={1}>
-                        {jobs && jobs.length && jobs.map((job) =>
-                        (<Grid item lg={12} key={job._id}>
-                            <Card>
-                                <CardContent>
-                                    <Grid container>
-                                        <Grid item lg={12}>
-                                            <Grid container>
-                                                <Grid item lg={6}>
-                                                    <Grid container justifyContent='flex-start'>
-                                                        <Typography variant='h6'>
-                                                            {job.title}
-                                                        </Typography>
+            {allJobs === true && !loading && (
+                <Card style={{ height: '92vh', overflow: 'auto' }}>
+                    <CardContent>
+                        <Grid container spacing={1}>
+                            {jobs.map((job) =>
+                            (<Grid item lg={12} key={job._id}>
+                                <Card>
+                                    <CardContent>
+                                        <Grid container>
+                                            <Grid item lg={12}>
+                                                <Grid container>
+                                                    <Grid item lg={6}>
+                                                        <Grid container justifyContent='flex-start'>
+                                                            <Typography variant='h6'>
+                                                                {job.title}
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid item lg={6}>
+                                                        <Grid container justifyContent='flex-end'>
+                                                            <Typography variant='h6'>
+                                                                <Button onClick={() => handleCurrentJob(job._id)}>
+                                                                    <ArrowForwardIcon />
+                                                                </Button>
+                                                            </Typography>
+                                                        </Grid>
                                                     </Grid>
                                                 </Grid>
-                                                <Grid item lg={6}>
-                                                    <Grid container justifyContent='flex-end'>
-                                                        <Typography variant='h6'>
-                                                            <Button onClick={() => handleCurrentJob(job._id)}>
-                                                                <ArrowForwardIcon />
-                                                            </Button>
-                                                        </Typography>
-                                                    </Grid>
-                                                </Grid>
                                             </Grid>
-                                        </Grid>
-                                        <Grid item lg={12}>
-                                            <Grid container justifyContent='flex-start'>
-                                                <Typography variant='subtitle1'>
-                                                    {job.company}
-                                                </Typography>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item lg={12}>
-                                            <Grid container justifyContent='flex-start'>
-                                                <Typography variant='subtitle1'>
-                                                    {job.location}
-                                                </Typography>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item lg={12}>
-                                            <Grid container justifyContent='space-between'>
-                                                <Grid item>
-                                                    <Typography variant='body1'>
-                                                        Posted by <b>{job.createdBy.name}</b>
+                                            <Grid item lg={12}>
+                                                <Grid container justifyContent='flex-start'>
+                                                    <Typography variant='subtitle1'>
+                                                        {job.company}
                                                     </Typography>
                                                 </Grid>
-                                                <Grid item>
-                                                    Posted on <b>{moment(job.createdOn).format('DD-MM-YYYY')}</b>
+                                            </Grid>
+                                            <Grid item lg={12}>
+                                                <Grid container justifyContent='flex-start'>
+                                                    <Typography variant='subtitle1'>
+                                                        {job.location}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid item lg={12}>
+                                                <Grid container justifyContent='space-between'>
+                                                    <Grid item>
+                                                        <Typography variant='body1'>
+                                                            Posted by <b>{job.createdBy.name}</b>
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        Posted on <b>{moment(job.createdOn).format('DD-MM-YYYY')}</b>
+                                                    </Grid>
                                                 </Grid>
                                             </Grid>
                                         </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        ))}
-                        {loading && (
-                            <Grid container justifyContent='center' alignItems='center' className={classes.root}>
-                                <CircularProgress />
+                                    </CardContent>
+                                </Card>
                             </Grid>
-                        )}
-                    </Grid>
-                </CardContent>
-            </Card>)}
-            {userJobs && userJobs.length > 0 && allJobs === false &&
+                            ))}
+                        </Grid>
+                    </CardContent>
+                </Card>
+            )}
+            {userJobs && allJobs === false && !loading &&
                 (<Card style={{ height: '92vh', overflow: 'auto' }}>
                     <CardContent>
                         <Grid container spacing={1}>
@@ -253,11 +250,6 @@ const JobList = ({ allJobs, refreshJobData, profile }) => {
                                 </Card>
                             </Grid>
                             ))}
-                            {loading && (
-                                <Grid container justifyContent='center' alignItems='center' className={classes.root}>
-                                    <CircularProgress />
-                                </Grid>
-                            )}
                         </Grid>
                     </CardContent>
                 </Card>)}
