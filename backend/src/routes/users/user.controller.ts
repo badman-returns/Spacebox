@@ -1,7 +1,8 @@
 import { Encryption, Mailer } from '../../utility';
-import { Response } from "express";
+import { response, Response } from "express";
 import { ExtendedRequest, ResponseObject, TokenObject, MailRequestModel, User } from "../../interfaces";
 import { Users, Token } from "../../models";
+import { Github } from '../../utility/github';
 
 class CommonController {
     constructor() {
@@ -12,21 +13,32 @@ class CommonController {
         const name = req.body.name;
         const email = req.body.email;
         const githubId = req.body.githubId || null;
-        const techStack = req.body.techStack || null;
         const company = req.body.company || null;
         const password = Encryption.encryptPassword(req.body.password);
 
         let role;
-        if (githubId == null && techStack == null) {
+        if (githubId == null) {
             role = 'recruiter';
         } else {
             role = 'developer';
         }
 
-        let user = await Users.findOne({ email: email });
+        if (githubId !== null){
+            try {
+                const response = await Github.verifyGithubAccount(githubId);
+                if (response === false){
+                    return res.status(403).send(`Github Id not found`);
+                }
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+
+        let user = await Users.findOne({ githubId: githubId });
         if (user) {
             return res.status(401).send({
-                msg: 'User already exists',
+                msg: 'Github Id  already exists',
             });
         } else {
             let response: ResponseObject<any>;
@@ -37,7 +49,6 @@ class CommonController {
                     email,
                     role,
                     githubId,
-                    techStack,
                     company,
                     password,
                 });

@@ -21,11 +21,14 @@ const EditProfile = ({
     handleClose,
     title,
     data,
-    toaster
+    toasterSuccess,
+    toasterFailure
 }) => {
 
     const [name, setName] = useState('');
     const [bio, setBio] = useState('');
+    const [email, setEmail] = useState();
+    const [githubId, setGithubId] = useState();
     const [techStack, setTechStack] = useState('');
     const [files, setFiles] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null)
@@ -58,14 +61,21 @@ const EditProfile = ({
         }
         formData.append('name', name);
         formData.append('bio', bio);
+        formData.append('email', email);
+        formData.append('githubId', githubId);
         formData.append('techStack', techStack);
 
         try {
             const response = await EditProfileService(formData);
+            if (response.status !== 200){
+                toasterFailure('Git user not found');
+                handleStopLoader();
+                handleClose();
+            }
             const responseData = await GetProfileService(data._id)
             dispatch(setUserInfo(responseData.data.ResponseData));
             dispatch(setUserProfile(responseData.data.ResponseData));
-            toaster(response);
+            toasterSuccess(response);
             handleStopLoader();
             handleClose();
         } catch (error) {
@@ -77,12 +87,16 @@ const EditProfile = ({
         setName('');
         setBio('');
         setTechStack('');
+        setEmail('');
+        setGithubId('');
     }
 
     useEffect(() => {
         setName(data.name);
         setBio(data.bio);
         setTechStack(data.techStack);
+        setEmail(data.email);
+        setGithubId(data.githubId);
         return () => {
             setDefault();
         }
@@ -150,6 +164,24 @@ const EditProfile = ({
                                 fullWidth
                                 value={name}
                                 onInput={(e) => setName(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Email"
+                                variant="outlined"
+                                fullWidth
+                                value={email}
+                                onInput={(e) => setName(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Github"
+                                variant="outlined"
+                                fullWidth
+                                value={githubId}
+                                onInput={(e) => setGithubId(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>

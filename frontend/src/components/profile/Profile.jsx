@@ -25,8 +25,12 @@ const Profile = () => {
         }
     }
 
-    const toaster = (message) => {
+    const toasterSuccess = (message) => {
         toast.success(message);
+    }
+
+    const toasterFailure = (message) => {
+        toast.error(message);
     }
 
     const handleEdit = () => {
@@ -95,7 +99,8 @@ const Profile = () => {
                 SetOpen={openConfirmationDialog}
                 handleClose={() => setOpenConfirmationDialog(false)}
                 data={currentData}
-                toaster={toaster}
+                toasterSuccess={toasterSuccess}
+                toasterFailure={toasterFailure}
                 title="Edit Profile"
                 confirmButtonColorSecondary={false}
             />

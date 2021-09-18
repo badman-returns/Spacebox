@@ -30,6 +30,8 @@ class UserController {
         const file = req.file;
         const name = req.body.name;
         const bio = req.body.bio;
+        const email = req.body.email;
+        const githubId = req.body.githubId;
         const techStack = req.body.techStack !== "" ? (req.body.techStack).split(',') : null;
         let response: ResponseObject<any>;
         try {
@@ -38,7 +40,9 @@ class UserController {
                     $set: {
                         name,
                         bio,
-                        techStack
+                        techStack,
+                        email,
+                        githubId,
                     }
                 });
             } else {
@@ -51,6 +55,8 @@ class UserController {
                     $set: {
                         name,
                         bio,
+                        email,
+                        githubId,
                         picId,
                         picURL,
                         techStack
