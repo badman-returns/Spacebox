@@ -125,7 +125,7 @@ const RegisterLogin = () => {
                 if (response.status === 200) {
                     const response = await sendRegistrationDataService(registrationData);
                     if (response.status === 200) {
-                        setRegistrationSuccess(response.data.ResponseData);
+                        setRegistrationSuccess(response.data.ResponseMessage);
                     }
                 }
             } catch (error) {
@@ -137,7 +137,7 @@ const RegisterLogin = () => {
             try {
                 const response = await RegistrationService(registrationData);
                 if (response.status === 200) {
-                    setRegistrationSuccess(response.data.ResponseData);
+                    setRegistrationSuccess(response.data.ResponseMessage);
                 }
             } catch (error) {
                 console.log(error);

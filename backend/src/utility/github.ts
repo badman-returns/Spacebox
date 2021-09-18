@@ -11,6 +11,9 @@ class Github {
             if (response.status === 200) {
                 return true;
             }
+            else{
+                return false;
+            }
         } catch (error) {
             return false;
         }
