@@ -1,5 +1,5 @@
-import axios from "axios";
 import { checkSchema } from "express-validator";
+import { Github } from "../../../utility/github";
 import { ValidationResponder } from "../../../middleware/validation.response";
 
 class UserProfileValidator {
@@ -45,9 +45,12 @@ class UserProfileValidator {
                             if (value)
                                 return new Promise(async (resolve, reject) => {
                                     try {
-                                        const response = await axios.get(`${process.env.GITHUB_API}/users/${value}`);
-                                        if (response.status === 200) {
+                                        const response = await Github.verifyGithubAccount(value);
+                                        if (response === true) {
                                             resolve(true);
+                                        }
+                                        else {
+                                            resolve(false);
                                         }
                                     } catch (error) {
                                         reject(false);
