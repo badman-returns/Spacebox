@@ -23,18 +23,6 @@ class CommonController {
             role = 'developer';
         }
 
-        if (githubId !== null){
-            try {
-                const response = await Github.verifyGithubAccount(githubId);
-                if (response === false){
-                    return res.status(403).send(`Github Id not found`);
-                }
-            } catch (error) {
-                console.log(error);
-                
-            }
-        }
-
         let user = await Users.findOne({ githubId: githubId });
         if (user) {
             return res.status(401).send({
