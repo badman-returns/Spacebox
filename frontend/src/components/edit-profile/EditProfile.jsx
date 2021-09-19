@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
+import { FetchGithubProfile } from '../../services/github.service';
 
 const EditProfile = ({
     SetOpen,
@@ -66,9 +67,16 @@ const EditProfile = ({
         formData.append('techStack', techStack);
 
         try {
+            const githubResponse = await FetchGithubProfile(githubId);
+            if (githubResponse.status !== 200){
+                toasterFailure('Git user not found');
+                handleStopLoader();
+                handleClose();
+            }
+
             const response = await EditProfileService(formData);
             if (response.status !== 200) {
-                toasterFailure('Git user not found');
+                toasterFailure('Something went wrong');
                 handleStopLoader();
                 handleClose();
             }

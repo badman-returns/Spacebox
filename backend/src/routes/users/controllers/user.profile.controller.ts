@@ -32,20 +32,9 @@ class UserController {
         const name = req.body.name;
         const bio = req.body.bio || '';
         const email = req.body.email;
-        const githubId = req.body.githubId || '';
+        const githubId = req.body.githubId;
         const techStack = req.body.techStack !== "" ? (req.body.techStack).split(',') : '';
         let response: ResponseObject<any>;
-
-        if (githubId!== '' || githubId !== null){
-            try {
-                const response = await Github.verifyGithubAccount(githubId);
-                if (response === false){
-                    return res.status(404).send({msg: 'Github user not found'});
-                }
-            } catch (error) {
-                
-            }
-        }
         
         try {
             if (!file) {
