@@ -147,7 +147,7 @@ const ProjectsAndActivities = () => {
                                 <Container>
                                 {value === 0 && role === 'recruiter' && (
                                         <Grid container justifyContent='center' spacing={2}>
-                                            <Grid item xl={12}>
+                                            <Grid item xs={12}>
                                                 <JobList allJobs={false} profile={true} />
                                             </Grid>
                                         </Grid>
