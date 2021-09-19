@@ -67,20 +67,20 @@ const EditProfile = ({
 
         try {
             const response = await EditProfileService(formData);
-            if (response.status !== 200){
+            if (response.status !== 200) {
                 toasterFailure('Git user not found');
                 handleStopLoader();
                 handleClose();
             }
             const responseData = await GetProfileService(data._id)
-            if (responseData.status === 200){
+            if (responseData.status === 200) {
                 dispatch(setUserInfo(responseData.data.ResponseData));
                 dispatch(setUserProfile(responseData.data.ResponseData));
                 handleStopLoader();
                 handleClose();
             }
             toasterSuccess(response.data.ResponseMessage);
-            
+
         } catch (error) {
             console.log(error);
         }
@@ -178,15 +178,17 @@ const EditProfile = ({
                                 onInput={(e) => setName(e.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                label="Github"
-                                variant="outlined"
-                                fullWidth
-                                value={githubId}
-                                onInput={(e) => setGithubId(e.target.value)}
-                            />
-                        </Grid>
+                        {data.role === 'developer' && (
+                            <Grid item xs={12}>
+                                <TextField
+                                    label="Github"
+                                    variant="outlined"
+                                    fullWidth
+                                    value={githubId}
+                                    onInput={(e) => setGithubId(e.target.value)}
+                                />
+                            </Grid>
+                        )}
                         <Grid item xs={12}>
                             <TextField
                                 label="Bio"
