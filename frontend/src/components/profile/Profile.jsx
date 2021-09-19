@@ -35,7 +35,7 @@ const Profile = () => {
 
     const handleEdit = () => {
         setOpenConfirmationDialog(true);
-        setCurrentData(profileUser);
+        setCurrentData(loggedUser);
     }
 
     const useStyles = makeStyles((theme) => ({
