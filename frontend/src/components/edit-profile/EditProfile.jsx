@@ -67,13 +67,14 @@ const EditProfile = ({
         formData.append('techStack', techStack);
 
         try {
-            const githubResponse = await FetchGithubProfile(githubId);
-            if (githubResponse.status !== 200){
-                toasterFailure('Git user not found');
-                handleStopLoader();
-                handleClose();
+            if (data.role === 'developer') {
+                const githubResponse = await FetchGithubProfile(githubId);
+                if (githubResponse.status !== 200) {
+                    toasterFailure('Git user not found');
+                    handleStopLoader();
+                    handleClose();
+                }
             }
-
             const response = await EditProfileService(formData);
             if (response.status !== 200) {
                 toasterFailure('Something went wrong');
