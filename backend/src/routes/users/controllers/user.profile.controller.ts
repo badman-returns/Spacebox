@@ -36,7 +36,7 @@ class UserController {
         const techStack = req.body.techStack !== "" ? (req.body.techStack).split(',') : '';
         let response: ResponseObject<any>;
 
-        if (githubId!== ''){
+        if (githubId!== '' || githubId !== null){
             try {
                 const response = await Github.verifyGithubAccount(githubId);
                 if (response === false){
