@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Card, CssBaseline, CardContent, Typography, Avatar, Divider } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import DeleteDialog from '../delete-dialog/DeleteDialog';
+import DeleteDialog from '../alert-dialog/AlertDialog';
 import { DeletePostById } from '../../services/post.service';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';

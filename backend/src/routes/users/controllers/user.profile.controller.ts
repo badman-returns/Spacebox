@@ -29,10 +29,10 @@ class UserController {
         const userId = req.user._id;
         const file = req.file;
         const name = req.body.name;
-        const bio = req.body.bio;
+        const bio = req.body.bio || '';
         const email = req.body.email;
         const githubId = req.body.githubId;
-        const techStack = req.body.techStack !== "" ? (req.body.techStack).split(',') : null;
+        const techStack = req.body.techStack !== "" ? (req.body.techStack).split(',') : '';
         let response: ResponseObject<any>;
         try {
             if (!file) {

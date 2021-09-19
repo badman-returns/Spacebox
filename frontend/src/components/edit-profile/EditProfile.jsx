@@ -73,11 +73,14 @@ const EditProfile = ({
                 handleClose();
             }
             const responseData = await GetProfileService(data._id)
-            dispatch(setUserInfo(responseData.data.ResponseData));
-            dispatch(setUserProfile(responseData.data.ResponseData));
-            toasterSuccess(response);
-            handleStopLoader();
-            handleClose();
+            if (responseData.status === 200){
+                dispatch(setUserInfo(responseData.data.ResponseData));
+                dispatch(setUserProfile(responseData.data.ResponseData));
+                handleStopLoader();
+                handleClose();
+            }
+            toasterSuccess(response.data.ResponseMessage);
+            
         } catch (error) {
             console.log(error);
         }

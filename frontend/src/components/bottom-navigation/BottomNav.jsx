@@ -7,6 +7,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import WorkIcon from '@material-ui/icons/Work';
 import BaseService from '../../services/base.service';
 import { useSelector } from "react-redux";
+import AlertDialog from '../alert-dialog/AlertDialog';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +32,11 @@ export default function LabelBottomNavigation() {
 
     let firstName = name.split(' ')[0];
 
+    const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+
+    const handleLogout = () => {
+        setOpenConfirmationDialog(true);
+    }
 
     const logout = () => {
         BaseService.logout();
@@ -46,8 +53,16 @@ export default function LabelBottomNavigation() {
                 <BottomNavigationAction component={Link} to="/in/feed" label="Home" value="0" icon={<HomeIcon />} />
                 <BottomNavigationAction component={Link} to="/in/jobs" label="Jobs" value="1" icon={<WorkIcon />} />
                 <BottomNavigationAction component={Link} to={`/in/profile/${_id}`} label={firstName} value="2" icon={<Avatar className={classes.small} src={picURL} />} />
-                <BottomNavigationAction label="Logout" value="3" icon={<PowerSettingsNewIcon />} onClick={logout} />
+                <BottomNavigationAction label="Logout" value="3" icon={<PowerSettingsNewIcon />} onClick={handleLogout} />
             </BottomNavigation>
+            <AlertDialog
+                SetOpen={openConfirmationDialog}
+                handleClose={() => setOpenConfirmationDialog(false)}
+                title="Logout"
+                content="Are you sure want to logout?"
+                handleConfirm={logout}
+                confirmButtonColorSecondary={true}
+            />
         </AppBar>
     );
 }

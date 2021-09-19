@@ -45,12 +45,12 @@ class UserProfileValidator {
                             if (value)
                                 return new Promise(async (resolve, reject) => {
                                     try {
-                                        const response = await Github.verifyGithubAccount(value);
+                                        const response = await Github.verifyGithubAccount(value);                                        
                                         if (response === true) {
                                             resolve(true);
                                         }
                                         else {
-                                            resolve(false);
+                                            reject(false);
                                         }
                                     } catch (error) {
                                         reject(false);

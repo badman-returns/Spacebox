@@ -1,14 +1,14 @@
 import React from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import ProtectedRouter from './routes/router';
-import RegisterLoginPage from './pages/home/RegisterLoginPage';
-import Navbar from './components/navbar/Navbar';
 import ScrollToTop from './utility/scroll-to-top';
 import VerifyEmail from './pages/home/VerifyEmail';
-import BottomNav from './components/bottom-navigation/BottomNav';
 import { makeStyles } from '@material-ui/core';
 import ForgetPassword from './pages/forget-password/ForgetPassword';
 import ResetPassword from './pages/forget-password/ResetPassword';
+const BottomNav = React.lazy(() => import('./components/bottom-navigation/BottomNav'));
+const ProtectedRouter = React.lazy(() => import('./routes/router'));
+const RegisterLoginPage = React.lazy(() => import('./pages/home/RegisterLoginPage'));
+const Navbar = React.lazy(() => import('./components/navbar/Navbar'));
 
 const useStyles = makeStyles((theme) => ({
   bottomNav: {
@@ -27,15 +27,16 @@ const App = () => {
   return (
     <HashRouter>
       <Switch>
-
-        <Route path='/in'>
-          <Navbar />
-          <ScrollToTop />
-          <ProtectedRouter />
-          <div className={classes.bottomNav} >
-            <BottomNav />
-          </div>
-        </Route>
+          <Route path='/in'>
+            <section>
+              <Navbar />
+              <ScrollToTop />
+              <ProtectedRouter />
+              <div className={classes.bottomNav} >
+                <BottomNav />
+              </div>
+            </section>
+          </Route>
 
         <Route exact path='/verify-email/:userId/:token'>
           <VerifyEmail />
@@ -53,14 +54,16 @@ const App = () => {
           </div>
         </Route>
 
-        <Route path='/'>
-          <div className={classes.root}>
-            <RegisterLoginPage />
-          </div>
-        </Route>
+          <Route path='/'>
+            <section>
+              <div className={classes.root}>
+                <RegisterLoginPage />
+              </div>
+            </section>
+          </Route>
 
       </Switch>
-    </HashRouter>
+    </HashRouter >
   )
 }
 

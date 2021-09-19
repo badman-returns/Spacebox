@@ -70,53 +70,56 @@ const Profile = () => {
                                     <Grid container justifyContent='center'>
                                         {
                                             profileUser.picURL ? (<img src={profileUser.picURL} className={classes.profilePic} alt='profile' />) :
-                                                (<Typography variant='body2'>Click on edit to add picture</Typography>)
+                                                (<>
+                                                    <img src={process.env.PUBLIC_URL + 'user-portrait.png'} className={classes.profilePic} alt='nopic' />
+                                                </>
+                                                )
                                         }
-                                    </Grid>
-                                    <Grid container justifyContent='center'>
-                                        <Typography variant='h4'>{profileUser.name}</Typography>
-                                    </Grid>
-                                    <Grid container justifyContent='center'>
-                                        <Typography variant='body2'>{profileUser.bio}</Typography>
-                                    </Grid>
-                                    <Grid container justifyContent='center'>
-                                        {profileUser.role === 'developer' && profileUser && profileUser.techStack && profileUser.techStack.map((stack) => (
-                                            <Grid key={stack}>
-                                                <Chip className={classes.chips} label={stack} />
-                                            </Grid>
-                                        ))}
-                                    </Grid>
-                                    {permission && (<Grid container justifyContent='center'>
-                                        <Button className={classes.editPicButton} variant='contained' color="primary" onClick={handleEdit}><EditIcon />Edit</Button>
-                                    </Grid>)}
+                                                    </Grid>
+                                                    <Grid container justifyContent='center'>
+                                                        <Typography variant='h4'>{profileUser.name}</Typography>
+                                                    </Grid>
+                                                    <Grid container justifyContent='center'>
+                                                        <Typography variant='body2'>{profileUser.bio}</Typography>
+                                                    </Grid>
+                                                    <Grid container justifyContent='center'>
+                                                        {profileUser.role === 'developer' && profileUser && profileUser.techStack && profileUser.techStack.map((stack) => (
+                                                            <Grid key={stack}>
+                                                                <Chip className={classes.chips} label={stack} />
+                                                            </Grid>
+                                                        ))}
+                                                    </Grid>
+                                                    {permission && (<Grid container justifyContent='center'>
+                                                        <Button className={classes.editPicButton} variant='contained' color="primary" onClick={handleEdit}><EditIcon />Edit</Button>
+                                                    </Grid>)}
+                                                </Grid>
+                            </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
-                    </Grid>
-                </CardContent>
-            </Card>
-            <EditProfile
-                SetOpen={openConfirmationDialog}
-                handleClose={() => setOpenConfirmationDialog(false)}
-                data={currentData}
-                toasterSuccess={toasterSuccess}
-                toasterFailure={toasterFailure}
-                title="Edit Profile"
-                confirmButtonColorSecondary={false}
-            />
-            <ToastContainer
-                position="bottom-right"
-                autoClose={2000}
-                theme='light'
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                pauseOnHover
-            />
-        </>
-    )
+                        </CardContent>
+                    </Card>
+                    <EditProfile
+                        SetOpen={openConfirmationDialog}
+                        handleClose={() => setOpenConfirmationDialog(false)}
+                        data={currentData}
+                        toasterSuccess={toasterSuccess}
+                        toasterFailure={toasterFailure}
+                        title="Edit Profile"
+                        confirmButtonColorSecondary={false}
+                    />
+                    <ToastContainer
+                        position="bottom-right"
+                        autoClose={2000}
+                        theme='light'
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        pauseOnHover
+                    />
+                </>
+                )
 }
 
-export default Profile
+                export default Profile

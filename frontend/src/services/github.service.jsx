@@ -12,9 +12,9 @@ const FetchGithubProfile = async (githubId) => {
     }
 }
 
-const FetchGitHubProjects = async (repoURL) => {
+const FetchGitHubProjects = async (githubId) => {
     try {
-        const response = await axios.get(`${repoURL}`,);
+        const response = await axios.get(`${process.env.REACT_APP_GITHUB_API_URL}/users/${githubId}/repos`);
         return (response);
     } catch (error) {
         return (error);

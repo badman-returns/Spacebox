@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -6,13 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import { store, persistor } from "./store/store";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
+import Spinner from './components/spinner/Spinner';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-        <PersistGate persistor={persistor}>
+      <PersistGate persistor={persistor}>
+        <Suspense fallback={<div><Spinner /></div>}>
           <App />
-        </PersistGate>
+        </Suspense>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

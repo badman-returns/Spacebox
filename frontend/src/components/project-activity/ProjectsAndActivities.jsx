@@ -11,10 +11,9 @@ import Post from '../posts/Post';
 import Chip from '@material-ui/core/Chip';
 
 
-const ProjectsAndActivities = (props) => {
-    let { repos_url } = useSelector((state => state.userGitInfo.user));
+const ProjectsAndActivities = () => {
     let userGitProjects = useSelector((state => state.githubProjects.projects));
-    let { role, _id } = useSelector((state => state.profileInfo.user));
+    let { role, _id, githubId } = useSelector((state => state.profileInfo.user));
     let posts = [];
     posts = useSelector((state => state.userPosts.posts));
 
@@ -42,7 +41,7 @@ const ProjectsAndActivities = (props) => {
     const GetProjectData = async () => {
         if (role === 'developer') {
             try {
-                const response = await FetchGitHubProjects(repos_url);
+                const response = await FetchGitHubProjects(githubId);
                 if (response.status === 200) {
                     dispatch(setProjects(response.data));
                 }
@@ -144,18 +143,22 @@ const ProjectsAndActivities = (props) => {
                                     ))}
                                 </Grid>)}
                             </Grid>
-                            <Grid item xs={12}>
-                                {value === 0 && role === 'recruiter' && (<Grid container justifyContent='center' spacing={2}>
-                                    <Grid item lg={6} xl={5}>
-                                        <JobList allJobs={false} profile={true} />
-                                    </Grid>
-                                </Grid>)}
-                            </Grid>
+                            {/* <Grid item xs={12}> */}
+                                <Container>
+                                {value === 0 && role === 'recruiter' && (
+                                        <Grid container justifyContent='center' spacing={2}>
+                                            <Grid item xl={12}>
+                                                <JobList allJobs={false} profile={true} />
+                                            </Grid>
+                                        </Grid>
+                                )}
+                                </Container>
+                            {/* </Grid> */}
                         </Grid>
                         {value === 1 && (<Grid container>
-                            <Grid item xs={1} lg={2} xl={3} className={classes.panel}>
+                            <Grid item xs={1} lg={2} xl={2} className={classes.panel}>
                             </Grid>
-                            <Grid item xs={10} lg={8} xl={6} className={classes.feed}>
+                            <Grid item xs={10} lg={8} xl={8} className={classes.feed}>
                                 <Container>
                                     {posts && posts.length && posts.map((post) => (
                                         <Container key={post._id}>
@@ -179,7 +182,7 @@ const ProjectsAndActivities = (props) => {
                                     ))}
                                 </Container>
                             </Grid>
-                            <Grid item xs={1} lg={2} xl={3} className={classes.feed}>
+                            <Grid item xs={1} lg={2} xl={2} className={classes.feed}>
                             </Grid>
                         </Grid>
                         )}

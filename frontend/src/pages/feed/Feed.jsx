@@ -136,8 +136,8 @@ const Feed = () => {
                         )}
                         <Container>
                             {!loading && posts && posts.length && posts.map((post) => (
-                                <Grid container spacing={4}>
-                                    <Grid item className={classes.post} key={post._id}>
+                                <Grid container spacing={4} key={post._id}>
+                                    <Grid item className={classes.post}>
                                         <Post id={post.userId._id}
                                             name={post.userId.name}
                                             avatarURL={post.userId.picURL}

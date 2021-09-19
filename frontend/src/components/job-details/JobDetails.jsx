@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { Card, CardContent, Grid, Typography, Divider, CssBaseline, Avatar } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { htmlParser } from '../../utility/html-parser';
 import { makeStyles } from '@material-ui/core/styles';
+import { setCurrentJobs } from '../../store/actions/jobAction';
 
 const JobDetails = () => {
 
 
-    const selectedJob = useSelector(state => state.currentJob.job);
+    let selectedJob = useSelector(state => state.currentJob.job);
+    let previousJob = useRef();
+
+    const dispatch = useDispatch();
 
     let currentJob;
     if (selectedJob !== undefined && selectedJob !== null) {
@@ -18,10 +22,17 @@ const JobDetails = () => {
 
     const classes = useStyles();
 
+    useEffect(() => {
+        previousJob.current = currentJob;
+        return () => {
+            dispatch(setCurrentJobs(null));
+        }
+    }, [currentJob, dispatch]);
+
     return (
         <>
             <CssBaseline />
-            {currentJob && (<Card style={{ height: '92vh', overflow: 'auto' }}>
+            {previousJob.current && (<Card style={{ height: '92vh', overflow: 'auto' }}>
                 <CardContent>
                     <Grid container spacing={4}>
                         <Grid item xs={12}>
@@ -29,13 +40,13 @@ const JobDetails = () => {
                                 <Grid item lg={12}>
                                     <Grid container justifyContent='flex-start'>
                                         <Grid item lg={12}>
-                                            <Typography variant='h5'>{currentJob.title}</Typography>
+                                            <Typography variant='h5'>{previousJob.current.title}</Typography>
                                         </Grid>
                                         <Grid item lg={12}>
-                                            <Typography variant='subtitle1'>{currentJob.company}</Typography>
+                                            <Typography variant='subtitle1'>{previousJob.current.company}</Typography>
                                         </Grid>
                                         <Grid item lg={12}>
-                                            <Typography variant='subtitle2'>{currentJob.location}</Typography>
+                                            <Typography variant='subtitle2'>{previousJob.current.location}</Typography>
                                         </Grid>
                                     </Grid>
                                     <Grid container justifyContent='space-between'>
@@ -43,19 +54,19 @@ const JobDetails = () => {
                                             Posted By  &nbsp;
                                             <Grid container alignItems='center' spacing={1}>
                                                 <Grid item>
-                                                    <Link className={classes.user} to={`/in/profile/${currentJob.createdBy._id}`}>
-                                                        <Avatar src={currentJob.createdBy.picURL ? currentJob.createdBy.picURL : ''} />
+                                                    <Link className={classes.user} to={`/in/profile/${previousJob.current.createdBy._id}`}>
+                                                        <Avatar src={previousJob.current.createdBy.picURL ? previousJob.current.createdBy.picURL : ''} />
                                                     </Link>
                                                 </Grid>
                                                 <Grid item>
                                                     <Typography variant="body1">
-                                                        <Link className={classes.user} to={`/in/profile/${currentJob.createdBy._id}`}>{currentJob.createdBy.name}</Link>
+                                                        <Link className={classes.user} to={`/in/profile/${previousJob.current.createdBy._id}`}>{previousJob.current.createdBy.name}</Link>
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
                                         </Grid>
                                         <Grid item>
-                                            <b>{moment(currentJob.createdOn).format('DD-MM-YYYY')}</b>
+                                            <b>{moment(previousJob.current.createdOn).format('DD-MM-YYYY')}</b>
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -74,11 +85,9 @@ const JobDetails = () => {
 
                                 <Grid container justifyContent='center'>
                                     <Grid item lg={10}>
-                                        <Grid container justifyContent='center'>
-                                            <Typography variant='body2'>
-                                                {htmlParser(currentJob.description)}
-                                            </Typography>
-                                        </Grid>
+                                        <Typography variant='body2'>
+                                            {htmlParser(previousJob.current.description)}
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid >

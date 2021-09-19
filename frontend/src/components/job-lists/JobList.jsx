@@ -8,13 +8,13 @@ import { useSelector, useDispatch } from "react-redux";
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
-import DeleteDialog from '../delete-dialog/DeleteDialog';
+import AlertDialog from '../alert-dialog/AlertDialog';
 import { toast } from 'react-toastify';
 import Backdrop from '@material-ui/core/Backdrop';
 import moment from 'moment';
 import EditJob from '../edit-job/EditJob';
 
-const JobList = ({ allJobs, refreshJobData, profile }) => {
+const JobList = ({ allJobs, refreshJobData }) => {
 
     let jobs = useSelector((state => state.jobs.jobs));
     let userJobs = useSelector((state => state.userJobs.jobs));
@@ -253,7 +253,7 @@ const JobList = ({ allJobs, refreshJobData, profile }) => {
                         </Grid>
                     </CardContent>
                 </Card>)}
-            <DeleteDialog
+            <AlertDialog
                 SetOpen={openConfirmationDialog}
                 handleClose={() => setOpenConfirmationDialog(false)}
                 title="Delete Job"
