@@ -33,14 +33,56 @@ Spacebox is the ultimate social hiring platform for developers and recruiters th
 </p>
 <br>
 
+## Demo
+### Feed Page 
+ - Contains contents posted by developers and recruiters.
+ - Logged in user can visit profile of a user by clicking on the name or avatar on the post.
+ <p>
+  <img src="https://res.cloudinary.com/dui3gfpuj/image/upload/v1632074783/Feed_oy004c.jpg"/>
+ </p>
+ 
+### Developer Profile
+ - Contains unforked projects from github repository.
+ - Also contains posts posted by developer in the activity section.
+ - User can edit and update name, bio, email, github, profile picture and techstack by clicking on edit button.
+ <p>
+ <img src="https://res.cloudinary.com/dui3gfpuj/image/upload/v1632074783/Profile_section_uo2sej.jpg"/> 
+ </p>
+ 
+### Recruiter Profile
+- Contains jobs posted by recruiter.
+- Jobs can be edited or deleted by clicking on edit and delete button.
+- Also contains posts posted by recruiter in the activity section.
+<p>
+  <img src="https://res.cloudinary.com/dui3gfpuj/image/upload/v1632075395/developer_profile_tr9dgl.jpg"/>
+</p>
+
+### Developer Job View
+- Shows jobs posted by recruiters.
+- Clicking on each job, description is shown in the right panel.
+- Recruiter profile can be visted by clicking on the name or avatar of the recruiter.
+<p>
+  <img src="https://res.cloudinary.com/dui3gfpuj/image/upload/v1632074783/Developer_Job_view_seezif.jpg"/>
+</p>
+
+### Recruiter Job View
+- Contains form for posting new job.
+- Job listing in the middle
+- Job description will appear on clicking specific job.
+<p>
+  <img src="https://res.cloudinary.com/dui3gfpuj/image/upload/v1632074783/Recruiter_Job_view_yxn7li.jpg"/>
+</p>
+
 ## Technology Stack
 <b>Frontned</b> : React.js
 <br>
 <b>Additional Libraries</b>
+ - Redux
  - Material UI
  - Axios
  - React Router DOM
- - React Toast Notification
+ - React Toastify
+ - React Quill
  -  JSON Web Token
 <br>
 
