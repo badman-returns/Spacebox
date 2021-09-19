@@ -17,7 +17,8 @@ const JobList = ({ allJobs, refreshJobData, handleDeveloperView, handleRecruiter
 
     let jobs = useSelector((state => state.jobs.jobs));
     let userJobs = useSelector((state => state.userJobs.jobs));
-    let { _id, role } = useSelector((state => state.profileInfo.user));
+    let { role } = useSelector((state => state.userInfo.user));
+    let { _id } = useSelector((state => state.profileInfo.user));
     let loggedUser = useSelector((state => state.userInfo.user));
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
@@ -114,10 +115,10 @@ const JobList = ({ allJobs, refreshJobData, handleDeveloperView, handleRecruiter
     }
 
     const handleCurrentJob = (id) => {
-        if (role === 'developer'){
+        if (role === 'developer') {
             handleDeveloperView()
         }
-        else{
+        else {
             handleRecruiterView();
         }
         GetCurrentJob(id);
