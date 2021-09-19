@@ -116,12 +116,11 @@ const JobList = ({ allJobs, refreshJobData, handleDeveloperView, handleRecruiter
     const handleCurrentJob = (id) => {
         if (role === 'developer'){
             handleDeveloperView()
-            GetCurrentJob(id);
         }
         else{
             handleRecruiterView();
-            GetCurrentJob(id);
         }
+        GetCurrentJob(id);
     }
 
     useEffect(() => {
