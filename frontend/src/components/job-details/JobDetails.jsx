@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { htmlParser } from '../../utility/html-parser';
 import { makeStyles } from '@material-ui/core/styles';
 import { setCurrentJobs } from '../../store/actions/jobAction';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-
 
 const JobDetails = () => {
 
@@ -98,13 +96,13 @@ const JobDetails = () => {
                     </Grid>
                 </CardContent>
             </Card>)}
-            {!previousJob.current && (
-                <Grid container justifyContent='center' alignItems='center'>
-                    <Typography variant='h4'>
-                        Click on <ArrowForwardIcon /> to view job details.
+            {/* {!previousJob.current && (
+                <Grid container justifyContent='center' alignItems='center' style={{paddingTop: '200px'}}>
+                    <Typography variant='h5'>
+                        Click on Jobs to view job details.
                     </Typography>
                 </Grid>
-            )}
+            )} */}
         </>
     )
 }

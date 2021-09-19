@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Card, CardContent, CssBaseline, Typography, Button } from '@material-ui/core';
+import { Grid, Card, CardContent, CssBaseline, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { GetJobs, GetJobById, GetJobByUserId, DeleteJob } from '../../services/job.service'
 import { setJobs, setCurrentJobs, setUserJobs } from '../../store/actions/jobAction';
 import { useSelector, useDispatch } from "react-redux";
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AlertDialog from '../alert-dialog/AlertDialog';
@@ -14,11 +13,11 @@ import Backdrop from '@material-ui/core/Backdrop';
 import moment from 'moment';
 import EditJob from '../edit-job/EditJob';
 
-const JobList = ({ allJobs, refreshJobData }) => {
+const JobList = ({ allJobs, refreshJobData, handleDeveloperView, handleRecruiterView }) => {
 
     let jobs = useSelector((state => state.jobs.jobs));
     let userJobs = useSelector((state => state.userJobs.jobs));
-    let { _id } = useSelector((state => state.profileInfo.user));
+    let { _id, role } = useSelector((state => state.profileInfo.user));
     let loggedUser = useSelector((state => state.userInfo.user));
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
@@ -115,7 +114,14 @@ const JobList = ({ allJobs, refreshJobData }) => {
     }
 
     const handleCurrentJob = (id) => {
-        GetCurrentJob(id);
+        if (role === 'developer'){
+            handleDeveloperView()
+            GetCurrentJob(id);
+        }
+        else{
+            handleRecruiterView();
+            GetCurrentJob(id);
+        }
     }
 
     useEffect(() => {
@@ -134,7 +140,7 @@ const JobList = ({ allJobs, refreshJobData }) => {
                             {jobs.map((job) =>
                             (<Grid item lg={12} key={job._id}>
                                 <Card>
-                                    <CardContent>
+                                    <CardContent className={classes.card} onClick={() => handleCurrentJob(job._id)}>
                                         <Grid container>
                                             <Grid item lg={12}>
                                                 <Grid container>
@@ -142,15 +148,6 @@ const JobList = ({ allJobs, refreshJobData }) => {
                                                         <Grid container justifyContent='flex-start'>
                                                             <Typography variant='h6'>
                                                                 {job.title}
-                                                            </Typography>
-                                                        </Grid>
-                                                    </Grid>
-                                                    <Grid item lg={6}>
-                                                        <Grid container justifyContent='flex-end'>
-                                                            <Typography variant='h6'>
-                                                                <Button onClick={() => handleCurrentJob(job._id)}>
-                                                                    <ArrowForwardIcon />
-                                                                </Button>
                                                             </Typography>
                                                         </Grid>
                                                     </Grid>
@@ -292,6 +289,9 @@ const useStyles = makeStyles((theme) => ({
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
     },
+    card: {
+        cursor: 'pointer'
+    }
 }));
 
 export default JobList;

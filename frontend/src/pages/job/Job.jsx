@@ -12,22 +12,40 @@ function Job() {
 
     const [refreshJobData, setRefreshJobData] = useState(false);
 
+    const [jobListDeveloper, setJobListDeveloper] = useState(6);
+    const [jobDetailsDeveloper, setJobDetailsDeveloper] = useState(1);
+
+    const [addJobRecruiter, setAddJobRecruiter] = useState(5);
+    const [jobListRecruiter, setJobListRecruiter] = useState(7);
+    const [jobDetailsRecruiter, setJobDetailsRecruiter] = useState(1);
+
     const handleJobRefresh = () => {
         setRefreshJobData(true);
     }
 
+    const handleRecruiterView = ()=> {
+        setAddJobRecruiter(3);
+        setJobListRecruiter(4);
+        setJobDetailsRecruiter(5);
+    }
+
+    const handleDeveloperView = () => {
+        setJobListDeveloper(5);
+        setJobDetailsDeveloper(7);
+    }
+
     const classes = useStyles();
     return (
-        <Grid container className={classes.root} spacing={1}>
+        <Grid container className={classes.root} justifyContent='center' spacing={1}>
             {loggedUser.role === 'recruiter' &&
                 (<>
-                    <Grid item lg={3}>
+                    <Grid item lg={addJobRecruiter}>
                         <AddJobs handleJobRefresh={handleJobRefresh} />
                     </Grid>
-                    <Grid item lg={4}>
-                        <JobList refreshJobData={refreshJobData} allJobs={true} />
+                    <Grid item lg={jobListRecruiter}>
+                        <JobList refreshJobData={refreshJobData} allJobs={true} handleRecruiterView={handleRecruiterView}  />
                     </Grid>
-                    <Grid item lg={5}>
+                    <Grid item lg={jobDetailsRecruiter}>
                         <JobDetails />
                     </Grid>
                 </>
@@ -37,10 +55,10 @@ function Job() {
             {loggedUser.role === 'developer' &&
                 (
                     <>
-                        <Grid item lg={5}>
-                            <JobList refreshJobData={refreshJobData} allJobs={true} profile={false}/>
+                        <Grid item lg={jobListDeveloper}>
+                            <JobList refreshJobData={refreshJobData} allJobs={true} handleDeveloperView={handleDeveloperView} />
                         </Grid>
-                        <Grid item lg={7}>
+                        <Grid item lg={jobDetailsDeveloper}>
                             <JobDetails />
                         </Grid>
                     </>
