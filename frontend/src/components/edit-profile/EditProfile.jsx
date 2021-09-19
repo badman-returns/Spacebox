@@ -73,22 +73,39 @@ const EditProfile = ({
                     toasterFailure('Git user not found');
                     handleStopLoader();
                     handleClose();
+                } else {
+                    const response = await EditProfileService(formData);
+                    if (response.status !== 200) {
+                        toasterFailure('Something went wrong');
+                        handleStopLoader();
+                        handleClose();
+                    }
+                    const responseData = await GetProfileService(data._id)
+                    if (responseData.status === 200) {
+                        dispatch(setUserInfo(responseData.data.ResponseData));
+                        dispatch(setUserProfile(responseData.data.ResponseData));
+                        handleStopLoader();
+                        handleClose();
+                    }
+                    toasterSuccess(response.data.ResponseMessage);
                 }
+            } else {
+                const response = await EditProfileService(formData);
+                    if (response.status !== 200) {
+                        toasterFailure('Something went wrong');
+                        handleStopLoader();
+                        handleClose();
+                    }
+                    const responseData = await GetProfileService(data._id)
+                    if (responseData.status === 200) {
+                        dispatch(setUserInfo(responseData.data.ResponseData));
+                        dispatch(setUserProfile(responseData.data.ResponseData));
+                        handleStopLoader();
+                        handleClose();
+                    }
+                    toasterSuccess(response.data.ResponseMessage);
             }
-            const response = await EditProfileService(formData);
-            if (response.status !== 200) {
-                toasterFailure('Something went wrong');
-                handleStopLoader();
-                handleClose();
-            }
-            const responseData = await GetProfileService(data._id)
-            if (responseData.status === 200) {
-                dispatch(setUserInfo(responseData.data.ResponseData));
-                dispatch(setUserProfile(responseData.data.ResponseData));
-                handleStopLoader();
-                handleClose();
-            }
-            toasterSuccess(response.data.ResponseMessage);
+
 
         } catch (error) {
             console.log(error);
