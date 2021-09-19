@@ -37,30 +37,6 @@ class UserProfileValidator {
                     isString: true,
                     errorMessage: 'Email is missing',
                 },
-                githubId: {
-                    in: ['body'],
-                    isString: true,
-                    custom: {
-                        options: (value: string) => {
-                            if (value)
-                                return new Promise(async (resolve, reject) => {
-                                    try {
-                                        const response = await Github.verifyGithubAccount(value);                                        
-                                        if (response === true) {
-                                            resolve(true);
-                                        }
-                                        else {
-                                            reject(false);
-                                        }
-                                    } catch (error) {
-                                        reject(false);
-                                    }
-                                })
-                        },
-                        errorMessage: 'Github user not found',
-                    },
-                    errorMessage: 'Github id is missing',
-                }
             }),
             ValidationResponder.fieldValidationResponder(),
         ]
