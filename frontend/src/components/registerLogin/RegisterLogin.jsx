@@ -163,7 +163,7 @@ const RegisterLogin = () => {
 
     const initializeBackend = async() => {
         try{
-            axios.get(`${process.env.REACT_APP_BASE_BACKEND_URL}/`);
+            await axios.get(`${process.env.REACT_APP_BASE_BACKEND_URL}/`);
         } catch (error){
             console.log(error);
         }
@@ -171,7 +171,7 @@ const RegisterLogin = () => {
 
     useEffect(() => {
         initializeBackend();
-    })
+    },[]);
 
     return (
         <Container component="main" maxWidth={registrationSuccess ? 'lg' : 'xs'}>
