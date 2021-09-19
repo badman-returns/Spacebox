@@ -73,7 +73,7 @@ const EditProfile = ({
                     toasterFailure('Git user not found');
                     handleStopLoader();
                     handleClose();
-                } else {
+                } else if (githubResponse.status === 200){
                     const response = await EditProfileService(formData);
                     if (response.status !== 200) {
                         toasterFailure('Something went wrong');
