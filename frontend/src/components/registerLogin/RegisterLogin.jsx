@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -21,6 +21,7 @@ import { useHistory } from 'react-router';
 import { toast, ToastContainer } from 'react-toastify'
 import { FetchGithubProfile } from '../../services/github.service';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 const RegisterLogin = () => {
     const classes = useStyles();
@@ -159,6 +160,18 @@ const RegisterLogin = () => {
             }
         }
     }
+
+    const initializeBackend = async() => {
+        try{
+            axios.get(`${process.env.REACT_APP_BASE_BACKEND_URL}/`);
+        } catch (error){
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        initializeBackend();
+    })
 
     return (
         <Container component="main" maxWidth={registrationSuccess ? 'lg' : 'xs'}>
@@ -325,22 +338,22 @@ const RegisterLogin = () => {
                 {registrationSuccess && (
                     <Typography variant='h6'>{registrationSuccess}</Typography>
                 )}
-                
+
             </div>
             <Box mt={5}>
                 <Copyright />
             </Box>
             <ToastContainer
-                    position="bottom-right"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                />
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </Container>
     );
 }
