@@ -174,5 +174,3 @@ yarn start
 
 [Sending Email with Gmail and Oauth2.0]: https://medium.com/@nickroach_50526/sending-emails-with-node-js-using-smtp-gmail-and-oauth2-316fe9c790a1
 
-[API Documentation]: https://documenter.getpostman.com/view/11794310/UUxtDVoj
-[Live URL]: https://heuristic-hugle-cf67ea.netlify.app/#/
