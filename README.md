@@ -169,6 +169,8 @@ yarn start
 2. Implementing Airbnb javascript best practices.
 3. Unit testing.
 
+***And a lot more to come yet.
+
 [![Facebook](https://img.shields.io/static/v1.svg?label=follow&message=@tsgoswami&color=black&logo=facebook&style=for-the-badge&logoColor=white&colorA=blue)](https://www.facebook.com/trishnangshu.goswami/)  [![Instagram](https://img.shields.io/static/v1.svg?label=follow&message=@tsgoswami&color=black&logo=instagram&style=for-the-badge&logoColor=white&colorA=blue)](https://www.instagram.com/letstalkcs/) [![LinkedIn](https://img.shields.io/static/v1.svg?label=connect&message=@tsgoswami&color=black&logo=linkedin&style=for-the-badge&logoColor=white&colorA=blue)](https://www.linkedin.com/in/trishnangshugoswami/) [![Twitter](https://img.shields.io/static/v1.svg?label=connect&message=@tsgoswami&color=black&logo=twitter&style=for-the-badge&logoColor=white&colorA=blue)](https://twitter.com/ts_goswami)
 > Made with 🖤 by Trishnangshu Goswami
 
