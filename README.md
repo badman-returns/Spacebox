@@ -157,8 +157,17 @@ cd frontend
 yarn install
 yarn start
 ```
-  
- Glad to see you here! Show some love by [starring](https://github.com/tsgoswami/Wincorona) this repo.***
+
+## Upcoming Features
+1. Real time feed updates updates.
+2. Connection or Friend Request Feature.
+3. Chat with other users.
+4. Advance Profile Editing and Customization.
+
+## Upcoming Improvements
+1. Add eslint and prettier configuration to react code.
+2. Implementing Airbnb javascript best practices.
+3. Unit testing.
 
 [![Facebook](https://img.shields.io/static/v1.svg?label=follow&message=@tsgoswami&color=black&logo=facebook&style=for-the-badge&logoColor=white&colorA=blue)](https://www.facebook.com/trishnangshu.goswami/)  [![Instagram](https://img.shields.io/static/v1.svg?label=follow&message=@tsgoswami&color=black&logo=instagram&style=for-the-badge&logoColor=white&colorA=blue)](https://www.instagram.com/letstalkcs/) [![LinkedIn](https://img.shields.io/static/v1.svg?label=connect&message=@tsgoswami&color=black&logo=linkedin&style=for-the-badge&logoColor=white&colorA=blue)](https://www.linkedin.com/in/trishnangshugoswami/) [![Twitter](https://img.shields.io/static/v1.svg?label=connect&message=@tsgoswami&color=black&logo=twitter&style=for-the-badge&logoColor=white&colorA=blue)](https://twitter.com/ts_goswami)
 > Made with 🖤 by Trishnangshu Goswami
