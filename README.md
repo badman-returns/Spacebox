@@ -22,15 +22,16 @@ Spacebox is the ultimate social hiring platform for developers and recruiters th
 
 
 ## Features
-- User can sign up as a developer (github username is compulsary) or as a recruiter.
+- User can sign up as a developer (Github username is compulsory) or as a recruiter. 
 - User can sign in using email and password once verified.
-- Both developer and recruiter can post stuffs on the feed.
+- Both developer and recruiter can post stuff on the feed.
 - Both can view and edit their own profile
-- Both can visit other users profile.
-- Developer profile contains projects fetched from github and content respective developer posted.
-- Recruiter profile contains jobs and content posted by respective recruiter. 
-- Recruiter can add, edit and delete jobs
-- Developers can only view jobs.
+- Both can visit other users' profiles.
+- eveloper profile contains projects fetched from Github and content respective developer posted.
+- Rcruiter profile contains jobs and content posted by the respective recruiter.
+- Rcruiter can add, edit and delete jobs
+- Dvelopers can only view jobs.
+
 <br>
 <p>
 <img src="https://res.cloudinary.com/dui3gfpuj/image/upload/v1632065769/Screenshot_2021-09-19_205733_nes0r7.jpg">
