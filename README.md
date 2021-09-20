@@ -13,7 +13,7 @@
 </p>
 
 <p align="justify">
-Spacebox is the ultimate social hiring platform for developers and recruiters that eliminates the classic resume based shortlisting process. This allows developers to share their projects from github and showcase it in their spacebox profile as their portfolio making it easy for recruiters to select the candidate based on potential skills and ability. Spacebox also provide feeds thats let you share lastest stuffs among developers and recruiters.
+Spacebox is the ultimate social hiring platform for developers and recruiters that eliminates the classic resume-based shortlisting process. This allows developers to share their projects from GitHub and showcase it in their spacebox profile as their portfolio making it easy for recruiters to select the candidate based on potential skills and ability. Spacebox also provides feeds that let you share the latest stuff among developers and recruiters.
 </p>
 
 
