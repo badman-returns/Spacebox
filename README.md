@@ -159,7 +159,7 @@ yarn start
 ```
 
 ## Upcoming Features
-1. Real time feed updates updates.
+1. Real time feed updates.
 2. Connection or Friend Request Feature.
 3. Chat with other users.
 4. Advance Profile Editing and Customization.
