@@ -64,7 +64,7 @@ export default function Navbar() {
 
     const classes = useStyles();
     return (
-        <AppBar position='fixed' color='inherit'>
+        <AppBar position='fixed' color='inherit' elevation={0} style={{borderBottom: '1px solid #D8D8D8'}}>
             <Toolbar>
                 <Grid container className={classes.logoContainer} justifyContent='space-around' alignItems='center'>
                     <Grid item>

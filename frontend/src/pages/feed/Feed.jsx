@@ -81,7 +81,7 @@ const Feed = () => {
                 <Grid item xs={10} lg={6} xl={4} className={classes.feed}>
                     <Grid container spacing={2} justifyContent="center" alignItems="center">
                         <Grid item xs={12}>
-                            <Card>
+                            <Card elevation={0} style={{border: '1px solid #D8D8D8'}}>
                                 <CardContent>
                                     <Grid container>
                                         <Grid item xs={12}>
@@ -177,11 +177,11 @@ const useStyles = makeStyles((theme) => ({
     },
     inputBox: {
         width: '100%',
-        minHeight: '120px',
+        minHeight: '100px',
         fontSize: '20px',
         outline: 0,
         border: 0,
-        paddingTop: '10px 0px',
+        paddingTop: '5px 0px',
         letterSpacing: '1px',
         fontFamily: 'sans-serif'
     },

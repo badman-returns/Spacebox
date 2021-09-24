@@ -61,7 +61,7 @@ const Profile = () => {
     return (
         <>
 
-            <Card >
+            <Card elevation={0} style={{border: '1px solid #D8D8D8'}}>
                 <CardContent>
                     <Grid container>
                         <Grid item xs={12}>

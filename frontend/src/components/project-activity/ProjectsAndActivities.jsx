@@ -100,7 +100,7 @@ const ProjectsAndActivities = () => {
     return (
         <div>
             <div>
-                {done && (<Card >
+                {done && (<Card elevation={0} style={{ backgroundColor: '#FAFAFA' }}>
                     <CardContent>
                         <Grid container justifyContent='center'>
                             <Tabs
@@ -122,7 +122,7 @@ const ProjectsAndActivities = () => {
                                     {projects.reverse().map((project) => (
                                         <Grid item xs={12} lg={4} key={project.id}>
                                             <a className={classes.link} href={project.html_url} rel="noreferrer" target='_blank'>
-                                                <Card>
+                                                <Card elevation={0} style={{ border: '1px solid #D8D8D8' }}>
                                                     <CardContent>
                                                         <Grid container spacing={2}>
                                                             <Grid item xs={12}>
@@ -133,7 +133,11 @@ const ProjectsAndActivities = () => {
                                                                 <Drawer />
                                                             </Grid>
                                                             <Grid item xs={3}>
-                                                                <Chip color='primary' label={project.language} />
+                                                                {
+                                                                    project.language && (
+                                                                        <Chip color='primary' label={project.language} />
+                                                                    )
+                                                                }
                                                             </Grid>
                                                         </Grid>
                                                     </CardContent>
@@ -144,15 +148,15 @@ const ProjectsAndActivities = () => {
                                 </Grid>)}
                             </Grid>
                             {/* <Grid item xs={12}> */}
-                                <Container>
+                            <Container>
                                 {value === 0 && role === 'recruiter' && (
-                                        <Grid container justifyContent='center' spacing={2}>
-                                            <Grid item xs={12}>
-                                                <JobList allJobs={false} profile={true} />
-                                            </Grid>
+                                    <Grid container justifyContent='center' spacing={2}>
+                                        <Grid item xs={12}>
+                                            <JobList allJobs={false} profile={true} />
                                         </Grid>
+                                    </Grid>
                                 )}
-                                </Container>
+                            </Container>
                             {/* </Grid> */}
                         </Grid>
                         {value === 1 && (<Grid container>

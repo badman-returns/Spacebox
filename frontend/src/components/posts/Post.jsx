@@ -109,7 +109,7 @@ const Post = (props) => {
     const classes = useStyles();
     return (
         <div>
-            <Card>
+            <Card elevation={0} style={{border: '1px solid #D8D8D8'}}>
                 <CssBaseline />
                 <CardContent>
                     <Grid container spacing={2}>

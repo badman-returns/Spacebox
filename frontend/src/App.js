@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: '#fff',
     height: '100vh'
+  },
+  background: {
+    backgroundColor: '#F3F2EF',
   }
 }))
 
@@ -27,16 +30,16 @@ const App = () => {
   return (
     <HashRouter>
       <Switch>
-          <Route path='/in'>
-            <section>
-              <Navbar />
-              <ScrollToTop />
-              <ProtectedRouter />
-              <div className={classes.bottomNav} >
-                <BottomNav />
-              </div>
-            </section>
-          </Route>
+        <Route path='/in' className={classes.background}>
+          <section>
+            <Navbar />
+            <ScrollToTop />
+            <ProtectedRouter />
+            <div className={classes.bottomNav} >
+              <BottomNav />
+            </div>
+          </section>
+        </Route>
 
         <Route exact path='/verify-email/:userId/:token'>
           <VerifyEmail />
@@ -54,13 +57,13 @@ const App = () => {
           </div>
         </Route>
 
-          <Route path='/'>
-            <section>
-              <div className={classes.root}>
-                <RegisterLoginPage />
-              </div>
-            </section>
-          </Route>
+        <Route path='/'>
+          <section>
+            <div className={classes.root}>
+              <RegisterLoginPage />
+            </div>
+          </section>
+        </Route>
 
       </Switch>
     </HashRouter >

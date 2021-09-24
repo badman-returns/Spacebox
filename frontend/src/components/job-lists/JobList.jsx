@@ -134,12 +134,12 @@ const JobList = ({ allJobs, refreshJobData, handleDeveloperView, handleRecruiter
         <Grid container justifyContent='flex-start' alignItems='center' >
             <CssBaseline />
             {allJobs === true && !loading && (
-                <Card style={{ height: '92vh', overflow: 'auto' }}>
+                <Card elevation={0} style={{ height: '92vh', overflow: 'auto' }}>
                     <CardContent>
                         <Grid container spacing={1}>
                             {jobs.map((job) =>
                             (<Grid item lg={12} key={job._id}>
-                                <Card>
+                                <Card elevation={0} style={{border: '1px solid #D8D8D8'}}>
                                     <CardContent className={classes.card} onClick={() => handleCurrentJob(job._id)}>
                                         <Grid container>
                                             <Grid item lg={12}>
@@ -189,12 +189,12 @@ const JobList = ({ allJobs, refreshJobData, handleDeveloperView, handleRecruiter
                 </Card>
             )}
             {userJobs && allJobs === false && !loading &&
-                (<Card style={{ height: '92vh', overflow: 'auto' }}>
+                (<Card elevation={0} style={{backgroundColor: '#FAFAFA', height: '92vh', overflow: 'auto'}}>
                     <CardContent>
                         <Grid container spacing={1}>
                             {userJobs.map((job) =>
                             (<Grid item lg={12} key={job._id}>
-                                <Card>
+                                <Card elevation={0} style={{border: '1px solid #D8D8D8'}}>
                                     <CardContent>
                                         <Grid container>
                                             <Grid item lg={12}>
