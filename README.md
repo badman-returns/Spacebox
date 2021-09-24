@@ -161,8 +161,10 @@ yarn start
 ## Upcoming Features
 1. Real time feed updates.
 2. Connection or Friend Request Feature.
-3. Chat with other users.
-4. Advance Profile Editing and Customization.
+3. Comments and Share.
+4. Chat with other users.
+5. Advance Profile Editing and Customization.
+6. Apply Jobs
 
 ## Upcoming Improvements
 1. Add eslint and prettier configuration to react code.
