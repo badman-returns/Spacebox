@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh'
   },
   background: {
-    backgroundColor: '#F3F2EF',
+    backgroundColor: '#FAFAFA',
   }
 }))
 
