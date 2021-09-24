@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     height: '100vh'
   },
-  background: {
-    backgroundColor: '#FAFAFA',
-  }
 }))
 
 const App = () => {
@@ -30,7 +27,7 @@ const App = () => {
   return (
     <HashRouter>
       <Switch>
-        <Route path='/in' className={classes.background}>
+        <Route path='/in'>
           <section>
             <Navbar />
             <ScrollToTop />

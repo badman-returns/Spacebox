@@ -100,7 +100,7 @@ const ProjectsAndActivities = () => {
     return (
         <div>
             <div>
-                {done && (<Card elevation={0} style={{ backgroundColor: '#FAFAFA' }}>
+                {done && (<Card elevation={0} style={{background: 'none'}}>
                     <CardContent>
                         <Grid container justifyContent='center'>
                             <Tabs
