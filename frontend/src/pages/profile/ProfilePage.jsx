@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid'
+import { Grid, CssBaseline } from '@material-ui/core'
 import { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from "react-redux";
@@ -39,6 +39,7 @@ const ProfilePage = () => {
 
     return (
         <Grid className={classes.root}>
+            <CssBaseline />
             <Grid container>
                 <Grid item xs={1} className={classes.panel}>
                 </Grid>

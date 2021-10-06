@@ -276,6 +276,7 @@ const JobList = ({ allJobs, refreshJobData, handleDeveloperView, handleRecruiter
 }
 
 const useStyles = makeStyles((theme) => ({
+    
     root: {
         display: 'flex',
         '& > * + *': {

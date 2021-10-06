@@ -118,7 +118,8 @@ const ProjectsAndActivities = () => {
                         </Grid>
                         <Grid container style={{ marginTop: '10px' }}>
                             <Grid item xs={12}>
-                                {value === 0 && role === 'developer' && (<Grid container spacing={2}>
+                                {value === 0 && role === 'developer' && (
+                                <Grid container spacing={2}>
                                     {projects.reverse().map((project) => (
                                         <Grid item xs={12} lg={4} key={project.id}>
                                             <a className={classes.link} href={project.html_url} rel="noreferrer" target='_blank'>
